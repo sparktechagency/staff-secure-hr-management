@@ -1,0 +1,61 @@
+export const mainTheme = {
+  token: { fontFamily: "Inter Tight, sans-serif" },
+  components: {
+    Form: {
+      colorError: "#E53935",
+    },
+    Checkbox: {
+      colorPrimary: "#0c3188",
+      colorPrimaryHover: "#0c3188",
+    },
+    Select: {
+      // colorTextQuaternary: "#F9FAFB",
+      colorBgContainer: "rgba(0,0,0,0)",
+      fontSize: 18,
+      optionSelectedColor: "#ffffff",
+      optionSelectedBg: "#FFFFFF",
+      optionActiveBg: "#FFFFFF",
+      optionActiveColor: "#FFFFFF",
+      colorBorder: "#FFFFFF",
+      colorBgElevated: "#ffffff",
+      selectorBg: "#FFFFFF",
+      colorText: "#ffffff",
+      colorTextPlaceholder: "#D0D5DD",
+      // activeOutlineColor: "#D3EBE7",
+      // activeBorderColor: "#D3EBE7",
+      hoverBorderColor: "#D3EBE7",
+    },
+    DatePicker: {
+      fontSize: 20,
+      colorBorder: "rgb(0, 0, 0,0.5)",
+      colorTextPlaceholder: "rgb(0, 0, 0,0.5)",
+    },
+    Upload: {
+      colorFillAlter: "rgba(0,0,0,0)",
+      colorBorder: "#D3EBE7",
+      colorBorderHover: "#D3EBE7",
+      colorText: "#D3EBE7",
+    },
+    Table: {
+      headerBg: "#b8c1c355",
+      colorBgContainer: "#FDFDFD",
+      colorText: "#262621",
+      borderColor: "#DFE1E3",
+      headerColor: "#262621",
+      fontSize: 18,
+      footerColor: "#FDFDFD",
+      // marginXXS: 4,
+      colorLinkActive: "#FDFDFD",
+      headerSplitColor: "#262621",
+    },
+    Pagination: {
+      itemActiveBg: "#0c3188",
+      colorPrimary: "#F3F3F3",
+      colorPrimaryHover: "#F3F3F3",
+    },
+    Input: {
+      colorTextPlaceholder: "#D0D5DD ",
+      colorIcon: "#D0D5DD",
+    },
+  },
+};

@@ -1,0 +1,89 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+
+@layer components {
+  .text-gradient-color {
+    @apply bg-gradient-to-b from-[#30599D] to-[#0c3188] inline-block text-transparent bg-clip-text;
+  }
+  .bg-gradient-color {
+    @apply bg-gradient-to-tl from-[#17223A] to-[#30599D];
+  }
+}
+
+@theme {
+  --color-primary-color: #ffffff;
+  --color-background: #ffffff;
+  --color-secondary-color: #0c3188;
+  --color-base-color: #2c2c2c;
+  --color-anchor: #0c3188;
+  --color-highlight: #efefef;
+  --color-input-color: #efefef;
+  --color-error: #e53935;
+  --color-success: #00c566;
+  --color-warning: #facc15;
+}
+
+* {
+  font-family: "Inter Tight", sans-serif !important;
+}
+
+html,
+body {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #0c3188, #0c3188);
+  margin-left: 2px;
+  margin-right: 2px;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #ffffff;
+}
+
+.swiper-pagination-bullet {
+  width: 15px !important;
+  height: 15px !important;
+  background-color: #ffb31f !important;
+}
+
+.swiper-button-next:after,
+.swiper-rtl .swiper-button-prev:after {
+  color: #2c2c2c;
+  padding: 8px 12px;
+  font-size: 1.2rem !important;
+  background-color: #19363d;
+  border-radius: 100%;
+  z-index: 100;
+  margin-right: 50px;
+}
+
+.swiper-button-prev:after,
+.swiper-rtl .swiper-button-next:after {
+  color: #2c2c2c;
+  padding: 8px 12px;
+  font-size: 1rem !important;
+  background-color: #19363d;
+  border-radius: 100%;
+  z-index: 100;
+  margin-left: 30px;
+}
+
+/* Media query for screens larger than 768px */
+@media (max-width: 767px) {
+  .swiper-button-next:after,
+  .swiper-rtl .swiper-button-prev:after {
+    margin-right: 0px; /* Reset margin-right to 0px */
+  }
+
+  .swiper-button-prev:after,
+  .swiper-rtl .swiper-button-next:after {
+    margin-left: 0px; /* Reset margin-left to 0px */
+  }
+}
