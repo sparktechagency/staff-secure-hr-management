@@ -166,7 +166,7 @@ const Navbar: React.FC = () => {
                     <Link
                       onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                       href="/sign-in"
-                      className=" px-2 py-1 font-bold text-secondary-color rounded-full border-2 border-secondary-color mb-1"
+                      className=" px-2 py-1 font-bold text-secondary-color rounded-full border-2 border-secondary-color"
                     >
                       Sign In
                     </Link>
@@ -207,7 +207,7 @@ const Navbar: React.FC = () => {
               <div className="w-full flex items-center gap-1">
                 <Link
                   href="/sign-in"
-                  className=" px-2 py-1 font-bold text-secondary-color rounded-full border-2 border-secondary-color mb-1"
+                  className="px-2 py-1 font-bold text-secondary-color rounded-full border-2 border-secondary-color"
                 >
                   Sign In
                 </Link>

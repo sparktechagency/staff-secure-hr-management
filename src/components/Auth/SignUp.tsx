@@ -4,7 +4,7 @@ import Container from "../ui/Container";
 import Image from "next/image";
 import { Button, Form, Input, Typography } from "antd";
 import Link from "next/link";
-import { allIcons, AllImages } from "../../../public/assets/AllImages";
+import { AllImages } from "../../../public/assets/AllImages";
 
 interface SignUpValues {
   name: string;
@@ -149,19 +149,7 @@ const SignUp = () => {
                 </Button>
               </Form.Item>
             </Form>
-            <Button
-              className="w-full flex items-center justify-center gap-2 py-4 px-4 text-lg !border !border-[#D0D5DD] !text-base-color !bg-transparent  rounded-lg"
-              icon={
-                <Image
-                  src={allIcons.google}
-                  alt="Google Icon"
-                  width={16}
-                  height={16}
-                />
-              }
-            >
-              Sign in with Google
-            </Button>
+
             <p className="text-center text-ellipsis mt-5">
               Already have an account?
               <span>

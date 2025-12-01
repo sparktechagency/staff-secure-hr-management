@@ -1,36 +1,36 @@
 import React from "react";
 import { AllImages } from "../../../public/assets/AllImages";
-import WeSpecialiseInCard from "./WeSpecialiseInCard";
+import WeSpecialiseInCard from "../shared/Cards/WeSpecialiseInCard";
 import SectionHeader from "../shared/SectionHeader";
 
 const ourOfferingData = [
   {
     id: 1,
-    images: AllImages.trust,
+    images: AllImages.constructionSpe,
     title: "Construction",
     description: "Pre‑vetted trades and site staff, placed fast.",
   },
   {
     id: 2,
-    images: AllImages.trust,
+    images: AllImages.industrialSpe,
     title: "Industrial",
     description: "Reliable warehouse and manufacturing talent.",
   },
   {
     id: 3,
-    images: AllImages.trust,
+    images: AllImages.hospitalitySpe,
     title: "Hospitality",
     description: "Front‑of‑house to kitchen, ready for peaks.",
   },
   {
     id: 4,
-    images: AllImages.trust,
+    images: AllImages.healthcareSpe,
     title: "Healthcare",
     description: "Compliant, referenced support staff.",
   },
   {
     id: 5,
-    images: AllImages.trust,
+    images: AllImages.tourismSpe,
     title: "Tourism",
     description: "Seasonal and event staffing, on demand.",
   },

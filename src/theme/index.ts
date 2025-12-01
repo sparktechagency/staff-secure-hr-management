@@ -4,6 +4,10 @@ export const mainTheme = {
     Form: {
       colorError: "#E53935",
     },
+    Rate: {
+      starColor: "#FE9A00",
+      starBg: "rgba(0,0,0,0.2)",
+    },
     Checkbox: {
       colorPrimary: "#0c3188",
       colorPrimaryHover: "#0c3188",

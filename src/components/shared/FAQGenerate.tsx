@@ -7,30 +7,26 @@ const FAQGenerate = () => {
 
   const accordionsData = [
     {
-      title: "Is there a free trial available?",
+      title: "How does AI improve the hiring process?",
       content:
-        "Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.",
+        "Staff Secure Ltd has developed a cutting-edge AI technology that introduces a new approach to direct interviewing and vetting. Our system conducts an in-depth analysis of every candidate we promote for your vacancies—ensuring you find the perfect person for each position.",
     },
     {
-      title: "Can I change my plan later?",
+      title:
+        "Can Staff Secure Ltd handle both temporary and full-time recruitment?",
       content:
-        "Yes, of course! Please use the ‘Contact Us’ page on the website. A member of the team will then reach out and schedule your trip with one of our drivers.",
+        "Staff Secure Ltd has developed a cutting-edge AI technology that introduces a new approach to direct interviewing and vetting. Our system conducts an in-depth analysis of every candidate we promote for your vacancies—ensuring you find the perfect person for each position.",
     },
     {
-      title: "What is your cancellation policy?",
-      content: "Your cancellation details here...",
+      title: "Does Staff Secure Ltd work with small and private companies?",
+      content:
+        "Staff Secure Ltd has developed a cutting-edge AI technology that introduces a new approach to direct interviewing and vetting. Our system conducts an in-depth analysis of every candidate we promote for your vacancies—ensuring you find the perfect person for each position.",
     },
     {
-      title: "Can other info be added to an invoice?",
-      content: "Your invoice details here...",
-    },
-    {
-      title: "How does billing work?",
-      content: "Your billing details here...",
-    },
-    {
-      title: "How do I change my account email?",
-      content: "Your account email details here...",
+      title:
+        "How secure are my company and candidate details with Staff Secure Ltd?",
+      content:
+        "Staff Secure Ltd has developed a cutting-edge AI technology that introduces a new approach to direct interviewing and vetting. Our system conducts an in-depth analysis of every candidate we promote for your vacancies—ensuring you find the perfect person for each position.",
     },
   ];
 

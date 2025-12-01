@@ -2,15 +2,18 @@
 import React from "react";
 import { Button } from "antd";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export type ButtonVariant =
   | "primary"
   | "secondary"
   | "highlight"
   | "ghost"
-  | "outline";
+  | "outline"
+  | "error";
 
 interface ReuseButtonProps {
+  url?: string;
   variant?: ButtonVariant;
   className?: string;
   disabled?: boolean;
@@ -29,9 +32,11 @@ const variantStyles = {
   ghost:
     "!bg-primary-color/20 !text-base-color border  !border-primary-color/20 hover:!bg-primary-color hover:!text-base-color hover:!border-primary-color",
   outline: "!bg-transparent !text-base-color !border-base-color",
+  error: "!bg-red-600 !text-base-color border !border-red-600",
 };
 
 const ReuseButton = ({
+  url,
   variant = "primary",
   className,
   disabled = false,
@@ -41,7 +46,24 @@ const ReuseButton = ({
   children,
   icon,
 }: ReuseButtonProps) => {
-  return (
+  return url ? (
+    <Link href={url}>
+      <Button
+        className={cn(
+          "!py-5 !px-8 !text-lg w-full text-center  !ring-0 rounded-md",
+          variantStyles[variant],
+          className
+        )}
+        disabled={disabled}
+        loading={loading}
+        htmlType={htmlType}
+        onClick={onClick}
+        icon={icon}
+      >
+        {children}
+      </Button>
+    </Link>
+  ) : (
     <Button
       className={cn(
         "!py-5 !px-8 !text-lg w-full text-center  !ring-0 rounded-md",

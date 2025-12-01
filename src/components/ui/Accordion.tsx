@@ -34,12 +34,22 @@ const Accordion: React.FC<AccordionProps> = ({
 
   return (
     <div
-      className={cn("mb-5 bg-[#F1F8FD] duration-500 rounded shadow", className)}
+      className={cn(
+        `${
+          height > 0
+            ? "border-b border-primary-color"
+            : "border-b border-[#E4E7EC]"
+        } mb-5 bg-primary-color duration-500 rounded`,
+        className
+      )}
     >
       <div
-        className="flex justify-start gap-5 items-center p-4 cursor-pointer duration-500"
+        className="flex justify-between gap-5 items-center p-4 cursor-pointer duration-500"
         onClick={onToggle}
       >
+        <h3 className="text-base-color text-base md:text-lg lg:text-xl font-semibold">
+          {title}
+        </h3>{" "}
         {isOpen ? (
           <div className="p-[2px] rounded-full border border-secondary-color">
             <HiMinus className="text-secondary-color text-base md:text-lg lg:text-xl duration-500" />
@@ -49,9 +59,6 @@ const Accordion: React.FC<AccordionProps> = ({
             <GoPlus className="text-secondary-color text-base md:text-lg lg:text-xl duration-500" />
           </div>
         )}
-        <h3 className="text-base-color text-base md:text-lg lg:text-xl font-semibold">
-          {title}
-        </h3>
       </div>
       <div
         ref={contentRef}
@@ -61,7 +68,7 @@ const Accordion: React.FC<AccordionProps> = ({
           transition: "height 0.5s ease",
         }}
       >
-        <div className="p-4 bg-[#F1F8FD] text-[#667085] duration-500 text-sm md:text-base lg:text-lg rounded-bl rounded-br">
+        <div className="p-4 bg-primary-color text-[#667085] duration-500 text-sm md:text-base lg:text-lg rounded-bl rounded-br border-b border-[#E4E7EC]">
           {content}
         </div>
       </div>
