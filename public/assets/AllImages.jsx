@@ -25,6 +25,10 @@ import paulaJones from "./images/paulaJones.jpg";
 import tedMoratto from "./images/tedMoratto.jpg";
 import patrickFraser from "./images/patrickFraser.jpg";
 
+import bronze from "./images/bronze.png";
+import platinum from "./images/platinum.png";
+import diamond from "./images/diamond.png";
+
 import dummyProfile from "./images/dummyProfile.jpg";
 
 export const AllImages = {
@@ -55,4 +59,8 @@ export const AllImages = {
   paulaJones,
   tedMoratto,
   patrickFraser,
+
+  bronze,
+  platinum,
+  diamond,
 };

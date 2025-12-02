@@ -4,6 +4,8 @@ import SectionGridCard from "@/components/shared/Cards/SectionGridCard";
 import Container from "@/components/ui/Container";
 import React from "react";
 import { AllImages } from "../../../../public/assets/AllImages";
+import EverythingYouNeed from "@/components/OurSolutions/EverythingYouNeed";
+import WhatMakesUsDifferent from "@/components/OurSolutions/WhatMakesUsDifferent";
 
 const cardsData = [
   {
@@ -119,6 +121,8 @@ const page = () => {
           <SectionGridCard key={cardData.id} cardData={cardData} />
         ))}
       </Container>
+      <EverythingYouNeed />
+      <WhatMakesUsDifferent />
     </div>
   );
 };

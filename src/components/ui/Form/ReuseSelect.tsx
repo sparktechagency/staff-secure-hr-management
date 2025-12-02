@@ -13,7 +13,9 @@ type TSelectProps = {
   rules?: Array<Record<string, any>>;
   placeholder?: string;
   disabled?: boolean;
-  options: { label: string; value: string | number }[];
+  options: any[];
+  value?: any;
+  onChange?: (value: any) => void;
   allowClear?: boolean;
   mode?: "multiple" | undefined;
   wrapperClassName?: string;
@@ -29,6 +31,8 @@ const ReuseSelect = ({
   placeholder,
   disabled,
   options,
+  value,
+  onChange,
   allowClear = false,
   mode,
   wrapperClassName,
@@ -40,7 +44,7 @@ const ReuseSelect = ({
       {label && (
         <Typography.Title
           level={Typolevel}
-          className={cn("!text-base-color", labelClassName)}
+          className={cn("!text-base-color !font-normal", labelClassName)}
         >
           {label}
         </Typography.Title>
@@ -49,12 +53,14 @@ const ReuseSelect = ({
         <Select
           mode={mode}
           className={cn(
-            "!h-10  !text-base-color !placeholder:text-[##B5B5B5] border !border-primary-color !ring-0 rounded-md ",
+            "!h-10  !text-base-color !placeholder:text-[#B5B5B5] border !border-primary-color !ring-0 rounded-md ",
             selectClassName
           )}
+          value={value}
           placeholder={placeholder}
           disabled={disabled}
           allowClear={allowClear}
+          onChange={onChange}
         >
           {options.map((option) => (
             <Option key={option.value} value={option.value}>
