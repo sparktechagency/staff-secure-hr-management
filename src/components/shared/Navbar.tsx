@@ -6,11 +6,12 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { AllImages } from "../../../public/assets/AllImages";
 import { usePathname } from "next/navigation";
-import { Button } from "antd";
+import { Button, Dropdown, MenuProps } from "antd";
 import * as motion from "motion/react-client";
 import { useScroll, useMotionValueEvent } from "motion/react";
 import { TbLogout2 } from "react-icons/tb";
 import { HiOutlineLogin } from "react-icons/hi";
+import { MdOutlineDashboard } from "react-icons/md";
 
 const NavItems = [
   { id: "1", name: "Our Solutions", route: "/our-solutions" },
@@ -22,7 +23,9 @@ const NavItems = [
 
 const Navbar: React.FC = () => {
   const path = usePathname();
-  const userData = false;
+  const userData = {
+    role: "candidate",
+  };
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -56,6 +59,40 @@ const Navbar: React.FC = () => {
       setHeight(0); // Set to 0 when closed
     }
   }, [mobileMenuOpen]);
+
+  const items: MenuProps["items"] = [
+    // {
+    //   key: "1",
+    //   label:
+    //     userData?.role === "candidate" ? (
+    //       <Link href="/dashboard/candidate/overview">Candidate Dashboard</Link>
+    //     ) : userData?.role === "employer" ? (
+    //       <Link href="/dashboard/employer/overview">Employer Dashboard</Link>
+    //     ) : (
+    //       <></>
+    //     ),
+    //   icon: <MdOutlineDashboard className="text-secondary-color !text-base" />,
+    // },
+    {
+      key: "1",
+      label: (
+        <Link href="/dashboard/candidate/job-board">Candidate Dashboard</Link>
+      ),
+      icon: <MdOutlineDashboard className="text-secondary-color !text-base" />,
+    },
+    {
+      key: "3",
+      label: (
+        <Link href="/dashboard/employer/overview">Employer Dashboard</Link>
+      ),
+      icon: <MdOutlineDashboard className="text-secondary-color !text-base" />,
+    },
+    {
+      key: "2",
+      label: <div>Log Out</div>,
+      icon: <TbLogout2 className="text-secondary-color !text-base" />,
+    },
+  ];
   return (
     <motion.div
       variants={{
@@ -67,7 +104,9 @@ const Navbar: React.FC = () => {
       className={`z-[99999999]  ${
         path === "/" && !scrolled ? "!text-primary-color" : " !text-base-color"
       } ${scrolled ? " !shadow-md duration-300  py-2" : " duration-300 py-2"} ${
-        mobileMenuOpen || scrolled ? "bg-primary-color" : "bg-transparent"
+        mobileMenuOpen || scrolled || path === "/dashboard"
+          ? "bg-primary-color"
+          : "bg-transparent"
       }`}
     >
       <Container>
@@ -185,7 +224,15 @@ const Navbar: React.FC = () => {
           <div className="lg:flex items-center gap-2 hidden">
             {userData ? (
               <div className="flex items-center gap-5">
-                <Link href="/profile">
+                <Dropdown
+                  menu={{ items }}
+                  trigger={["hover"]}
+                  // onOpenChange={(open: boolean) => {
+                  //   setOpen(open);
+                  // }}
+                  placement="bottomRight"
+                  className="cursor-pointer"
+                >
                   <Image
                     src={AllImages.dummyProfile}
                     alt="profile_img"
@@ -194,20 +241,17 @@ const Navbar: React.FC = () => {
                     sizes="100vw"
                     className="xl:h-[35px] h-[30px] w-[30px] xl:w-[35px] rounded-full cursor-pointer border-2 border-[#2B4257]"
                   />
-                </Link>
-
-                <Button className="group flex items-center !py-4 !px-1 gap-1 border-2 !border-secondary-color !bg-secondary-color !text-primary-color rounded-full">
-                  <p className="font-semibold">Logout</p>
-                  <div className="bg-primary-color p-1 rounded-full">
-                    <TbLogout2 className=" text-lg text-secondary-color" />
-                  </div>
-                </Button>
+                </Dropdown>
               </div>
             ) : (
               <div className="w-full flex items-center gap-1">
                 <Link
                   href="/sign-in"
-                  className="px-2 py-1 font-bold text-secondary-color rounded-full border-2 border-secondary-color"
+                  className={`px-2 py-1 font-bold rounded-full border-2 ${
+                    path === "/" && !scrolled
+                      ? "text-primary-color border-primary-color"
+                      : "text-secondary-color border-secondary-color"
+                  }`}
                 >
                   Sign In
                 </Link>

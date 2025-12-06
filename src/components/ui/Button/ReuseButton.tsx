@@ -31,7 +31,7 @@ const variantStyles = {
   highlight: "!bg-base-color !text-primary-color border !border-primary-color",
   ghost:
     "!bg-primary-color/20 !text-base-color border  !border-primary-color/20 hover:!bg-primary-color hover:!text-base-color hover:!border-primary-color",
-  outline: "!bg-transparent !text-base-color !border-base-color",
+  outline: "!bg-transparent !text-secondary-color !border-secondary-color",
   error: "!bg-red-600 !text-base-color border !border-red-600",
 };
 
