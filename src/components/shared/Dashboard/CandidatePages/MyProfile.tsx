@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Form, Input } from "antd";
-import { IoMdMail } from "react-icons/io";
 import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
 import ReusableForm from "@/components/ui/Form/ReuseForm";
 import ReuseInput from "@/components/ui/Form/ReuseInput";
