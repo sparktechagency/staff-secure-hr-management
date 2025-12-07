@@ -1,4 +1,4 @@
-import MyProfile from "@/components/shared/Dashboard/CandidatePages/MyProfile";
+import MyProfile from "@/components/Dashboard/CandidatePages/MyProfile";
 import React from "react";
 
 const page = () => {

@@ -1,4 +1,4 @@
-import MyAccountProfile from "@/components/shared/Dashboard/Settings/MyAccountProfile";
+import MyAccountProfile from "@/components/Dashboard/Settings/MyAccountProfile";
 
 const page = async ({
   searchParams,

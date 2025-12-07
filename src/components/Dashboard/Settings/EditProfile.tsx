@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { IoCameraOutline } from "react-icons/io5";
 import Image from "next/image";
 import { IoMdMail } from "react-icons/io";
-import { AllImages } from "../../../../../public/assets/AllImages";
+import { AllImages } from "../../../../public/assets/AllImages";
 import ReusableForm from "@/components/ui/Form/ReuseForm";
 import ReuseInput from "@/components/ui/Form/ReuseInput";
 import ReuseButton from "@/components/ui/Button/ReuseButton";
