@@ -1,3 +1,4 @@
+"use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // components/JobCard.tsx
 import {
@@ -20,10 +21,14 @@ export default function JobCard({
   data,
   variant,
   viewApplyJob,
+  openEditModal,
+  openDeleteModal,
 }: {
   data: IJob;
   variant?: "simple" | "detailed";
   viewApplyJob?: any;
+  openEditModal?: any;
+  openDeleteModal?: any;
 }) {
   const {
     title,
@@ -61,19 +66,27 @@ export default function JobCard({
     // },
     {
       key: "1",
-      label: <div>View Details</div>,
+      label: (
+        <div
+          onClick={() => {
+            viewApplyJob(data);
+          }}
+        >
+          View Details
+        </div>
+      ),
       icon: <FaRegEye className="text-secondary-color !text-base" />,
     },
     {
       key: "3",
-      label: <div>Edit</div>,
+      label: <div onClick={() => openEditModal(data)}>Edit</div>,
       icon: (
         <MdOutlineModeEditOutline className="text-secondary-color !text-base" />
       ),
     },
     {
       key: "2",
-      label: <div>Delete</div>,
+      label: <div onClick={() => openDeleteModal(data)}>Delete</div>,
       icon: <MdDeleteOutline className="text-secondary-color !text-base" />,
     },
   ];

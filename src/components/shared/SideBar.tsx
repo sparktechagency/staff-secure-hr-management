@@ -18,15 +18,21 @@ import { useSidebar } from "@/context/SidebarContext";
 // import Cookies from "js-cookie";
 
 const SideBar = () => {
+  const path = usePathname();
+
   const { isCollapsed } = useSidebar(); // Access the collapse state from context
 
   // const token = Cookies.get("frafolMainAccessToken");
   // const userData: ISignInUser | null = decodedToken(token || "");
   // const isCollapsed = useAppSelector(selectIsCollapsed);
-  const userData = {
-    role: "candidate",
-  };
+
   const pathname = usePathname();
+
+  const currentPath = path?.split("/")?.[2];
+
+  const userData = {
+    role: currentPath,
+  };
   const defaultUrl =
     userData?.role === "candidate" ? "/candidate" : "/employer";
 

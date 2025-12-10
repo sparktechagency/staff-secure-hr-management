@@ -1,9 +1,12 @@
 "use client";
 import JobCard from "@/components/shared/Cards/JobCard";
-import ViewApplyJobModal from "@/components/shared/Modal/ViewApplyJobModal";
+import AddNewJobModal from "@/components/shared/Modal/AddNewJobModal";
+import DeleteModal from "@/components/shared/Modal/DeleteModal";
+import EditJobModal from "@/components/shared/Modal/EditJobModal";
+import ReuseButton from "@/components/ui/Button/ReuseButton";
 import SearchInput from "@/components/ui/Form/ReuseSearchInput";
 import { IJob } from "@/types";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 
 const jobListings: IJob[] = [
   {
@@ -197,43 +200,54 @@ const jobListings: IJob[] = [
   },
 ];
 
-const JobBoardPage = () => {
-  const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
+const JobRequirementPage = () => {
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [currentRecoard, setCurrentRecoard] = useState<IJob | null>(null);
 
-  const openApplyModal = (job: IJob) => {
+  const openAddModal = () => setIsAddModalOpen(true);
+  const openEditModal = (job: IJob) => {
     setCurrentRecoard(job);
-    setIsApplyModalOpen(true);
+    setIsEditModalOpen(true);
+  };
+  const openDeleteModal = (job: IJob) => {
+    setCurrentRecoard(job);
+    setIsDeleteModalOpen(true);
   };
 
   const handleCancle = () => {
+    setIsAddModalOpen(false);
+    setIsEditModalOpen(false);
+    setIsDeleteModalOpen(false);
     setCurrentRecoard(null);
-    setIsApplyModalOpen(false);
   };
 
   return (
     <div className="mt-10">
       <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-base-color mb-8">
-        Job Board
+        Job Requirement
       </h1>
-      <div className="flex items-center gap-4">
-        <SearchInput
-          placeholder="e,g. electrician, forklift, plumbing"
-          className="lg:!w-lg gap-0 "
-          label="Search Jobs"
-          isPage={false}
-          formClassName="lg:!w-lg !-mb-2 !h-fit"
-          inputClassName="lg:!w-lg !bg-[#EFEFEF] text-base-color !py-3 !px-2 w-full !mb-0"
-        />
-        <SearchInput
-          placeholder="e,g. London, Manchester, Leeds"
-          className="lg:!w-lg gap-0 "
-          label="Location"
-          paramName="location"
-          isPage={false}
-          formClassName="lg:!w-lg !-mb-2 !h-fit"
-          inputClassName="lg:!w-lg !bg-[#EFEFEF] text-base-color !py-3 !px-2 w-full !mb-0"
-        />
+      <div className="flex items-center justify-between gap-4">
+        <Suspense fallback={<div>Loading...</div>}>
+          {" "}
+          <SearchInput
+            placeholder="Search "
+            className="lg:!w-lg gap-0 "
+            label="Search"
+            isPage={false}
+            formClassName="lg:!w-lg !-mb-2 !h-fit"
+            inputClassName="lg:!w-lg !bg-[#EFEFEF] text-base-color !py-3 !px-2 w-full !mb-0"
+          />
+        </Suspense>
+
+        <ReuseButton
+          variant="secondary"
+          className="!w-fit"
+          onClick={openAddModal}
+        >
+          Add New Job Post
+        </ReuseButton>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-10">
@@ -241,21 +255,30 @@ const JobBoardPage = () => {
           <JobCard
             key={job?._id}
             data={job}
-            variant="simple"
-            viewApplyJob={openApplyModal}
+            variant="detailed"
+            openEditModal={openEditModal}
+            openDeleteModal={openDeleteModal}
           />
         ))}
       </div>
 
-      <ViewApplyJobModal
-        isModalVisible={isApplyModalOpen}
+      <AddNewJobModal
+        isModalVisible={isAddModalOpen}
         handleCancel={handleCancle}
-        currentRecord={currentRecoard as IJob}
-        variant="simple"
-        applyJob={() => {}}
+      />
+      <EditJobModal
+        isModalVisible={isEditModalOpen}
+        handleCancel={handleCancle}
+        currentRecord={currentRecoard}
+      />
+      <DeleteModal
+        isDeleteModalVisible={isDeleteModalOpen}
+        handleCancel={handleCancle}
+        currentRecord={currentRecoard}
+        handleDelete={() => {}}
       />
     </div>
   );
 };
 
-export default JobBoardPage;
+export default JobRequirementPage;

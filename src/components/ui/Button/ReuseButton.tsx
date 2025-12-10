@@ -32,7 +32,7 @@ const variantStyles = {
   ghost:
     "!bg-primary-color/20 !text-base-color border  !border-primary-color/20 hover:!bg-primary-color hover:!text-base-color hover:!border-primary-color",
   outline: "!bg-transparent !text-secondary-color !border-secondary-color",
-  error: "!bg-red-600 !text-base-color border !border-red-600",
+  error: "!bg-red-600 !text-primary-color border !border-red-600",
 };
 
 const ReuseButton = ({

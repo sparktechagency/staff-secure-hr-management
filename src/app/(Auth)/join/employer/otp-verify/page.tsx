@@ -1,10 +1,10 @@
-import SignIn from "@/components/Auth/SignIn";
+import CreateUserOTPVerify from "@/components/Auth/CreateUserOTPVerify";
 import React from "react";
 
 const page = () => {
   return (
     <div>
-      <SignIn />
+      <CreateUserOTPVerify />
     </div>
   );
 };

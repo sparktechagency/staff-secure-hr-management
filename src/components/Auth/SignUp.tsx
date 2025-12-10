@@ -1,10 +1,15 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Container from "../ui/Container";
 import Image from "next/image";
-import { Button, Form, Input, Typography } from "antd";
+import { Form, FormInstance } from "antd";
 import Link from "next/link";
 import { AllImages } from "../../../public/assets/AllImages";
+import { IoMdMail } from "react-icons/io";
+import { RiLockPasswordFill } from "react-icons/ri";
+import ReuseInput from "../ui/Form/ReuseInput";
+import ReuseButton from "../ui/Button/ReuseButton";
+import { LuBriefcaseBusiness, LuUser } from "react-icons/lu";
 
 interface SignUpValues {
   name: string;
@@ -13,17 +18,98 @@ interface SignUpValues {
   email: string;
 }
 
+const inputStructure = [
+  {
+    name: "name",
+    type: "text",
+    inputType: "normal",
+    label: "Full Name",
+    placeholder: "Enter your full name",
+    labelClassName: "!font-semibold",
+    prefix: <LuUser className="mr-1 !text-secondary-color" />,
+    rules: [{ required: true, message: "Full name is required" }],
+  },
+  {
+    name: "companyName",
+    type: "text",
+    inputType: "normal",
+    label: "Company Name",
+    placeholder: "Enter your Company Name",
+    labelClassName: "!font-semibold",
+    prefix: <LuBriefcaseBusiness className="mr-1 !text-secondary-color" />,
+    rules: [{ required: true, message: "Company Name is required" }],
+  },
+  {
+    name: "email",
+    type: "email",
+    inputType: "normal",
+    label: "Email",
+    placeholder: "Enter Email Name",
+    labelClassName: "!font-semibold",
+    prefix: <IoMdMail className="mr-1 !text-secondary-color" />,
+    rules: [{ required: true, message: "Email is required" }],
+  },
+  {
+    name: "phone",
+    type: "number",
+    inputType: "normal",
+    label: "Telephone Number",
+    placeholder: "Enter Telephone Number",
+    labelClassName: "!font-semibold",
+    prefix: <IoMdMail className="mr-1 !text-secondary-color" />,
+    rules: [{ required: true, message: "Telephone Number is required" }],
+  },
+  {
+    name: "password",
+    type: "password",
+    inputType: "password",
+    label: "Password",
+    placeholder: "Enter your password",
+    prefix: <RiLockPasswordFill className="mr-1 !text-secondary-color" />,
+    labelClassName: "!font-semibold",
+    rules: [{ required: true, message: "Password is required" }],
+  },
+  {
+    name: "confirmPassword",
+    type: "password",
+    inputType: "password",
+    label: "Confirm Password",
+    placeholder: "Confirm your password",
+    prefix: <RiLockPasswordFill className="mr-1 !text-secondary-color" />,
+    labelClassName: "!font-semibold",
+    rules: [
+      { required: true, message: "Confirm Password is required" },
+      ({
+        getFieldValue,
+      }: {
+        getFieldValue: FormInstance["getFieldValue"];
+      }) => ({
+        validator(_: unknown, value: string) {
+          if (!value || getFieldValue("password") === value) {
+            return Promise.resolve();
+          }
+          return Promise.reject(new Error("Password does not match!"));
+        },
+      }),
+    ],
+  },
+];
+
 const SignUp = () => {
   const router = useRouter();
+  const path = usePathname();
+
+  const currentPath = path?.split("/")?.[2];
+  console.log(currentPath);
   const onFinish = (values: SignUpValues) => {
     console.log("Received values of login form:", values);
-    router.push("/sign-up/otp-verify");
+    router.push(`/join/${currentPath}/otp-verify`);
   };
   return (
-    <div className="text-base-color">
+    <div className="text-base-color flex items-center justify-center">
       <Container>
-        <div className=" min-h-screen flex justify-center items-center">
-          <div className="w-full md:w-[80%] lg:w-[60%] xl:w-[40%] mx-auto">
+        <div className=" min-h-screen flex justify-center items-center py-20">
+          <div className="w-full md:w-[80%] lg:w-[670%] xl:w-[60%] mx-auto">
             <Image
               src={AllImages.logo}
               width={500}
@@ -32,11 +118,17 @@ const SignUp = () => {
               alt="logo"
             />
             {/* -------- Sign In Page Header ------------ */}
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col justify-center items-center mb-10">
               <div className="text-center mt-5">
-                <h1 className="text-2xl sm:text-3xl font-semibold mb-4 text-secondary-color">
-                  Sign Up
+                <h1
+                  className="text-2xl sm:text-3xl font-semibold 
+               text-secondary-color mt-7 "
+                >
+                  Create an account
                 </h1>
+                <p className="text-sm sm:text-base lg:text-lg text-base-color my-2">
+                  Enter the following details carefully to create your account
+                </p>
               </div>
             </div>
             {/* -------- Form Start ------------ */}
@@ -46,107 +138,47 @@ const SignUp = () => {
               className="bg-transparent w-full"
               onFinish={onFinish}
             >
-              <Typography.Title level={5} style={{ color: "#344054" }}>
-                Name
-              </Typography.Title>
-              <Form.Item
-                name="name"
-                className="text-base-color"
-                rules={[
-                  {
-                    required: true,
-                    message: "Name is Required",
-                  },
-                ]}
+              <div
+                className={`grid grid-cols-1 gap-5 ${
+                  currentPath === "candidate"
+                    ? "lg:grid-cols-1"
+                    : "lg:grid-cols-2"
+                }`}
               >
-                <Input
-                  placeholder="Enter your name"
-                  className="py-1.5 px-3 text-lg !bg-primary-color border !border-[#D0D5DD] text-base-color"
-                />
-              </Form.Item>
-              <Typography.Title level={5} style={{ color: "#344054" }}>
-                Email
-              </Typography.Title>
-              <Form.Item
-                name="email"
-                className="text-base-color"
-                rules={[
-                  {
-                    required: true,
-                    message: "Email is Required",
-                  },
-                ]}
-              >
-                <Input
-                  placeholder="Enter your email"
-                  className="py-1.5 px-3 text-lg !bg-primary-color border !border-[#D0D5DD] text-base-color"
-                />
-              </Form.Item>
-              <Typography.Title
-                level={5}
-                className="text-start"
-                style={{ color: "#344054" }}
-              >
-                New Password
-              </Typography.Title>
-              <Form.Item
-                rules={[
-                  {
-                    required: true,
-                    message: "New Password is Required",
-                  },
-                ]}
-                name="password"
-                className="text-base-color"
-              >
-                <Input.Password
-                  placeholder="Enter new password"
-                  className="py-1.5 px-3 text-lg !bg-primary-color border !border-[#D0D5DD] text-base-color"
-                />
-              </Form.Item>
-              <Typography.Title
-                level={5}
-                className="text-start"
-                style={{ color: "#344054" }}
-              >
-                Confirm Password
-              </Typography.Title>
-              <Form.Item
-                name="confirmPassword"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please confirm your new password!",
-                  },
-                  ({ getFieldValue }) => ({
-                    validator(_, value) {
-                      if (!value || getFieldValue("password") === value) {
-                        return Promise.resolve();
-                      }
-                      return Promise.reject(
-                        new Error(
-                          "The two passwords that you entered do not match!"
-                        )
-                      );
-                    },
-                  }),
-                ]}
-                className="text-base-color"
-              >
-                <Input.Password
-                  placeholder="Enter your password"
-                  className="py-1.5 px-3 text-lg !bg-primary border !border-[#D0D5DD] text-base-color"
-                />
-              </Form.Item>
-
+                {inputStructure
+                  .filter((input) => {
+                    if (
+                      currentPath === "candidate" &&
+                      input.name === "companyName"
+                    ) {
+                      return false;
+                    }
+                    return true;
+                  })
+                  .map((input, index) => (
+                    <ReuseInput
+                      key={index}
+                      name={input.name}
+                      Typolevel={5}
+                      inputType={input.inputType}
+                      type={input.type}
+                      prefix={input.prefix}
+                      label={input.label}
+                      placeholder={input.placeholder}
+                      labelClassName={input.labelClassName}
+                      inputClassName="!py-2.5"
+                      rules={input.rules}
+                    />
+                  ))}
+              </div>
               <Form.Item>
-                <Button
-                  type="primary"
-                  className="w-full py-5 border border-secondary-color hover:border-secondary-color text-xl text-primary bg-secondary-color hover:!bg-secondary-color font-semibold rounded-2xl mt-4"
+                <ReuseButton
                   htmlType="submit"
+                  variant="secondary"
+                  className="mt-5"
                 >
                   Sign Up
-                </Button>
+                </ReuseButton>
               </Form.Item>
             </Form>
 
