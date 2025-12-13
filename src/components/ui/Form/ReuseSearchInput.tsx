@@ -77,7 +77,8 @@ const SearchInput: React.FC<SearchInputProps> = ({
     } else {
       form.resetFields();
     }
-  }, [searchParams, paramName, form]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={cn("flex gap-4 items-center", className)}>

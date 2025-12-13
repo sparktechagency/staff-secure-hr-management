@@ -7,6 +7,10 @@ import ReusableForm from "@/components/ui/Form/ReuseForm";
 import ReuseInput from "@/components/ui/Form/ReuseInput";
 import ReuseButton from "@/components/ui/Button/ReuseButton";
 import ReuseSelect from "@/components/ui/Form/ReuseSelect";
+import ReuseDatePicker from "@/components/ui/Form/ReuseDatePicker";
+import dayjs from "dayjs";
+import tryCatchWrapper from "@/utils/tryCatchWrapper";
+import { addJobPost } from "@/services/JobBoardService/JobBoardServiceApi";
 
 const AddNewJobModal = ({
   isModalVisible,
@@ -17,11 +21,45 @@ const AddNewJobModal = ({
 }) => {
   const [form] = Form.useForm();
 
-  const handleSubmit = (values: any) => {
-    console.log("Job Post Data:", values);
-    // Handle API call here
-    handleCancel(); // Close modal after submit
-    form.resetFields();
+  const handleSubmit = async (values: any) => {
+    const payload = {
+      title: values.title,
+      location: values.location,
+      salaryRange: {
+        min: Number(values.minSalaryRange),
+        max: Number(values.maxSalaryRange),
+      },
+      experience: Number(values.experience),
+      workType: values.workType,
+      workersNeeded: Number(values.workersNeeded),
+      jobType: values.jobType,
+      description: values.description,
+      keyResponsibilities: values.keyResponsibilities,
+      requirements: values.requirements,
+      skillsRequired: values.skillsRequired,
+      benefits: values.benefits,
+
+      lastApplyDate: values.lastApplyDate
+        ? dayjs(values.lastApplyDate).format("YYYY-MM-DD")
+        : null,
+    };
+
+    console.log(payload);
+
+    const res = await tryCatchWrapper(
+      addJobPost,
+      { body: payload },
+      "Posting New Job...",
+      "Job posted successfully!",
+      "Something went wrong! Please try again."
+    );
+
+    console.log(res);
+
+    if (res?.success) {
+      form.resetFields();
+      handleCancel();
+    }
   };
 
   return (
@@ -46,7 +84,7 @@ const AddNewJobModal = ({
           <div className="space-y-8">
             {/* Job Title */}
             <ReuseInput
-              name="jobTitle"
+              name="title"
               label="Job Title"
               placeholder="Enter Job Title"
               rules={[{ required: true, message: "Job title is required" }]}
@@ -89,6 +127,7 @@ const AddNewJobModal = ({
             <ReuseInput
               name="experience"
               label="Experience"
+              type="number"
               placeholder="Enter Experience"
               Typolevel={5}
               labelClassName="!font-medium text-sm"
@@ -97,12 +136,12 @@ const AddNewJobModal = ({
 
             {/* Length of Work */}
             <ReuseSelect
-              name="lengthOfWork"
-              label="Length of Work"
-              placeholder="Select Length of Work"
+              name="workType"
+              label="Work Type"
+              placeholder="Select Work Type"
               options={[
-                { value: "Full Time", label: "Full Time" },
-                { value: "Part Time", label: "Part Time" },
+                { value: "Full-Time", label: "Full Time" },
+                { value: "Part-Time", label: "Part Time" },
                 { value: "Contract", label: "Contract" },
               ]}
               Typolevel={5}
@@ -115,15 +154,15 @@ const AddNewJobModal = ({
               placeholder="Select Job Type"
               options={[
                 {
-                  value: "onsite",
+                  value: "Onsite",
                   label: "Onsite",
                 },
                 {
-                  value: "remote",
+                  value: "Remote",
                   label: "Remote",
                 },
                 {
-                  value: "hybrid",
+                  value: "Hybrid",
                   label: "Hybrid",
                 },
               ]}
@@ -145,7 +184,7 @@ const AddNewJobModal = ({
             {/* Job Description */}
             <ReuseInput
               inputType="textarea"
-              name="jobDescription"
+              name="description"
               label="Job Description"
               placeholder="Enter Job Description"
               type="number"
@@ -169,7 +208,7 @@ const AddNewJobModal = ({
                       <div key={key} className="flex items-center gap-3 mb-4">
                         <Form.Item
                           name={name}
-                          className="flex-1 mb-0"
+                          className="flex-1 !mb-0"
                           rules={[
                             {
                               required: true,
@@ -179,19 +218,20 @@ const AddNewJobModal = ({
                         >
                           <Input
                             placeholder={`Responsibility ${index + 1}`}
-                            className="py-3 text-base"
+                            className="!py-1.5 !px-3 !text-base !bg-[#F3F3F5] border !border-[#F3F3F5] outline-none !ring-0 !text-base-color rounded-lg"
                             size="large"
                           />
                         </Form.Item>
                         {fields.length > 1 && (
                           <MinusCircleOutlined
-                            className="text-red-500 text-xl hover:text-red-700"
+                            className="!text-red-500 text-base hover:!text-red-700"
                             onClick={() => remove(name)}
                           />
                         )}
                       </div>
                     ))}
                     <ReuseButton
+                      className="!py-0.5 !text-sm !border-dashed"
                       onClick={() => add("")}
                       icon={<PlusOutlined />}
                     >
@@ -217,7 +257,7 @@ const AddNewJobModal = ({
                       <div key={key} className="flex items-center gap-3 mb-4">
                         <Form.Item
                           name={name}
-                          className="flex-1 mb-0"
+                          className="flex-1 !mb-0"
                           rules={[
                             {
                               required: true,
@@ -227,23 +267,73 @@ const AddNewJobModal = ({
                         >
                           <Input
                             placeholder={`Requirement ${index + 1}`}
-                            className="py-3 text-base"
+                            className="!py-1.5 !px-3 !text-base !bg-[#F3F3F5] border !border-[#F3F3F5] outline-none !ring-0 !text-base-color rounded-lg"
                             size="large"
                           />
                         </Form.Item>
                         {fields.length > 1 && (
                           <MinusCircleOutlined
-                            className="text-red-500 text-xl hover:text-red-700"
+                            className="!text-red-500 text-base hover:!text-red-700"
                             onClick={() => remove(name)}
                           />
                         )}
                       </div>
                     ))}
                     <ReuseButton
+                      className="!py-0.5 !text-sm !border-dashed"
                       onClick={() => add("")}
                       icon={<PlusOutlined />}
                     >
                       Add Requirement
+                    </ReuseButton>
+                  </>
+                )}
+              </Form.List>
+            </Form.Item>
+
+            {/* Skill Requirements - Dynamic */}
+            <Form.Item
+              label={
+                <span className="font-medium text-secondary-color text-sm">
+                  Skill Requirements
+                </span>
+              }
+            >
+              <Form.List name="skillsRequired" initialValue={[""]}>
+                {(fields, { add, remove }) => (
+                  <>
+                    {fields.map(({ key, name }, index) => (
+                      <div key={key} className="flex items-center gap-3 mb-4">
+                        <Form.Item
+                          name={name}
+                          className="flex-1 !mb-0"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Skill is required",
+                            },
+                          ]}
+                        >
+                          <Input
+                            placeholder={`Skill ${index + 1}`}
+                            className="!py-1.5 !px-3 !text-base !bg-[#F3F3F5] border !border-[#F3F3F5] outline-none !ring-0 !text-base-color rounded-lg"
+                            size="large"
+                          />
+                        </Form.Item>
+                        {fields.length > 1 && (
+                          <MinusCircleOutlined
+                            className="!text-red-500 text-base hover:!text-red-700"
+                            onClick={() => remove(name)}
+                          />
+                        )}
+                      </div>
+                    ))}
+                    <ReuseButton
+                      className="!py-0.5 !text-sm !border-dashed"
+                      onClick={() => add("")}
+                      icon={<PlusOutlined />}
+                    >
+                      Add Skill
                     </ReuseButton>
                   </>
                 )}
@@ -265,26 +355,27 @@ const AddNewJobModal = ({
                       <div key={key} className="flex items-center gap-3 mb-4">
                         <Form.Item
                           name={name}
-                          className="flex-1 mb-0"
+                          className="flex-1 !mb-0"
                           rules={[
                             { required: true, message: "Benefit is required" },
                           ]}
                         >
                           <Input
                             placeholder={`Benefit ${index + 1}`}
-                            className="py-3 text-base"
+                            className="!py-1.5 !px-3 !text-base !bg-[#F3F3F5] border !border-[#F3F3F5] outline-none !ring-0 !text-base-color rounded-lg"
                             size="large"
                           />
                         </Form.Item>
                         {fields.length > 1 && (
                           <MinusCircleOutlined
-                            className="text-red-500 text-xl hover:text-red-700"
+                            className="!text-red-500 text-base hover:!text-red-700"
                             onClick={() => remove(name)}
                           />
                         )}
                       </div>
                     ))}
                     <ReuseButton
+                      className="!py-0.5 !text-sm !border-dashed"
                       onClick={() => add("")}
                       icon={<PlusOutlined />}
                     >
@@ -294,6 +385,13 @@ const AddNewJobModal = ({
                 )}
               </Form.List>
             </Form.Item>
+
+            <ReuseDatePicker
+              name="lastApplyDate"
+              label="Last Apply Date"
+              placeholder="Select Last Apply Date"
+              labelClassName="!font-medium text-sm"
+            />
 
             {/* Submit Button */}
             <div className="flex justify-end mt-10">

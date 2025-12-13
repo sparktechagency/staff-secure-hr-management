@@ -13,7 +13,7 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({
     <div>
       <SidebarProvider>
         <div className="">
-          <div className="sticky top-0 w-full !z-[9999999] ">
+          <div className="sticky top-0 w-full !z-[99] bg-primary-color">
             <Navbar />
           </div>
           <Layout className="flex !bg-[#F9FAFB] relative">

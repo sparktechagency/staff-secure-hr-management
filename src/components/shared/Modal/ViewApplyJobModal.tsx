@@ -57,6 +57,16 @@ const ViewApplyJobModal = ({
             Requirements
           </h4>
           <ul className="text-sm sm:text-base lg:text-lg mt-1 list-disc list-inside">
+            {currentRecord?.requirements?.map((item: string) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="mt-5 mb-10">
+          <h4 className="text-base sm:text-lg lg:text-xl font-bold mt-5 mb-2">
+            Skill Requirements
+          </h4>
+          <ul className="text-sm sm:text-base lg:text-lg mt-1 list-disc list-inside">
             {currentRecord?.skillsRequired?.map((item: string) => (
               <li key={item}>{item}</li>
             ))}

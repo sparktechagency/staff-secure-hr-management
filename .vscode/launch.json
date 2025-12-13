@@ -1,0 +1,102 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "msedge",
+      "name": "Launch Microsoft Edge",
+      "request": "launch",
+      "cleanUp": "wholeBrowser",
+      "cascadeTerminateToConfigurations": [
+        "Launch Next.js app",
+        "Open Edge DevTools"
+      ],
+      "url": "http:localhost:3000",
+      "presentation": {
+        "hidden": true
+      }
+    },
+    {
+      "name": "Next.js: debug full stack - 1",
+      "request": "launch",
+      "type": "node",
+      "runtimeArgs": ["--inspect"],
+      "program": "${workspaceFolder}/node_modules/.bin/next",
+      "skipFiles": ["<node_internals>/**"],
+      "serverReadyAction": {
+        "action": "debugWithEdge",
+        "killOnServerStop": true,
+        "webRoot": "${workspaceFolder}",
+        "pattern": "- Local:.+(https?://.+)",
+        "uriFormat": "%s"
+      }
+    },
+    {
+      "name": "Next.js: debug full stack - 2",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+        "run",
+        "dev" // "next dev --turbo",
+      ],
+      "runtimeExecutable": "npm",
+      "sourceMaps": false,
+      "skipFiles": ["<node_internals>/**"],
+      "internalConsoleOptions": "openOnSessionStart",
+      "autoAttachChildProcesses": true,
+      "presentation": {
+        "hidden": false
+      },
+      "serverReadyAction": {
+        "action": "debugWithEdge",
+        "pattern": "- Local:.+(https?://.+)",
+        "uriFormat": "%s"
+      }
+    },
+    {
+      "type": "msedge",
+      "name": "Launch Microsoft Edge in headless mode",
+      "request": "launch",
+      "outFiles": ["${workspaceFolder}/**/*.(m|c|)js", "!**/node_modules/**"],
+      "resolveSourceMapLocations": [
+        "!**/node_modules/**",
+        "!**/.next/**",
+        "/bin/**"
+      ],
+      "sourceMaps": true,
+      "runtimeArgs": ["--headless", "--remote-debugging-port=9222"],
+      "url": "http:localhost:3000",
+      "presentation": {
+        "hidden": true
+      }
+    },
+    {
+      "type": "vscode-edge-devtools.debug",
+      "name": "Open Edge DevTools",
+      "request": "attach",
+      "url": "http:localhost:3000",
+      "presentation": {
+        "hidden": true
+      }
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Launch Edge Headless and attach DevTools",
+      "configurations": [
+        "Launch Microsoft Edge in headless mode",
+        "Open Edge DevTools",
+        "Next.js: debug full stack"
+      ],
+      "stopAll": true
+    },
+    {
+      "name": "Launch Edge and attach DevTools",
+      "configurations": [
+        "Launch Microsoft Edge",
+        "Open Edge DevTools",
+        "Launch Next.js app"
+      ],
+      "stopAll": true
+    }
+  ]
+}

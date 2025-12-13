@@ -92,5 +92,8 @@ export const mainTheme = {
     Radio: {
       colorPrimary: "#0c3188",
     },
+    Modal: {
+      zIndexPopupBase: 999,
+    },
   },
 };

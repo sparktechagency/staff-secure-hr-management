@@ -8,7 +8,7 @@ interface SalaryRange {
 type JobStatus = "active" | "closed";
 
 // Job Type (Full-Time, Part-Time, Contract)
-type LengthOfWorkType = "Full-Time" | "Part-Time" | "Contract";
+type workTypeType = "Full-Time" | "Part-Time" | "Contract";
 
 // Location Type (Onsite, Remote, Hybrid)
 type JobType = "Onsite" | "Remote" | "Hybrid";
@@ -21,7 +21,8 @@ export interface IJob {
   location: string;
   salaryRange: SalaryRange;
   experience: number;
-  lengthOfWork: LengthOfWorkType;
+  workType: workTypeType;
+  jobType: JobType;
   workersNeeded: number;
 
   description: string;
@@ -30,10 +31,13 @@ export interface IJob {
   benefits: string[];
   skillsRequired: string[];
 
-  expireDate: Date;
+  lastApplyDate: Date;
   status: JobStatus;
 
   isDeleted: boolean;
   jobReferralCode: string; // Unique
-  jobType: JobType;
+
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }

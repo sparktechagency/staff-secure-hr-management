@@ -16,6 +16,7 @@ import { FiUsers } from "react-icons/fi";
 import { IoCalendarOutline } from "react-icons/io5";
 import { IJob } from "@/types/job.type";
 import ReuseButton from "@/components/ui/Button/ReuseButton";
+import { formatDate } from "@/utils/dateFormet";
 
 export default function JobCard({
   data,
@@ -36,20 +37,24 @@ export default function JobCard({
     salaryRange: { min, max },
     location,
     experience,
-    lengthOfWork,
+    workType,
     workersNeeded,
-    // keyResponsibilities,
-    // requirements,
-    // benefits,
-    // skillsRequired,
-    // expireDate,
     // status,
-    // isDeleted,
+    lastApplyDate,
     jobReferralCode,
     jobType,
+    createdAt,
   } = data;
 
   const detailed = variant === "detailed";
+  const isNewWithin24Hours = (createdAt: string) => {
+    const createdTime = new Date(createdAt).getTime();
+    const now = Date.now();
+
+    const diffInHours = (now - createdTime) / (1000 * 60 * 60);
+
+    return diffInHours <= 24;
+  };
 
   const items: MenuProps["items"] = [
     // {
@@ -103,9 +108,11 @@ export default function JobCard({
           </h3>
 
           {!detailed ? (
-            <span className="rounded-full px-3 py-1 text-xs font-bold text-secondary-color border-secondary-color border">
-              New
-            </span>
+            isNewWithin24Hours(createdAt) ? (
+              <span className="rounded-full px-3 py-1 text-xs font-bold text-secondary-color border-secondary-color border">
+                New
+              </span>
+            ) : null
           ) : (
             <Dropdown
               menu={{ items }}
@@ -126,7 +133,7 @@ export default function JobCard({
             {jobType}
           </span>
           <span className="rounded-full bg-secondary-color px-3 py-1 text-xs lg:text-sm font-bold text-primary-color">
-            {lengthOfWork}
+            {workType}
           </span>
         </div>
         <p className={cn("text-xs sm:text-sm lg:text-base line-clamp-2 mt-3")}>
@@ -157,13 +164,15 @@ export default function JobCard({
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center gap-1 text-xs sm:text-sm lg:text-base font-medium">
               <IoCalendarOutline className="w-5 h-5 text-base-color" />
-              Posted: 1 Dec 2024
+              Posted: {formatDate(createdAt)}
             </div>
-            {!detailed && (
-              <div className="text-xs sm:text-sm lg:text-base font-medium">
-                Ref: {jobReferralCode}
-              </div>
-            )}
+            <div className="flex items-center gap-1 text-xs sm:text-sm lg:text-base font-medium">
+              <IoCalendarOutline className="w-5 h-5 text-base-color" />
+              Last Date: {formatDate(lastApplyDate)}
+            </div>
+          </div>
+          <div className="text-xs sm:text-sm lg:text-base font-medium mt-5 text-base-color/70">
+            Ref: {jobReferralCode}
           </div>
         </div>
       </div>
