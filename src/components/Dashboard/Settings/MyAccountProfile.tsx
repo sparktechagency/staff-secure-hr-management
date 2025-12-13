@@ -4,18 +4,17 @@ import ReusableTabs from "@/components/ui/ReusableTabs";
 import React from "react";
 import EditProfile from "./EditProfile";
 import ChangePassword from "./ChangePassword";
+import { IProfile } from "@/types/profile.type";
 
 const MyAccountProfile = ({
   activeTab,
   myData,
 }: {
   activeTab: "profile" | "changePassword";
-  myData: {
-    name: string;
-    email: string;
-    profileImage: string;
-  };
+  myData: IProfile;
 }) => {
+  console.log(myData);
+
   return (
     <div>
       <div className="mt-10">

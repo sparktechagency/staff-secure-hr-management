@@ -13,6 +13,7 @@ const OTPVerify = () => {
   const [otp, setOtp] = useState("");
 
   const handleOTPSubmit = async () => {
+    if (otp.length < 4) return;
     const res = await tryCatchWrapper(
       forgetPasswordOtp,
       { body: { otp } },
@@ -55,7 +56,7 @@ const OTPVerify = () => {
                       rounded-lg mr-[10px] sm:mr-[20px] !text-[#0c3188]"
                     value={otp}
                     onChange={setOtp}
-                    numInputs={6}
+                    numInputs={4}
                     renderInput={(props) => <input {...props} required />}
                   />
                 </div>
@@ -63,6 +64,7 @@ const OTPVerify = () => {
 
               <Form.Item>
                 <Button
+                  disabled={otp.length < 4}
                   type="primary"
                   className="w-full py-5 border !border-secondary-color text-xl !text-primary-color !bg-secondary-color font-semibold rounded-2xl "
                   onClick={handleOTPSubmit}

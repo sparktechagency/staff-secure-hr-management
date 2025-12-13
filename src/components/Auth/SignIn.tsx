@@ -72,7 +72,7 @@ const SignIn = () => {
   return (
     <div className="text-base-color">
       <Container>
-        <div className=" min-h-screen flex justify-center items-center">
+        <div className=" min-h-screen py-20 flex justify-center items-center">
           <div className="w-full md:w-[80%] lg:w-[60%] xl:w-[40%] mx-auto">
             <Image
               src={AllImages.logo}

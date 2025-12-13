@@ -3,29 +3,23 @@
 import Container from "@/components/ui/Container";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AllImages } from "../../../public/assets/AllImages";
 import { usePathname } from "next/navigation";
-import { Button, Dropdown, MenuProps } from "antd";
+import { Button } from "antd";
 import * as motion from "motion/react-client";
 import { useScroll, useMotionValueEvent } from "motion/react";
 import { TbLogout2 } from "react-icons/tb";
 import { HiOutlineLogin } from "react-icons/hi";
-import { MdOutlineDashboard } from "react-icons/md";
-
-const NavItems = [
-  { id: "1", name: "Our Solutions", route: "/our-solutions" },
-  { id: "2", name: "Who We Help", route: "/who-we-help" },
-  { id: "3", name: "Packages", route: "/packages" },
-  { id: "4", name: "About Us", route: "/about" },
-  { id: "5", name: "Contact Us", route: "/contact" },
-];
+import { ISignInUser } from "@/types";
+import { useGetUserData } from "@/context/useGetUserData";
+import { logout } from "@/services/AuthService";
 
 const Navbar: React.FC = () => {
   const path = usePathname();
-  const userData = {
-    role: "candidate",
-  };
+
+  const userData: ISignInUser | null = useGetUserData();
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -36,6 +30,7 @@ const Navbar: React.FC = () => {
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious();
     if (
+      path === "/" &&
       previous !== undefined &&
       latest > previous &&
       latest > 150 &&
@@ -60,39 +55,69 @@ const Navbar: React.FC = () => {
     }
   }, [mobileMenuOpen]);
 
-  const items: MenuProps["items"] = [
-    // {
-    //   key: "1",
-    //   label:
-    //     userData?.role === "candidate" ? (
-    //       <Link href="/dashboard/candidate/overview">Candidate Dashboard</Link>
-    //     ) : userData?.role === "employer" ? (
-    //       <Link href="/dashboard/employer/overview">Employer Dashboard</Link>
-    //     ) : (
-    //       <></>
-    //     ),
-    //   icon: <MdOutlineDashboard className="text-secondary-color !text-base" />,
-    // },
-    {
-      key: "1",
-      label: (
-        <Link href="/dashboard/candidate/job-board">Candidate Dashboard</Link>
-      ),
-      icon: <MdOutlineDashboard className="text-secondary-color !text-base" />,
-    },
-    {
-      key: "3",
-      label: (
-        <Link href="/dashboard/employer/overview">Employer Dashboard</Link>
-      ),
-      icon: <MdOutlineDashboard className="text-secondary-color !text-base" />,
-    },
-    {
-      key: "2",
-      label: <div>Log Out</div>,
-      icon: <TbLogout2 className="text-secondary-color !text-base" />,
-    },
-  ];
+  const handleLogOut = () => {
+    logout();
+  };
+
+  const NavItems = useMemo(() => {
+    const baseItems = [
+      {
+        id: "1",
+        name: "Our Solutions",
+        route: "/our-solutions",
+        key: "our-solutions",
+      },
+      {
+        id: "2",
+        name: "Who We Help",
+        route: "/who-we-help",
+        key: "who-we-help",
+      },
+      { id: "3", name: "Packages", route: "/packages", key: "packages" },
+      { id: "4", name: "About Us", route: "/about", key: "about" },
+      { id: "5", name: "Contact Us", route: "/contact", key: "contact" },
+    ];
+
+    if (userData?.role === "candidate") {
+      baseItems.push({
+        id: "6",
+        name: "Dashboard",
+        route: "/dashboard/candidate/job-board",
+        key: "dashboard",
+      });
+    }
+
+    if (userData?.role === "employer") {
+      baseItems.push({
+        id: "6",
+        name: "Dashboard",
+        route: "/dashboard/employer/overview",
+        key: "dashboard",
+      });
+    }
+
+    return baseItems;
+  }, [userData?.role]);
+
+  // const items: MenuProps["items"] = [
+  //   {
+  //     key: "1",
+  //     label:
+  //       userData?.role === "candidate" ? (
+  //         <Link href="/dashboard/candidate/job-board">Candidate Dashboard</Link>
+  //       ) : userData?.role === "employer" ? (
+  //         <Link href="/dashboard/employer/overview">Employer Dashboard</Link>
+  //       ) : (
+  //         <></>
+  //       ),
+  //     icon: <MdOutlineDashboard className="text-secondary-color !text-base" />,
+  //   },
+  //   {
+  //     key: "2",
+  //     label: <div onClick={handleLogOut}>Log Out</div>,
+  //     icon: <TbLogout2 className="text-secondary-color !text-base" />,
+  //   },
+  // ];
   return (
     <motion.div
       variants={{
@@ -103,7 +128,11 @@ const Navbar: React.FC = () => {
       transition={{ duration: 0.3, ease: "easeInOut" }}
       className={`z-[99999999]  ${
         path === "/" && !scrolled ? "!text-primary-color" : " !text-base-color"
-      } ${scrolled ? " !shadow-md duration-300  py-2" : " duration-300 py-2"} ${
+      } ${
+        scrolled && path === "/"
+          ? " !shadow-md duration-300  py-2"
+          : " duration-300 py-2"
+      } ${
         mobileMenuOpen || scrolled || path === "/dashboard"
           ? "bg-primary-color"
           : "bg-transparent"
@@ -148,7 +177,7 @@ const Navbar: React.FC = () => {
                     key={i}
                     className={`lg:mb-0 mb-5 cursor-pointer group relative hover:text-secondary-color transition-all font-bold duration-300 
                       ${
-                        path === navItem.route
+                        path?.includes(navItem.key)
                           ? "!text-secondary-color border-b-2 border-secondary-color"
                           : "border-b-2 border-transparent"
                       }
@@ -180,7 +209,7 @@ const Navbar: React.FC = () => {
                     key={i}
                     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                     className={`lg:mb-0 mb-0 cursor-pointer  group relative  transition-all duration-300 ${
-                      path === navItem.route
+                      path?.includes(navItem.key)
                         ? "!text-secondary-color border-b-2 border-secondary-color"
                         : "text-[#707070] border-b-2 border-transparent"
                     }`}
@@ -194,7 +223,10 @@ const Navbar: React.FC = () => {
                   </li>
                 ))}
                 {userData ? (
-                  <Button className="group flex items-center !py-4 !px-1 gap-1 border-2 !border-secondary-color !bg-secondary-color !text-primary-color rounded-full">
+                  <Button
+                    onClick={handleLogOut}
+                    className="group flex items-center !py-4 !px-1 gap-1 border-2 !border-secondary-color !bg-secondary-color !text-primary-color rounded-full"
+                  >
                     <p className="font-semibold">Logout</p>
                     <div className="bg-primary-color p-1 rounded-full">
                       <TbLogout2 className=" text-lg text-secondary-color" />
@@ -224,24 +256,15 @@ const Navbar: React.FC = () => {
           <div className="lg:flex items-center gap-2 hidden">
             {userData ? (
               <div className="flex items-center gap-5">
-                <Dropdown
-                  menu={{ items }}
-                  trigger={["hover"]}
-                  // onOpenChange={(open: boolean) => {
-                  //   setOpen(open);
-                  // }}
-                  placement="bottomRight"
-                  className="cursor-pointer"
+                <Button
+                  onClick={handleLogOut}
+                  className="group flex items-center !py-4 !px-2 gap-1 border-2 !border-secondary-color !bg-secondary-color !text-primary-color rounded-full"
                 >
-                  <Image
-                    src={AllImages.dummyProfile}
-                    alt="profile_img"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className="xl:h-[35px] h-[30px] w-[30px] xl:w-[35px] rounded-full cursor-pointer border-2 border-[#2B4257]"
-                  />
-                </Dropdown>
+                  <p className="font-semibold">Sign Out</p>
+                  <div className="bg-primary-color p-0.5 rounded-full">
+                    <TbLogout2 className=" text-xl text-secondary-color" />
+                  </div>
+                </Button>
               </div>
             ) : (
               <div className="w-full flex items-center gap-1">

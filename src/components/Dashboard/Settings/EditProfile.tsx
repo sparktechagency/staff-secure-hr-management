@@ -8,6 +8,10 @@ import { AllImages } from "../../../../public/assets/AllImages";
 import ReusableForm from "@/components/ui/Form/ReuseForm";
 import ReuseInput from "@/components/ui/Form/ReuseInput";
 import ReuseButton from "@/components/ui/Button/ReuseButton";
+import { updateProfile } from "@/services/ProfileService/ProfileServiceApi";
+import tryCatchWrapper from "@/utils/tryCatchWrapper";
+import { IProfile } from "@/types/profile.type";
+import { getServerUrl } from "@/helpers/envConfig";
 
 const inputStructure = [
   {
@@ -29,23 +33,26 @@ const inputStructure = [
     placeholder: "Enter Email Name",
     labelClassName: "!font-semibold !text-secondary-color",
     inputClassName: "!py-2 !w-full",
-    disable: false,
+    disable: true,
     prefix: <IoMdMail className="mr-1 !text-secondary-color" />,
     rules: [{ required: true, message: "Email is required" }],
   },
+  {
+    name: "phone",
+    type: "number",
+    inputType: "normal",
+    label: "Telephone Number",
+    placeholder: "Enter Telephone Number",
+    labelClassName: "!font-semibold",
+    prefix: <IoMdMail className="mr-1 !text-secondary-color" />,
+    disable: false,
+    rules: [{ required: true, message: "Telephone Number is required" }],
+  },
 ];
 
-const EditProfile = ({
-  myData,
-}: {
-  myData: {
-    name: string;
-    email: string;
-    profileImage: string;
-  };
-}) => {
+const EditProfile = ({ myData }: { myData: IProfile }) => {
   const [form] = Form.useForm();
-
+  const serverUrl = getServerUrl();
   const [imageUrl, setImageUrl] = useState<string>(AllImages.dummyProfile?.src);
 
   const handleImageUpload = (info: any) => {
@@ -64,44 +71,44 @@ const EditProfile = ({
     form.setFieldsValue({
       email: myData?.email,
       name: myData?.name,
+      phone: myData?.phone,
     });
 
     if (myData?.profileImage?.length > 0) {
-      setImageUrl(myData?.profileImage);
+      setImageUrl(serverUrl + myData?.profileImage);
     } else {
       setImageUrl(AllImages.dummyProfile.src);
     }
-  }, [form, myData]);
+  }, [form, myData, serverUrl]);
 
   const onFinish = async (values: any) => {
     console.log(values);
-    // const formData = new FormData();
+    const formData = new FormData();
 
-    // formData.append("data", JSON.stringify(values));
+    formData.append(
+      "data",
+      JSON.stringify({
+        name: values?.name,
+        phone: values?.phone,
+      })
+    );
 
-    // if (values?.image?.file?.originFileObj) {
-    //   formData.append("image", values?.image?.file?.originFileObj);
-    // }
+    if (values?.image?.file?.originFileObj) {
+      formData.append("image", values?.image?.file?.originFileObj);
+    }
 
-    // const res = await tryCatchWrapper(
-    //   updateProfile,
-    //   { body: formData },
-    //   "Updating profile...",
-    //   "Profile updated successfully!",
-    //   "Something went wrong! Please try again."
-    // );
+    const res = await tryCatchWrapper(
+      updateProfile,
+      { body: formData },
+      "Updating profile...",
+      "Profile updated successfully!",
+      "Something went wrong! Please try again."
+    );
 
-    // if (res?.success) {
-    //   form.resetFields();
-    // }
+    if (res?.success) {
+      form.resetFields();
+    }
   };
-
-  // if (isFetching)
-  //   return (
-  //     <div className="w-full h-[70vh] flex justify-center items-center">
-  //       <FadeLoader color="#ed9388" />
-  //     </div>
-  //   );
 
   return (
     <div className=" mt-10  rounded-xl">
@@ -117,7 +124,7 @@ const EditProfile = ({
                 width={1000}
                 height={1000}
                 className="h-40 w-40 relative rounded-full border border-secondary-color object-contain "
-                src={imageUrl.startsWith("/uploads") ? imageUrl : imageUrl} // Check if imageUrl starts with 'http', use default if not
+                src={imageUrl}
                 alt=""
               />
               <Form.Item name="image">

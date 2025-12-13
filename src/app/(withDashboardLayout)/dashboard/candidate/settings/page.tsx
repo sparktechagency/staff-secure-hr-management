@@ -1,4 +1,7 @@
 import MyAccountProfile from "@/components/Dashboard/Settings/MyAccountProfile";
+import TagTypes from "@/helpers/TagTypes";
+import { fetchWithAuth } from "@/lib/fetchWraper";
+import { IProfile } from "@/types/profile.type";
 
 const page = async ({
   searchParams,
@@ -7,11 +10,16 @@ const page = async ({
 }) => {
   const params = await searchParams;
   const tab = (params?.tab as "profile" | "changePassword") || "profile";
-  const myData = {
-    name: "John Doe",
-    email: "jU9Hg@example.com",
-    profileImage: "",
-  };
+
+  const res = await fetchWithAuth("/users/my-profile", {
+    next: {
+      tags: [TagTypes.profile],
+    },
+  });
+
+  const data = await res.json();
+  const myData: IProfile = data?.data;
+
   return <MyAccountProfile activeTab={tab} myData={myData} />;
 };
 

@@ -35,7 +35,7 @@ const JoinSecureStaff = () => {
           alt="logo"
         />
         <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-secondary-color mt-7 mb-2">
-          Join Staff Secure LTF{" "}
+          Join Staff Secure LTD{" "}
         </h2>
         <p className="text-base sm:text-lg lg:text-xl text-base-color">
           Choose how you want to use our platform

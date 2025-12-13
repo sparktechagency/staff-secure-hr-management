@@ -108,20 +108,6 @@ export const useCandidatePaths = () => {
         />
       ),
     },
-    {
-      key: "logout",
-      label: (
-        <div
-          onClick={() => {
-            console.log("first");
-            handleToggleCollapse();
-          }}
-        >
-          Log Out
-        </div>
-      ),
-      icon: <Image src={overview} alt="icon" width={20} className="mr-2" />,
-    },
   ];
 };
 export const useEmployerPaths = () => {
@@ -248,20 +234,6 @@ export const useEmployerPaths = () => {
           }}
         />
       ),
-    },
-    {
-      key: "logout",
-      label: (
-        <div
-          onClick={() => {
-            console.log("first");
-            handleToggleCollapse();
-          }}
-        >
-          Log Out
-        </div>
-      ),
-      icon: <Image src={overview} alt="icon" width={20} className="mr-2" />,
     },
   ];
 };

@@ -10,12 +10,16 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import ReuseInput from "../ui/Form/ReuseInput";
 import ReuseButton from "../ui/Button/ReuseButton";
 import { LuBriefcaseBusiness, LuUser } from "react-icons/lu";
+import tryCatchWrapper from "@/utils/tryCatchWrapper";
+import { registerUser } from "@/services/AuthService";
 
 interface SignUpValues {
   name: string;
+  companyName?: string;
+  email: string;
+  phone: string;
   password: string;
   confirmPassword: string;
-  email: string;
 }
 
 const inputStructure = [
@@ -96,14 +100,42 @@ const inputStructure = [
 ];
 
 const SignUp = () => {
+  const [form] = Form.useForm();
   const router = useRouter();
   const path = usePathname();
 
-  const currentPath = path?.split("/")?.[2];
+  const currentPath: string = path?.split("/")?.[2];
   console.log(currentPath);
-  const onFinish = (values: SignUpValues) => {
-    console.log("Received values of login form:", values);
-    router.push(`/join/${currentPath}/otp-verify`);
+  const onFinish = async (values: SignUpValues) => {
+    const dataForEmployer = {
+      name: values?.name,
+      companyName: values?.companyName,
+      role: currentPath,
+      email: values?.email,
+      phone: values?.phone,
+      password: values?.confirmPassword,
+    };
+
+    const dataForCandidate = {
+      name: values?.name,
+      email: values?.email,
+      role: currentPath,
+      phone: values?.phone,
+      password: values?.confirmPassword,
+    };
+
+    const res = await tryCatchWrapper(
+      registerUser,
+      {
+        body: currentPath === "candidate" ? dataForCandidate : dataForEmployer,
+      },
+      "Creating account...",
+      "OTP sent To your email!"
+    );
+    if (res?.success) {
+      form.resetFields();
+      router.push(`/join/${currentPath}/otp-verify`);
+    }
   };
   return (
     <div className="text-base-color flex items-center justify-center">
@@ -134,6 +166,7 @@ const SignUp = () => {
             {/* -------- Form Start ------------ */}
 
             <Form
+              form={form}
               layout="vertical"
               className="bg-transparent w-full"
               onFinish={onFinish}

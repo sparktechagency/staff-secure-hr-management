@@ -21,7 +21,7 @@ const CreateUserOTPVerify = () => {
       "Verified successfully!"
     );
     if (res?.success) {
-      router.push("/update-password");
+      router.push("/sign-in");
     }
   };
 

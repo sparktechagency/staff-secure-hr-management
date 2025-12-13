@@ -2,7 +2,10 @@
 import ReuseButton from "@/components/ui/Button/ReuseButton";
 import ReusableForm from "@/components/ui/Form/ReuseForm";
 import ReuseInput from "@/components/ui/Form/ReuseInput";
+import { changeUserPassword } from "@/services/AuthService";
+import tryCatchWrapper from "@/utils/tryCatchWrapper";
 import { Form, FormInstance } from "antd";
+import { useRouter } from "next/navigation";
 
 const inputStructure = [
   {
@@ -55,6 +58,7 @@ const inputStructure = [
 ];
 
 const ChangePassword = () => {
+  const router = useRouter();
   const [form] = Form.useForm();
 
   const onFinish = async (values: any) => {
@@ -63,21 +67,19 @@ const ChangePassword = () => {
       newPassword: values.confirmNewPassword,
     };
 
-    console.log(data);
+    const res = await tryCatchWrapper(
+      changeUserPassword,
+      {
+        body: data,
+      },
+      "Changing Password...",
+      "Password Changed Successfully!",
+      "Something went wrong! Please try again."
+    );
 
-    // const res = await tryCatchWrapper(
-    //   changeUserPassword,
-    //   {
-    //     body: data,
-    //   },
-    //   "Changing Password...",
-    //   "Password Changed Successfully!",
-    //   "Something went wrong! Please try again."
-    // );
-
-    // if (res?.success) {
-    //   router?.push("/sign-in");
-    // }
+    if (res?.success) {
+      router?.push("/sign-in");
+    }
   };
   return (
     <div className="lg:w-[70%] mt-20">

@@ -13,26 +13,17 @@ import {
   useEmployerPaths,
 } from "@/utils/dashboardMenuItems";
 import { useSidebar } from "@/context/SidebarContext";
+import { useGetUserData } from "@/context/useGetUserData";
 // import { ISignInUser } from "@/types";
 // import { decodedToken } from "@/utils/jwt";
 // import Cookies from "js-cookie";
 
 const SideBar = () => {
-  const path = usePathname();
-
-  const { isCollapsed } = useSidebar(); // Access the collapse state from context
-
-  // const token = Cookies.get("frafolMainAccessToken");
-  // const userData: ISignInUser | null = decodedToken(token || "");
-  // const isCollapsed = useAppSelector(selectIsCollapsed);
+  const { isCollapsed } = useSidebar();
 
   const pathname = usePathname();
 
-  const currentPath = path?.split("/")?.[2];
-
-  const userData = {
-    role: currentPath,
-  };
+  const userData = useGetUserData();
   const defaultUrl =
     userData?.role === "candidate" ? "/candidate" : "/employer";
 
@@ -43,7 +34,11 @@ const SideBar = () => {
 
   const activeKeys = getActiveKeys(normalizedPath);
   const menuItems =
-    userData?.role === "candidate" ? candidatePath : employerPath;
+    userData?.role === "candidate"
+      ? candidatePath
+      : userData?.role === "employer"
+      ? employerPath
+      : [];
 
   return (
     <Sider
@@ -53,7 +48,7 @@ const SideBar = () => {
       breakpoint="lg"
       collapsedWidth="0"
       collapsible
-      collapsed={isCollapsed}
+      collapsed={isCollapsed ? true : false}
       style={{
         position: "sticky",
         top: 0,
