@@ -20,6 +20,7 @@ interface ReuseDatePickerProps {
   placeholder?: string;
   labelClassName?: string;
   wrapperClassName?: string;
+  prevDatesDisabled?: boolean;
 }
 
 const ReuseDatePicker = ({
@@ -35,6 +36,7 @@ const ReuseDatePicker = ({
   placeholder = "Select date",
   labelClassName,
   wrapperClassName,
+  prevDatesDisabled = true,
 }: ReuseDatePickerProps) => {
   const disabledDate = (current: any) => {
     // Disable all dates before today (including past months and years)
@@ -68,7 +70,7 @@ const ReuseDatePicker = ({
           style={style}
           format={format}
           placeholder={placeholder}
-          disabledDate={disabledDate} // Disable previous dates, months, and years
+          disabledDate={prevDatesDisabled ? disabledDate : undefined} // Disable previous dates, months, and years
         />
       </Form.Item>
     </div>

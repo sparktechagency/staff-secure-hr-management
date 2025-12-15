@@ -24,3 +24,23 @@ export const updateProfile = async (
     return Error(error);
   }
 };
+
+export const updateCandidateProfile = async (
+  req = {
+    body: FormData,
+    params: {},
+  }
+) => {
+  try {
+    const res = await fetchWithAuth(`/users/update-candidate-profile`, {
+      method: "PATCH",
+      body: req.body as any,
+    });
+    const result = await res.json();
+    revalidateTag(TagTypes.profile);
+
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};

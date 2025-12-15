@@ -13,6 +13,10 @@ const pricingPlans: PricingPlan[] = [
     icon: AllImages?.bronze,
     features: [
       { text: "3 pre-screened CVs per period", included: true },
+      {
+        text: "Guaranteed full vetting and interviewing for every CV sent",
+        included: true,
+      },
       { text: "Email support", included: true },
       { text: "Access to employer dashboard", included: true },
       { text: "Basic candidate filtering", included: true },
@@ -21,6 +25,7 @@ const pricingPlans: PricingPlan[] = [
       { text: "AI Pay Rate Assistant", included: true },
       { text: "Priority support", included: false },
       { text: "Dedicated HR account manager", included: false },
+      { text: "Discounted payroll services", included: false },
     ],
   },
   {
@@ -33,6 +38,11 @@ const pricingPlans: PricingPlan[] = [
     popular: true,
     features: [
       { text: "10 pre-screened CVs per period", included: true },
+      {
+        text: "Guaranteed full vetting and interviewing for every CV sent",
+        included: true,
+      },
+
       { text: "Priority email & chat support", included: true },
       { text: "Access to employer dashboard", included: true },
       { text: "Advanced candidate filtering", included: true },
@@ -41,6 +51,7 @@ const pricingPlans: PricingPlan[] = [
       { text: "Extended placement tracking", included: true },
       { text: "Free display on Staff Secure Ltd job board", included: true },
       { text: "AI Pay Rate Assistant", included: true },
+      { text: "Discounted payroll services", included: true },
     ],
   },
   {
@@ -51,6 +62,11 @@ const pricingPlans: PricingPlan[] = [
     icon: AllImages?.diamond,
     features: [
       { text: "Unlimited pre-screened CVs", included: true },
+      {
+        text: "Guaranteed full vetting and interviewing for every CV sent",
+        included: true,
+      },
+
       { text: "24/7 priority support", included: true },
       { text: "Access to employer dashboard", included: true },
       { text: "Advanced candidate filtering", included: true },
@@ -59,6 +75,7 @@ const pricingPlans: PricingPlan[] = [
       { text: "Extended placement tracking", included: true },
       { text: "Free display on Staff Secure Ltd job board", included: true },
       { text: "AI Pay Rate Assistant", included: true },
+      { text: "Discounted payroll services", included: true },
     ],
   },
 ];

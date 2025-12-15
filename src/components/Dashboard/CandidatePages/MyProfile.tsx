@@ -8,13 +8,92 @@ import ReuseInput from "@/components/ui/Form/ReuseInput";
 import ReuseButton from "@/components/ui/Button/ReuseButton";
 import ReuseUpload from "@/components/ui/Form/ReuseUpload";
 import ReuseDatePicker from "@/components/ui/Form/ReuseDatePicker";
+import tryCatchWrapper from "@/utils/tryCatchWrapper";
+import { updateCandidateProfile } from "@/services/ProfileService/ProfileServiceApi";
+import ReuseSelect from "@/components/ui/Form/ReuseSelect";
+import { ICandidateProfile } from "@/types/profile.type";
+import { useEffect, useState } from "react";
+import dayjs from "dayjs";
+import ViewCVModal from "@/components/shared/Modal/ViewCVmodal";
+import Cookies from "js-cookie";
 
-const MyProfile = () => {
+const MyProfile = ({ myProfileData }: { myProfileData: ICandidateProfile }) => {
+  const [isViewCVModalVisible, setIsViewCVModalVisible] = useState(false);
+  const [currentRecord, setCurrentRecord] = useState(null);
+
+  const openViewCVModal = (record: any) => {
+    setCurrentRecord(record);
+    setIsViewCVModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsViewCVModalVisible(false);
+    setCurrentRecord(null);
+  };
+
   const [form] = Form.useForm();
 
-  const onFinish = (values: any) => {
-    console.log("Final Submitted Data:", values);
-    // Send to API here
+  useEffect(() => {
+    if (myProfileData) {
+      form.setFieldsValue({
+        name: myProfileData?.candidateProfileId?.name
+          ? myProfileData?.candidateProfileId?.name
+          : myProfileData?.name,
+        email: myProfileData?.candidateProfileId?.email
+          ? myProfileData?.candidateProfileId?.email
+          : myProfileData?.email,
+        location: myProfileData?.candidateProfileId?.location,
+        role: myProfileData?.candidateProfileId?.designation,
+        dateOfBirth: myProfileData?.candidateProfileId?.dateOfBirth
+          ? dayjs(myProfileData?.candidateProfileId?.dateOfBirth)
+          : null,
+        yearsOfExperience: myProfileData?.candidateProfileId?.yearsOfExperience,
+        qualifications: myProfileData?.candidateProfileId?.qualifications,
+        skills: myProfileData?.candidateProfileId?.skills,
+        availability: myProfileData?.candidateProfileId?.availability,
+        bio: myProfileData?.candidateProfileId?.bio,
+      });
+    }
+  }, [form, myProfileData]);
+
+  const onFinish = async (values: any) => {
+    console.log("Raw values:", values);
+
+    const formData = new FormData();
+
+    const payload = {
+      name: values.name,
+      location: values.location,
+      designation: values.role,
+      dateOfBirth: values.dateOfBirth
+        ? values.dateOfBirth.format("YYYY-MM-DD")
+        : null,
+      yearsOfExperience: Number(values.yearsOfExperience),
+      qualifications: values.qualifications || [],
+      skills: values.skills || [],
+      availability: values.availability,
+      bio: values.bio,
+    };
+
+    formData.append("data", JSON.stringify(payload));
+
+    if (values?.cv?.[0]?.originFileObj) {
+      formData.append("image", values.cv[0].originFileObj);
+    }
+    console.log({ payload, image: values?.cv?.[0]?.originFileObj });
+
+    const res = await tryCatchWrapper(
+      updateCandidateProfile,
+      { body: formData },
+      "Updating profile...",
+      "Profile updated successfully!",
+      "Something went wrong! Please try again."
+    );
+    console.log(res);
+    if (res?.success) {
+      form.resetFields();
+      Cookies.set("secureStaffMainAccessToken", res?.data?.accessToken);
+    }
   };
 
   return (
@@ -52,6 +131,7 @@ const MyProfile = () => {
           <ReuseInput
             name="location"
             label="Location"
+            rules={[{ required: true, message: "Location is required" }]}
             placeholder="Enter location"
             Typolevel={5}
             labelClassName="!font-medium !text-secondary-color text-sm"
@@ -60,7 +140,9 @@ const MyProfile = () => {
 
           {/* Date of Birth */}
           <ReuseDatePicker
+            prevDatesDisabled={false}
             name="dateOfBirth"
+            rules={[{ required: true, message: "Date of birth is required" }]}
             label="Date of Birth"
             placeholder="Select date of birth"
             labelClassName="!font-medium !text-secondary-color text-sm"
@@ -70,6 +152,7 @@ const MyProfile = () => {
           <ReuseInput
             name="role"
             label="Role"
+            rules={[{ required: true, message: "Role is required" }]}
             placeholder="Enter your role"
             Typolevel={5}
             labelClassName="!font-medium !text-secondary-color text-sm"
@@ -80,12 +163,29 @@ const MyProfile = () => {
           <ReuseInput
             name="yearsOfExperience"
             label="Years of Experience"
+            rules={[
+              { required: true, message: "Years of experience is required" },
+            ]}
             placeholder="e.g., 5"
             type="number"
             Typolevel={5}
             labelClassName="!font-medium !text-secondary-color text-sm"
             inputClassName="!py-3"
           />
+          <ReuseSelect
+            name="availability"
+            label="Availability"
+            rules={[{ required: true, message: "Availability is required" }]}
+            placeholder="Select availability"
+            labelClassName="!font-medium !text-secondary-color text-sm"
+            options={[
+              { label: "Immediate", value: "Immediate" },
+              { label: "One Week", value: "One Week" },
+              { label: "One Month", value: "One Month" },
+            ]}
+          />
+
+          <div></div>
 
           {/* ========= DYNAMIC SKILLS (Using Raw Input) ========= */}
           <Form.Item
@@ -196,6 +296,7 @@ const MyProfile = () => {
         <ReuseInput
           inputType="textarea"
           name="bio"
+          rules={[{ required: true, message: "Bio is required" }]}
           label="Bio"
           placeholder="Enter your bio"
           Typolevel={5}
@@ -205,12 +306,39 @@ const MyProfile = () => {
 
         {/* ===================== CV UPLOAD (PDF Only) ===================== */}
         <div className="mt-10">
+          {myProfileData?.candidateProfileId?.cv && (
+            <div className="mb-5">
+              <h2 className="text-lg font-semibold text-secondary-color">
+                Your CV
+              </h2>
+              <ReuseButton
+                variant="secondary"
+                className="mt-3 !w-fit"
+                onClick={() =>
+                  openViewCVModal(myProfileData?.candidateProfileId)
+                }
+              >
+                View CV
+              </ReuseButton>
+            </div>
+          )}
+
           <ReuseUpload
             Typolevel={5}
-            label="Your CV"
+            label={
+              myProfileData?.candidateProfileId?.cv
+                ? "Or Replace CV"
+                : "Upload CV"
+            }
             name="cv"
             accept=".pdf"
             maxCount={1}
+            rules={[
+              {
+                required: !myProfileData?.candidateProfileId?.cv,
+                message: "CV is required",
+              },
+            ]}
           />
         </div>
 
@@ -225,6 +353,12 @@ const MyProfile = () => {
           </ReuseButton>
         </div>
       </ReusableForm>
+
+      <ViewCVModal
+        isViewCVModalVisible={isViewCVModalVisible}
+        handleCancel={handleCancel}
+        currentRecord={currentRecord}
+      />
     </div>
   );
 };

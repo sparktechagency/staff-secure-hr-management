@@ -3,14 +3,53 @@ interface IProfile {
   name: string;
   email: string;
   profileImage: string;
-  role: "candidate" | "admin" | "recruiter"; // extend if needed
+  role: "candidate" | "admin" | "recruiter";
   companyName: string;
   phone: string;
   status: "active" | "inactive" | "blocked";
   isDeleted: boolean;
-  createdAt: string; // ISO date string
-  updatedAt: string; // ISO date string
+  createdAt: string;
+  updatedAt: string;
   __v: number;
 }
 
-export type { IProfile };
+interface ICandidateProfile {
+  _id: string;
+  name: string;
+  email: string;
+  profileImage: string;
+  role: "candidate" | "admin" | "recruiter";
+  companyName: string;
+  phone: string;
+  status: "active" | "inactive" | "blocked";
+  isDeleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  candidateProfileId: {
+    _id: string;
+    userId: string;
+
+    name: string;
+    email: string;
+    location: string;
+    designation: string;
+    availability: string;
+
+    dateOfBirth: string | null;
+    yearsOfExperience: number;
+
+    qualifications: string[];
+    skills: string[];
+    bio: string;
+
+    cv: string;
+
+    createdAt: string;
+    updatedAt: string;
+
+    __v: number;
+  };
+}
+
+export type { IProfile, ICandidateProfile };
