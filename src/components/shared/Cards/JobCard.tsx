@@ -17,6 +17,7 @@ import { IoCalendarOutline } from "react-icons/io5";
 import { IJob } from "@/types/job.type";
 import ReuseButton from "@/components/ui/Button/ReuseButton";
 import { formatDate } from "@/utils/dateFormet";
+import { useGetUserData } from "@/context/useGetUserData";
 
 export default function JobCard({
   data,
@@ -31,6 +32,7 @@ export default function JobCard({
   openEditModal?: any;
   openDeleteModal?: any;
 }) {
+  const userData = useGetUserData();
   const {
     title,
     description,
@@ -176,17 +178,26 @@ export default function JobCard({
           </div>
         </div>
       </div>
-      {!detailed && (
-        <ReuseButton
-          onClick={() => {
-            viewApplyJob(data);
-          }}
-          variant="secondary"
-          className="w-full !rounded-lg"
-        >
-          Apply
-        </ReuseButton>
-      )}
+      {!detailed &&
+        (userData?.candidateProfileId ? (
+          <ReuseButton
+            onClick={() => {
+              viewApplyJob(data);
+            }}
+            variant="secondary"
+            className="w-full !rounded-lg"
+          >
+            Apply
+          </ReuseButton>
+        ) : (
+          <ReuseButton
+            url="/dashboard/candidate/my-profile"
+            variant="outline"
+            className="w-full !rounded-lg"
+          >
+            Complete Your Profile
+          </ReuseButton>
+        ))}
     </div>
   );
 }

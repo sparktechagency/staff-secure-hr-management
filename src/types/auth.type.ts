@@ -4,7 +4,7 @@ interface ISignInUser {
   sureName: string;
   companyName: string;
   email: string;
-  CandidateProfileId: string;
+  candidateProfileId: string;
   role: string;
   iat: number; // issued at (UNIX timestamp)
   exp: number; // expiration time (UNIX timestamp)

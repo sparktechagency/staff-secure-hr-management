@@ -13,6 +13,7 @@ const ViewCVModal: React.FC<ViewCVModalProps> = ({
   handleCancel,
   currentRecord,
 }) => {
+  console.log(currentRecord);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
   useEffect(() => {

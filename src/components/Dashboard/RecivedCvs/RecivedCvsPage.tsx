@@ -1,106 +1,41 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import ViewCVModal from "@/components/shared/Modal/ViewCVmodal";
 import ViewRecivedModal from "@/components/shared/Modal/ViewRecivedModal";
 import ReceivedCVTable from "@/components/shared/Table/ReceivedCVTable";
 import SearchInput from "@/components/ui/Form/ReuseSearchInput";
+import { IApplication } from "@/types";
 import { useState } from "react";
 
-const mockData = [
-  {
-    _id: "1",
-    candidateName: "Alex Mason",
-    email: "amason@gmail.com",
-    jobTitle: "Electrical Engineer",
-    experience: "2 Year",
-    appliedDate: "12/12/2024",
-    cvUrl: "https://example.com/cv/alex-mason.pdf",
-    status: "Pending",
-  },
-  {
-    _id: "2",
-    candidateName: "Alex Mason",
-    email: "amason@gmail.com",
-    jobTitle: "Electrical Engineer",
-    experience: "2 Year",
-    appliedDate: "12/12/2024",
-    cvUrl: "https://example.com/cv/alex-mason-2.pdf",
-    status: "Selected",
-  },
-  {
-    _id: "3",
-    candidateName: "Alex Mason",
-    email: "amason@gmail.com",
-    jobTitle: "Electrical Engineer",
-    experience: "2 Year",
-    appliedDate: "12/12/2024",
-    cvUrl: "https://example.com/cv/alex-mason-3.pdf",
-    status: "Rejected",
-  },
-  {
-    _id: "4",
-    candidateName: "Alex Mason",
-    email: "amason@gmail.com",
-    jobTitle: "Electrical Engineer",
-    experience: "2 Year",
-    appliedDate: "12/12/2024",
-    cvUrl: "https://example.com/cv/alex-mason-4.pdf",
-    status: "Pending",
-  },
-  {
-    _id: "5",
-    candidateName: "Alex Mason",
-    email: "amason@gmail.com",
-    jobTitle: "Electrical Engineer",
-    experience: "2 Year",
-    appliedDate: "12/12/2024",
-    cvUrl: "https://example.com/cv/alex-mason-5.pdf",
-    status: "Pending",
-  },
-  {
-    _id: "6",
-    candidateName: "Alex Mason",
-    email: "amason@gmail.com",
-    jobTitle: "Electrical Engineer",
-    experience: "2 Year",
-    appliedDate: "12/12/2024",
-    cvUrl: "https://example.com/cv/alex-mason-6.pdf",
-    status: "Pending",
-  },
-  {
-    _id: "7",
-    candidateName: "Alex Mason",
-    email: "amason@gmail.com",
-    jobTitle: "Electrical Engineer",
-    experience: "2 Year",
-    appliedDate: "12/12/2024",
-    cvUrl: "https://example.com/cv/alex-mason-7.pdf",
-    status: "Selected",
-  },
-  {
-    _id: "8",
-    candidateName: "Alex Mason",
-    email: "amason@gmail.com",
-    jobTitle: "Electrical Engineer",
-    experience: "2 Year",
-    appliedDate: "12/12/2024",
-    cvUrl: "https://example.com/cv/alex-mason-8.pdf",
-    status: "Pending",
-  },
-];
-
-const RecivedCvsPage = ({ page, limit }: { page: number; limit: number }) => {
+const RecivedCvsPage = ({
+  page,
+  limit,
+  totalData,
+  allCV,
+}: {
+  page: number;
+  limit: number;
+  totalData: number;
+  allCV: IApplication[];
+}) => {
   const [isViewModalVisible, setIsViewModalVisible] = useState(false);
+  const [isViewCVModalVisible, setIsViewCVModalVisible] = useState(false);
   const [currentRecord, setCurrentRecord] = useState<any | null>(null);
 
   const handleCancel = () => {
     setIsViewModalVisible(false);
     setCurrentRecord(null);
+    setIsViewCVModalVisible(false);
   };
 
-  const showViewUserModal = (record: any) => {
+  const showViewUserModal = (record: IApplication) => {
     setCurrentRecord(record);
     setIsViewModalVisible(true);
+  };
+
+  const showViewCVModal = (record: any) => {
+    setCurrentRecord(record);
+    setIsViewCVModalVisible(true);
   };
 
   return (
@@ -116,15 +51,21 @@ const RecivedCvsPage = ({ page, limit }: { page: number; limit: number }) => {
         </div>
 
         <ReceivedCVTable
-          data={mockData}
+          data={allCV}
           loading={false}
           showViewModal={showViewUserModal}
+          openViewCVModal={showViewCVModal}
           page={page}
-          total={mockData?.length}
+          total={totalData}
           limit={limit}
         />
         <ViewRecivedModal
           isModalVisible={isViewModalVisible}
+          handleCancel={handleCancel}
+          currentRecord={currentRecord}
+        />
+        <ViewCVModal
+          isViewCVModalVisible={isViewCVModalVisible}
           handleCancel={handleCancel}
           currentRecord={currentRecord}
         />

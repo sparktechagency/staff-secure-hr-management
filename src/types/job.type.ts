@@ -41,3 +41,44 @@ export interface IJob {
   updatedAt: string;
   __v: number;
 }
+
+export interface IApplication {
+  _id: string;
+
+  candidateId: {
+    _id: string;
+    name: string;
+    email: string;
+    bio: string;
+    yearsOfExperience: number;
+    cv: string;
+  };
+
+  jobId: {
+    jobReferralCode: string;
+    _id: string;
+    title: string;
+  };
+
+  jobProviderOwnerId: {
+    _id: string;
+    name: string;
+    email: string;
+  };
+
+  status: "pending" | "forwarded" | "selected" | "rejected";
+
+  adminNotes: string;
+  aiScore: number | null;
+  aiReason: string;
+
+  appliedAt: string;
+  forwardedAt: string | null;
+  selectedAt: string | null;
+  rejectedAt: string | null;
+
+  isDeleted: boolean;
+
+  createdAt: string;
+  updatedAt: string;
+}

@@ -3,12 +3,15 @@ import React from "react";
 import { Button, Space, Tag, Tooltip } from "antd";
 import { GoEye } from "react-icons/go";
 import ReuseTable from "@/utils/ReuseTable";
+import { IApplication } from "@/types";
+import { formatDate } from "@/utils/dateFormet";
 
 // Define the type for the props
 interface ReceivedCVTableProps {
-  data: any[]; // Replace `unknown` with the actual type of your data array
+  data: IApplication[]; // Replace `unknown` with the actual type of your data array
   loading: boolean;
-  showViewModal: (record: any) => void; // Function to handle viewing a user
+  showViewModal: (record: IApplication) => void; // Function to handle viewing a user
+  openViewCVModal: (record: any) => void;
   page: number;
   total: number;
   limit: number;
@@ -18,6 +21,7 @@ const ReceivedCVTable: React.FC<ReceivedCVTableProps> = ({
   data,
   loading,
   showViewModal,
+  openViewCVModal,
   page,
   total,
   limit,
@@ -32,49 +36,49 @@ const ReceivedCVTable: React.FC<ReceivedCVTableProps> = ({
       width: 80,
     },
     {
-      title: "Candidate name",
-      dataIndex: "candidateName",
-      key: "candidateName",
-      render: (text: string) => <span className="font-medium">{text}</span>,
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-      render: (email: string) => (
-        <a href={`mailto:${email}`} className="text-blue-600 hover:underline">
-          {email}
-        </a>
+      title: "Candidate",
+      dataIndex: "candidateId",
+      key: "candidateId",
+      render: (candidateId: any) => (
+        <div>
+          <p>{candidateId.name}</p>
+          <p className="text-sm text-gray-500">{candidateId.email}</p>
+        </div>
       ),
     },
     {
       title: "Job Title",
-      dataIndex: "jobTitle",
-      key: "jobTitle",
+      dataIndex: ["jobId", "title"],
+      key: "jobId",
     },
     {
       title: "Experience",
-      dataIndex: "experience",
-      key: "experience",
+      dataIndex: ["candidateId", "yearsOfExperience"],
+      key: ["candidateId", "yearsOfExperience"],
       align: "center" as const,
+      render: (yearsOfExperience: number) => (
+        <span className="text-gray-600">{yearsOfExperience} years</span>
+      ),
     },
     {
       title: "Applied Date",
-      dataIndex: "appliedDate",
-      key: "appliedDate",
+      dataIndex: "appliedAt",
+      key: "appliedAt",
       align: "center" as const,
-      render: (date: string) => <span className="text-gray-600">{date}</span>,
+      render: (date: string) => (
+        <span className="text-gray-600">{formatDate(date)}</span>
+      ),
     },
     {
       title: "CV",
-      key: "cv",
+      key: "candidateProfileId",
       align: "center" as const,
       render: (_: any, record: any) => (
         <Button
           type="primary"
           size="small"
-          onClick={() => window.open(record.cvUrl, "_blank")}
-          className="bg-blue-600 hover:bg-blue-700"
+          onClick={() => openViewCVModal(record?.candidateId)}
+          className="!bg-secondary-color hover:!bg-secondary-color"
         >
           View CV
         </Button>
@@ -86,13 +90,18 @@ const ReceivedCVTable: React.FC<ReceivedCVTableProps> = ({
       key: "status",
       align: "center" as const,
       render: (status: string) => {
-        let color = "orange";
-        if (status === "Selected") color = "green";
-        if (status === "Rejected") color = "red";
+        let color = "green";
+        if (status === "forwarded") color = "orange";
+        if (status === "selected") color = "green";
+        if (status === "rejected") color = "red";
 
         return (
           <Tag color={color} className="font-medium">
-            {status}
+            {status === "forwarded"
+              ? "Pending"
+              : status === "selected"
+              ? "Selected"
+              : status === "rejected" && "Rejected"}
           </Tag>
         );
       },

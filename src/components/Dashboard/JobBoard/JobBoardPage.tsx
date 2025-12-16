@@ -3,7 +3,9 @@ import JobCard from "@/components/shared/Cards/JobCard";
 import PaginationSection from "@/components/shared/Modal/PaginationSection";
 import ViewApplyJobModal from "@/components/shared/Modal/ViewApplyJobModal";
 import SearchInput from "@/components/ui/Form/ReuseSearchInput";
+import { applyJobPost } from "@/services/JobBoardService/JobBoardServiceApi";
 import { IJob } from "@/types";
+import tryCatchWrapper from "@/utils/tryCatchWrapper";
 import React, { useState } from "react";
 
 const JobBoardPage = ({
@@ -30,6 +32,18 @@ const JobBoardPage = ({
     setIsApplyModalOpen(false);
   };
 
+  const handleApply = async (record: IJob) => {
+    const res = await tryCatchWrapper(
+      applyJobPost,
+      { params: record?._id },
+      "Applying...",
+      "Applied successfully!"
+    );
+
+    if (res?.success) {
+      handleCancle();
+    }
+  };
   return (
     <div className="mt-10">
       <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-base-color mb-8">
@@ -73,7 +87,7 @@ const JobBoardPage = ({
         handleCancel={handleCancle}
         currentRecord={currentRecoard as IJob}
         variant="simple"
-        applyJob={() => {}}
+        applyJob={handleApply}
       />
     </div>
   );

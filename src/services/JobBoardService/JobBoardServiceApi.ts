@@ -73,3 +73,54 @@ export const deleteJobPost = async (req: { body: any; params: any }) => {
     return Error(error);
   }
 };
+export const applyJobPost = async (req: { body: any; params: any }) => {
+  try {
+    const res = await fetchWithAuth(`/application/apply/${req.params}`, {
+      method: "POST",
+    });
+    const result = await res.json();
+    revalidateTag(TagTypes.job);
+
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+export const selectCandidateByApplicationId = async (req: {
+  body: any;
+  params: any;
+}) => {
+  try {
+    const res = await fetchWithAuth(
+      `/application/select-candidate/${req.params}`,
+      {
+        method: "PATCH",
+      }
+    );
+    const result = await res.json();
+    revalidateTag(TagTypes.job);
+
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+export const rejectCandidateByApplicationId = async (req: {
+  body: any;
+  params: any;
+}) => {
+  try {
+    const res = await fetchWithAuth(
+      `/application/reject-candidate/${req.params}`,
+      {
+        method: "PATCH",
+      }
+    );
+    const result = await res.json();
+    revalidateTag(TagTypes.job);
+
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
