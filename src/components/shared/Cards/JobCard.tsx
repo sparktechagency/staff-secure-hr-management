@@ -41,7 +41,7 @@ export default function JobCard({
     experience,
     workType,
     workersNeeded,
-    // status,
+    status,
     lastApplyDate,
     jobReferralCode,
     jobType,
@@ -49,14 +49,6 @@ export default function JobCard({
   } = data;
 
   const detailed = variant === "detailed";
-  const isNewWithin24Hours = (createdAt: string) => {
-    const createdTime = new Date(createdAt).getTime();
-    const now = Date.now();
-
-    const diffInHours = (now - createdTime) / (1000 * 60 * 60);
-
-    return diffInHours <= 24;
-  };
 
   const items: MenuProps["items"] = [
     // {
@@ -110,7 +102,7 @@ export default function JobCard({
           </h3>
 
           {!detailed ? (
-            isNewWithin24Hours(createdAt) ? (
+            status === "New" ? (
               <span className="rounded-full px-3 py-1 text-xs font-bold text-secondary-color border-secondary-color border">
                 New
               </span>

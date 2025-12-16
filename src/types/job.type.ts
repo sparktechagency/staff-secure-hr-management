@@ -5,7 +5,7 @@ interface SalaryRange {
 }
 
 // Job Status Types
-type JobStatus = "active" | "closed";
+type JobStatus = "New" | "CVs Sent" | "Closed";
 
 // Job Type (Full-Time, Part-Time, Contract)
 type workTypeType = "Full-Time" | "Part-Time" | "Contract";

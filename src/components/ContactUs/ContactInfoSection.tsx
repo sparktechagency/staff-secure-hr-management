@@ -23,7 +23,7 @@ const contactInfoList = [
     icon: <MdPhone className="w-6 h-6" />,
     label: "Book a meeting",
     value: "Schedule a call with us",
-    href: "https://calendly.com/your-company",
+    href: "https://calendly.com/din-islam-rajin572",
     variant: "button" as const,
   },
 ];
