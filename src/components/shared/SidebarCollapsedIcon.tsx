@@ -1,10 +1,13 @@
 "use client";
-import { useSidebar } from "@/context/SidebarContext";
+import { toggleCollapse } from "@/redux/features/sidebar/sidebarSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { BarsOutlined } from "@ant-design/icons";
 
 const SidebarCollapsedIcon = () => {
-  const { handleToggleCollapse } = useSidebar(); // Use the context to get the toggle function
-
+  const dispatch = useAppDispatch();
+  const handleToggleCollapse = () => {
+    dispatch(toggleCollapse());
+  };
   return (
     <BarsOutlined
       onClick={handleToggleCollapse}

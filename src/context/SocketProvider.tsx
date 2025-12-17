@@ -2,9 +2,9 @@ import { ReactNode, useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
-import { getSocketUrl } from "@/helpers/config/socket-config";
 import { decodedToken } from "../utils/jwt";
 import { SocketContext } from "./socket-context";
+import { getSocketUrl } from "@/helpers/socket-config";
 
 export const SocketProvider = ({ children }: { children: ReactNode }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -13,7 +13,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
   // Track token change — this picks up token after login
   useEffect(() => {
     const interval = setInterval(() => {
-      const currentToken = Cookies.get("frafolMainAccessToken");
+      const currentToken = Cookies.get("secureStaffMainAccessToken");
       setToken((prevToken) =>
         prevToken !== currentToken ? currentToken : prevToken
       );
@@ -28,7 +28,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
     const user = decodedToken(token);
     if (!user) {
-      Cookies.remove("frafolMainAccessToken");
+      Cookies.remove("secureStaffMainAccessToken");
       toast.error("Invalid token. Please log in again.");
       return;
     }

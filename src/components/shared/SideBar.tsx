@@ -1,7 +1,4 @@
 "use client";
-// import { selectIsCollapsed } from "@/redux/features/sidebar/sidebarSlice";
-// import { useAppSelector } from "@/redux/hooks";
-
 import { Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { usePathname } from "next/navigation";
@@ -12,14 +9,12 @@ import {
   useCandidatePaths,
   useEmployerPaths,
 } from "@/utils/dashboardMenuItems";
-import { useSidebar } from "@/context/SidebarContext";
 import { useGetUserData } from "@/context/useGetUserData";
-// import { ISignInUser } from "@/types";
-// import { decodedToken } from "@/utils/jwt";
-// import Cookies from "js-cookie";
+import { selectIsCollapsed } from "@/redux/features/sidebar/sidebarSlice";
+import { useAppSelector } from "@/redux/hooks";
 
 const SideBar = () => {
-  const { isCollapsed } = useSidebar();
+  const isCollapsed = useAppSelector(selectIsCollapsed);
 
   const pathname = usePathname();
 
@@ -48,7 +43,7 @@ const SideBar = () => {
       breakpoint="lg"
       collapsedWidth="0"
       collapsible
-      collapsed={isCollapsed ? true : false}
+      collapsed={isCollapsed}
       style={{
         position: "sticky",
         top: 0,
