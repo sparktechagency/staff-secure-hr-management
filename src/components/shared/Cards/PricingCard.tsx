@@ -3,10 +3,12 @@ import { cn } from "@/lib/utils";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
 import Image, { StaticImageData } from "next/image";
+import PricingCardButton from "./PricingCardButton";
+import { formatDate } from "@/utils/dateFormet";
 
-export interface PricingPlan {
+export interface IPricingPlan {
   name: string;
-  price: string;
+  price: number;
   period: string;
   description: string;
   features: {
@@ -19,10 +21,18 @@ export interface PricingPlan {
 }
 
 interface PricingCardProps {
-  plan: PricingPlan;
+  plan: IPricingPlan;
+  myPackage?: boolean;
+  expired?: string;
+  purchased?: string;
 }
 
-export default function PricingCard({ plan }: PricingCardProps) {
+export default function PricingCard({
+  plan,
+  myPackage = false,
+  expired = "",
+  purchased = "",
+}: PricingCardProps) {
   const {
     name,
     price,
@@ -50,7 +60,6 @@ export default function PricingCard({ plan }: PricingCardProps) {
           </span>
         </div>
       )}
-
       {/* Icon + Plan Name */}
       <div className="pt-10">
         <Image
@@ -68,7 +77,7 @@ export default function PricingCard({ plan }: PricingCardProps) {
           </h3>
           <div className="mt-4 flex items-baseline text-[#162456]">
             <span className="text-3xl sm:text-4xl lg:text-5xl font-black ">
-              {price}
+              £{price}
             </span>
           </div>
           <p className="mt-3 text-base sm:text-lg lg:text-xl text-[#162456]">
@@ -76,6 +85,18 @@ export default function PricingCard({ plan }: PricingCardProps) {
           </p>
         </div>
       </div>
+      {myPackage && (
+        <div className="mt-2 ">
+          <p className="text-xs sm:text-sm lg:text-base">
+            <span className="font-medium text-success">Purchased:</span>{" "}
+            {formatDate(purchased)}
+          </p>
+          <p className="text-xs sm:text-sm lg:text-base">
+            <span className="font-medium text-error">Expired:</span>{" "}
+            {formatDate(expired)}
+          </p>{" "}
+        </div>
+      )}
 
       {/* Features List */}
       <ul className="mt-8 flex-1 space-y-4 pb-8">
@@ -97,17 +118,9 @@ export default function PricingCard({ plan }: PricingCardProps) {
           </li>
         ))}
       </ul>
-
       {/* CTA Button */}
       <div className="pb-10">
-        <button
-          className={cn(
-            "w-full rounded-xl px-8 py-4 font-semibold text-white transition-all duration-300 cursor-pointer hover:bg-[#1C398E]",
-            popular ? "bg-[#1C398E]" : "bg-[#1C398E]"
-          )}
-        >
-          Subscribe →
-        </button>
+        {myPackage ? <div></div> : <PricingCardButton plan={plan} />}
       </div>
     </div>
   );

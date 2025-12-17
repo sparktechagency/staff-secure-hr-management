@@ -1,13 +1,13 @@
 import React from "react";
 import SectionHeader from "../shared/SectionHeader";
 import { FaRegCircleCheck } from "react-icons/fa6";
-import PricingCard, { PricingPlan } from "../shared/Cards/PricingCard";
+import PricingCard, { IPricingPlan } from "../shared/Cards/PricingCard";
 import { AllImages } from "../../../public/assets/AllImages";
 
-const pricingPlans: PricingPlan[] = [
+export const pricingPlans: IPricingPlan[] = [
   {
     name: "Bronze",
-    price: "£199",
+    price: 199,
     period: "month",
     description: "Ideal for small, one-time hires",
     icon: AllImages?.bronze,
@@ -30,7 +30,7 @@ const pricingPlans: PricingPlan[] = [
   },
   {
     name: "Platinum",
-    price: "£599",
+    price: 599,
     period: "month",
     description: "Standard solution for growing teams",
     badge: "Most Popular",
@@ -56,7 +56,7 @@ const pricingPlans: PricingPlan[] = [
   },
   {
     name: "Diamond",
-    price: "£1,199",
+    price: 1199,
     period: "month",
     description: "Full access with dedicated HR support",
     icon: AllImages?.diamond,

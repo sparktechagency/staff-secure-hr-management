@@ -17,7 +17,7 @@ const MyAccountProfile = ({
 
   return (
     <div>
-      <div className="mt-10">
+      <div className="">
         <ReusableTabs
           activeTab={activeTab}
           align="left"

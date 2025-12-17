@@ -45,7 +45,7 @@ const JobBoardPage = ({
     }
   };
   return (
-    <div className="mt-10">
+    <div className="">
       <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-base-color mb-8">
         Job Board
       </h1>

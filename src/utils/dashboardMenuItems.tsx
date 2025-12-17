@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 
 import overview from "../../public/assets/svg/overview.svg";
 import { useSidebar } from "@/context/SidebarContext";
+import { useAppDispatch } from "@/redux/hooks";
+import { toggleCollapse } from "@/redux/features/sidebar/sidebarSlice";
 
 export const useCandidatePaths = () => {
   const { handleToggleCollapse } = useSidebar(); // Use the context to get the toggle function
@@ -112,8 +114,10 @@ export const useCandidatePaths = () => {
 };
 export const useEmployerPaths = () => {
   const pathname = usePathname();
-  const { handleToggleCollapse } = useSidebar(); // Use the context to get the toggle function
-
+  const dispatch = useAppDispatch();
+  const handleToggleCollapse = () => {
+    dispatch(toggleCollapse());
+  };
   return [
     {
       key: "overview",
@@ -181,6 +185,30 @@ export const useEmployerPaths = () => {
           className="mr-2"
           style={{
             filter: pathname.includes("/received-cvs")
+              ? "invert(1) sepia(1) saturate(0) brightness(200%) contrast(100%)"
+              : undefined,
+          }}
+        />
+      ),
+    },
+    {
+      key: "my-subscription",
+      label: (
+        <Link
+          onClick={handleToggleCollapse}
+          href="/dashboard/employer/my-subscription"
+        >
+          My Subscription
+        </Link>
+      ),
+      icon: (
+        <Image
+          src={overview}
+          alt="icon"
+          width={20}
+          className="mr-2"
+          style={{
+            filter: pathname.includes("/my-subscription")
               ? "invert(1) sepia(1) saturate(0) brightness(200%) contrast(100%)"
               : undefined,
           }}
