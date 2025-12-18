@@ -36,8 +36,8 @@ const ViewRecivedModal = ({
     const res = await tryCatchWrapper(
       selectCandidateByApplicationId,
       { params: record?._id },
-      "Applying...",
-      "Applied successfully!"
+      "Selecting...",
+      "Selected successfully!"
     );
 
     if (res?.success) {
@@ -49,8 +49,8 @@ const ViewRecivedModal = ({
     const res = await tryCatchWrapper(
       rejectCandidateByApplicationId,
       { params: record?._id },
-      "Applying...",
-      "Applied successfully!"
+      "Rejecting...",
+      "Rejected successfully!"
     );
 
     if (res?.success) {

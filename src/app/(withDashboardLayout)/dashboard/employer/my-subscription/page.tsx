@@ -30,12 +30,14 @@ const page = async () => {
         My Subscription
       </h1>
       <div className="w-fit max-w-[450px] mt-28">
-        <PricingCard
-          plan={mySubscription as IPricingPlan}
-          myPackage={true}
-          expired={packageData?.mySubscriptionsId?.expireDate}
-          purchased={packageData?.mySubscriptionsId?.buyTime}
-        />
+        {mySubscription && (
+          <PricingCard
+            plan={mySubscription as IPricingPlan}
+            myPackage={true}
+            expired={packageData?.mySubscriptionsId?.expireDate}
+            purchased={packageData?.mySubscriptionsId?.buyTime}
+          />
+        )}
       </div>
     </div>
   );

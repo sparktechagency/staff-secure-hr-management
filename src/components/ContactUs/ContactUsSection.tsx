@@ -28,7 +28,7 @@ const ContactUsSection = () => {
       <div className="mt-20">
         <SectionHeader title="Find Us" />
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158857.83988672637!2d-0.2664034848794909!3d51.528739805029666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a8880ebb3687%3A0x774e8a0a64b1a4b!2sLondon%20City%20Airport!5e0!3m2!1sen!2sbd!4v1764677790532!5m2!1sen!2sbd"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2944.4329845562697!2d-0.09172352337872479!3d51.52707937181771!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761ca66f40f875%3A0xf35cce811d7bebed!2sKemp%20House%2C%20124-128%20City%20Rd%2C%20London%20EC1V%202NX%2C%20UK!5e1!3m2!1sen!2sbd!4v1766032553876!5m2!1sen!2sbd"
           loading="lazy"
           className="w-full h-[500px] -mt-10"
         ></iframe>

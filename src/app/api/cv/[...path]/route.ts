@@ -3,35 +3,30 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { path: string[] } }
+  context: { params: Promise<{ path: string[] }> }
 ) {
   try {
-    const { path } = params;
-    const filename = path.join("/"); // rebuild full path
+    const { path } = await context.params; // ✅ IMPORTANT
+    const filename = path.join("/");
 
-    // Backend URL
     const serverUrl = getServerUrl();
-    const pdfUrl = serverUrl + "/" + filename;
-
-    console.log("Fetching PDF from:", pdfUrl);
+    const pdfUrl = `${serverUrl}/${filename}`;
 
     const response = await fetch(pdfUrl);
 
     if (!response.ok) {
-      console.error("Backend responded with status:", response.status);
       return new NextResponse("File not found", { status: 404 });
     }
 
-    const arrayBuffer = await response.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    const buffer = Buffer.from(await response.arrayBuffer());
 
     return new NextResponse(buffer, {
       headers: {
         "Content-Type": "application/pdf",
       },
     });
-  } catch (err) {
-    console.error("Error fetching PDF:", err);
+  } catch (error) {
+    console.error("PDF fetch error:", error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }

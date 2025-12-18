@@ -12,6 +12,7 @@ import Image from "next/image";
 import { AllImages } from "../../../public/assets/AllImages";
 import { getServerUrl } from "@/helpers/envConfig";
 import SpinLoader from "../ui/SpinLoader";
+import { useGetUserData } from "@/context/useGetUserData";
 
 const ConversationSendMessage = ({
   socket,
@@ -20,6 +21,7 @@ const ConversationSendMessage = ({
   socket: any;
   room: string;
 }) => {
+  const userData = useGetUserData();
   const serverUrl = getServerUrl();
   const selectedConversation = useAppSelector(selectSelectedChatUser);
   const [form] = Form.useForm();
@@ -70,6 +72,12 @@ const ConversationSendMessage = ({
       chatId: room,
       ...(values?.message?.length > 0 ? { text: values?.message } : {}),
       ...(uploadedImages.length > 0 ? { images: uploadedImages } : {}),
+      from:
+        userData?.role === "candidate"
+          ? userData?.name
+          : userData?.role === "employer"
+          ? userData?.companyName
+          : "",
     };
 
     try {

@@ -1,11 +1,27 @@
 import OverviewCards from "@/components/Dashboard/Overview/OverviewCards";
+import PackageCardViewSection from "@/components/Dashboard/Overview/PackageCardViewSection";
+import RecentNotification from "@/components/Dashboard/Overview/RecentNotification";
+import TagTypes from "@/helpers/TagTypes";
+import { fetchWithAuth } from "@/lib/fetchWraper";
 import { getCurrentUser } from "@/services/AuthService";
 import React from "react";
 
 const page = async () => {
   const userData = await getCurrentUser();
 
-  console.log(userData);
+  const res = await fetchWithAuth(`/overview/employee`, {
+    next: {
+      tags: [
+        TagTypes.conversation,
+        TagTypes.job,
+        TagTypes.package,
+        TagTypes.profile,
+      ],
+      revalidate: 0,
+    },
+  });
+  const resdata = await res.json();
+  console.log(resdata);
   return (
     <div className="">
       <div>
@@ -17,7 +33,16 @@ const page = async () => {
         </p>
       </div>
       <div className="mt-10">
-        <OverviewCards />
+        <OverviewCards data={resdata?.data} />
+      </div>
+      {resdata?.data?.mySubscription && (
+        <PackageCardViewSection
+          mySubscription={resdata?.data?.mySubscription}
+        />
+      )}
+
+      <div>
+        <RecentNotification notificationData={resdata?.data?.notifications} />
       </div>
     </div>
   );

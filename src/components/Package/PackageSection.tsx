@@ -12,9 +12,9 @@ export const pricingPlans: IPricingPlan[] = [
     description: "Ideal for small, one-time hires",
     icon: AllImages?.bronze,
     features: [
-      { text: "3 pre-screened CVs per period", included: true },
+      { text: "3 pre-screened CVs per month", included: true },
       {
-        text: "Guaranteed full vetting and interviewing for every CV sent",
+        text: "Guaranteed full vetting and interviewing for every Candidate sent",
         included: true,
       },
       { text: "Email support", included: true },
@@ -37,9 +37,9 @@ export const pricingPlans: IPricingPlan[] = [
     icon: AllImages?.platinum,
     popular: true,
     features: [
-      { text: "10 pre-screened CVs per period", included: true },
+      { text: "10 pre-screened CVs per month", included: true },
       {
-        text: "Guaranteed full vetting and interviewing for every CV sent",
+        text: "Guaranteed full vetting and interviewing for every Candidate sent",
         included: true,
       },
 
@@ -63,7 +63,7 @@ export const pricingPlans: IPricingPlan[] = [
     features: [
       { text: "Unlimited pre-screened CVs", included: true },
       {
-        text: "Guaranteed full vetting and interviewing for every CV sent",
+        text: "Guaranteed full vetting and interviewing for every Candidate sent",
         included: true,
       },
 

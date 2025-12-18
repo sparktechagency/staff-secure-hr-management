@@ -1,35 +1,36 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HiUsers } from "react-icons/hi";
 import { MdAttachMoney } from "react-icons/md";
 
-const OverviewCards = () => {
+const OverviewCards = ({ data }: { data: any }) => {
   const countData = [
     {
       id: 1,
       background: "#ffffff",
       name: "Active Requirements",
       icon: <HiUsers className="size-5 text-secondary-color" />,
-      count: 1000,
+      count: data?.totalActiveRequirements || 0,
     },
     {
       id: 2,
       background: "#ffffff",
       name: "Total CVs Received",
       icon: <HiUsers className="size-5 text-secondary-color" />,
-      count: 800,
+      count: data?.totalCvReceived || 0,
     },
     {
       id: 3,
       background: "#ffffff",
       name: "New CVs",
       icon: <HiUsers className="size-6 text-secondary-color" />,
-      count: "£567",
+      count: data?.totalNewCv || 0,
     },
     {
       id: 4,
       background: "#ffffff",
       name: "Total Placement",
       icon: <MdAttachMoney className="size-6 text-secondary-color" />,
-      count: 150,
+      count: data?.totalPlacement || 0,
     },
   ];
   return (

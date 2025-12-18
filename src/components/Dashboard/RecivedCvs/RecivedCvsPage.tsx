@@ -45,7 +45,7 @@ const RecivedCvsPage = ({
         <div className=" w-full p-4   rounded-tl-xl rounded-tr-xl">
           <div className=" flex items-center justify-between">
             <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold mb-5">
-              Recived Cvs
+              Recived CVs
             </h1>
             <SearchInput placeholder="Search ..." />
           </div>
