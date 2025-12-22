@@ -107,6 +107,7 @@ const AddNewJobModal = ({
             {/* Salary Range */}
             <ReuseInput
               name="minSalaryRange"
+              type="number"
               label="Min Salary Range"
               placeholder="Enter Min Salary Range"
               Typolevel={5}
@@ -116,6 +117,7 @@ const AddNewJobModal = ({
 
             <ReuseInput
               name="maxSalaryRange"
+              type="number"
               label="Max Salary Range"
               placeholder="Enter Max Salary Range"
               Typolevel={5}

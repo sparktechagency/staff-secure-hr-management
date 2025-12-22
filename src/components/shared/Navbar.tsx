@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AllImages } from "../../../public/assets/AllImages";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "antd";
 import * as motion from "motion/react-client";
 import { useScroll, useMotionValueEvent } from "motion/react";
@@ -17,6 +17,7 @@ import { logout } from "@/services/AuthService";
 
 const Navbar: React.FC = () => {
   const path = usePathname();
+  const router = useRouter();
 
   const userData: ISignInUser | null = useGetUserData();
 
@@ -57,6 +58,7 @@ const Navbar: React.FC = () => {
 
   const handleLogOut = () => {
     logout();
+    router.push("/");
   };
 
   const NavItems = useMemo(() => {
