@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HiUsers } from "react-icons/hi";
-import { MdAttachMoney } from "react-icons/md";
 
 const OverviewCards = ({ data }: { data: any }) => {
   const countData = [
@@ -29,7 +28,7 @@ const OverviewCards = ({ data }: { data: any }) => {
       id: 4,
       background: "#ffffff",
       name: "Total Placement",
-      icon: <MdAttachMoney className="size-6 text-secondary-color" />,
+      icon: <HiUsers className="size-6 text-secondary-color" />,
       count: data?.totalPlacement || 0,
     },
   ];

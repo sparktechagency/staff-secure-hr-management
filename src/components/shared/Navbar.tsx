@@ -31,7 +31,7 @@ const Navbar: React.FC = () => {
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious();
     if (
-      path === "/" &&
+      !path.includes("dashboard") &&
       previous !== undefined &&
       latest > previous &&
       latest > 150 &&
@@ -59,6 +59,9 @@ const Navbar: React.FC = () => {
   const handleLogOut = () => {
     logout();
     router.push("/");
+    setTimeout(() => {
+      router.refresh();
+    }, 1000);
   };
 
   const NavItems = useMemo(() => {

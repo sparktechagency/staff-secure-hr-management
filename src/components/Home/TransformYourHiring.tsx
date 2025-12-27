@@ -12,7 +12,11 @@ const TransformYourHiring = () => {
         needs and <br /> find the perfect package for your business.
       </p>
 
-      <ReuseButton variant="secondary" className="mt-16 w-fit !rounded-lg">
+      <ReuseButton
+        url="contact"
+        variant="secondary"
+        className="mt-16 w-fit !rounded-lg"
+      >
         Contact Us
       </ReuseButton>
     </div>

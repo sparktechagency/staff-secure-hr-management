@@ -153,7 +153,7 @@ const EditProfile = ({ myData }: { myData: IProfile }) => {
                     style={{
                       zIndex: 1,
                     }}
-                    className="bg-base-color/70 p-2 w-fit h-fit !border-none absolute -top-12 left-[115px] rounded-full cursor-pointer shadow-lg"
+                    className="bg-primary-color p-2 w-fit h-fit !border-none absolute -top-12 left-[115px] rounded-full cursor-pointer shadow-inner"
                   >
                     <IoCameraOutline className="w-6 h-6 text-secondary-color" />
                   </button>

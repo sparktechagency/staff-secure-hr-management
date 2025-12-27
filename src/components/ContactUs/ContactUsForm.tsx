@@ -4,10 +4,17 @@ import React from "react";
 import ReusableForm from "../ui/Form/ReuseForm";
 import ReuseInput from "../ui/Form/ReuseInput";
 import ReuseButton from "../ui/Button/ReuseButton";
+import tryCatchWrapper from "@/utils/tryCatchWrapper";
+import { sendMessage } from "@/services/ConversationService/ConversationServiceApi";
 
 const ContactUsForm = () => {
-  const handleFinish = (values: any) => {
-    console.log(values);
+  const handleFinish = async (values: any) => {
+    await tryCatchWrapper(
+      sendMessage,
+      { body: values },
+      "Sending message...",
+      "Message sent successfully!"
+    );
   };
   return (
     <ReusableForm
@@ -24,9 +31,9 @@ const ContactUsForm = () => {
       <ReuseInput
         name="companyName"
         type="text"
-        label="Company Name"
+        label="Company Name (Optional)"
         placeholder="Enter your company name"
-        rules={[{ required: true, message: "company name is required!" }]}
+        rules={[{ required: false, message: "company name is required!" }]}
       />
       <ReuseInput
         name="email"

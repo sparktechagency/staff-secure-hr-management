@@ -46,12 +46,12 @@ const SideBar = () => {
       collapsed={isCollapsed}
       style={{
         position: "sticky",
-        top: 0,
+        top: 50,
         height: "100vh",
         overflowY: "auto",
         backgroundColor: "#ffffff",
       }}
-      className={` !fixed !z-[60] !top-12  ${
+      className={` !fixed !z-[60] !top-12${
         isCollapsed ? "!left-[-300px]" : "!left-0"
       }`}
     >

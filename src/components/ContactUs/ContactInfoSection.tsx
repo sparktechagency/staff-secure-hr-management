@@ -5,8 +5,8 @@ const contactInfoList = [
   {
     icon: <MdEmail className="w-6 h-6" />,
     label: "Email",
-    value: "contact@example.com",
-    href: "mailto:contact@example.com",
+    value: "karl.fairbrother@staffsecure.ai",
+    href: "mailto:karl.fairbrother@staffsecure.ai",
   },
   {
     icon: <MdLocationOn className="w-6 h-6" />,
@@ -23,7 +23,7 @@ const contactInfoList = [
     icon: <MdPhone className="w-6 h-6" />,
     label: "Book a meeting",
     value: "Schedule a call with us",
-    href: "https://calendly.com/din-islam-rajin572",
+    href: "https://calendly.com/karl-fairbrother-staffsecure/30min",
     variant: "button" as const,
   },
 ];

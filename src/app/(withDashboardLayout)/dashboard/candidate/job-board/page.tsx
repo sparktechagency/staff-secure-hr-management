@@ -18,7 +18,7 @@ const page = async ({
   console.log({ searchText, locationText });
 
   const res = await fetchWithAuth(
-    `/job/all?page=${page}&limit=${limit}&searchTerm=${searchText}`,
+    `/job/all?page=${page}&limit=${limit}&searchTerm=${searchText}&location=${locationText}`,
     {
       next: {
         tags: [TagTypes.job],

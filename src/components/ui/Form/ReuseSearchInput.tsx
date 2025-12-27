@@ -56,7 +56,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
       params.delete(paramName); // Remove the dynamic paramName if text is empty
     }
     replace(`${pathName}?${params.toString()}`, { scroll: false });
-  }, 200);
+  }, 500);
 
   function debounce<T extends (...args: any[]) => void>(
     this: void,

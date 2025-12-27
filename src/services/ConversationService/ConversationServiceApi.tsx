@@ -44,3 +44,25 @@ export const sendFiles = async (req: { body: any; params: any }) => {
     return Error(error);
   }
 };
+
+export const sendMessage = async (req: { body: any; params: any }) => {
+  try {
+    const { body } = req; // ✅ destructure
+    const res = await fetchWithAuth(
+      `/contactUs`, // now correct
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Add content type header for JSON
+        },
+        body: JSON.stringify(body) as any,
+      }
+    );
+    const result = await res.json();
+    revalidateTag(TagTypes.conversation);
+
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};

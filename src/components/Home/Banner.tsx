@@ -1,4 +1,3 @@
-import * as motion from "motion/react-client";
 import ReuseButton from "../ui/Button/ReuseButton";
 
 export default function Banner() {
@@ -26,12 +25,7 @@ export default function Banner() {
         <div className="relative z-10 min-h-screen w-[90%] max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center lg:justify-end  border-none">
           <div className="flex flex-col lg:flex-row items-center lg:items-end justify-center lg:justify-between gap-8 py-12 lg:pb-16">
             {/* Text Content */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9 }}
-              className="flex-1 text-center lg:text-left space-y-4"
-            >
+            <div className="flex-1 text-center lg:text-left space-y-4">
               <h1 className="text-4xl sm:text-54xl md:text-6xl xl:text-[80px] font-bold mb-7 tracking-wide">
                 Find the Perfect Fit, Every Time
               </h1>
@@ -40,18 +34,17 @@ export default function Banner() {
                 sectors such as Construction, Healthcare, Hospitality, and more
                 — helping you hire the best candidates with ease
               </p>
-              <ReuseButton variant="secondary" className="w-fit">
+              <ReuseButton
+                url="/packages"
+                variant="secondary"
+                className="w-fit"
+              >
                 Get Started
               </ReuseButton>
-            </motion.div>
+            </div>
 
             {/* Video Card */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
-              className=""
-            >
+            <div className="">
               <div className="aspect-video w-full">
                 <video
                   controls
@@ -63,7 +56,7 @@ export default function Banner() {
                   />
                 </video>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
