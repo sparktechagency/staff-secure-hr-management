@@ -88,7 +88,7 @@ const cardsData = [
     subtitle: "AI Candidate Matching",
     title: "Smart Candidate Matches",
     description:
-      "Use advanced AI to instantly match job requirements with the most suitable candidates. Our intelligent system analyses skills, experience, and preferences to ensure every recommendation fits your needs precisely.",
+      "Use advanced AI to instantly match Project Requirementss with the most suitable candidates. Our intelligent system analyses skills, experience, and preferences to ensure every recommendation fits your needs precisely.",
     featuredWithDescription: [
       {
         title: "Intelligent Screening",

@@ -23,10 +23,13 @@ const RecivedCvsPage = ({
   const [isViewCVModalVisible, setIsViewCVModalVisible] = useState(false);
   const [currentRecord, setCurrentRecord] = useState<any | null>(null);
 
+  const [url, setUrl] = useState(null);
+
   const handleCancel = () => {
     setIsViewModalVisible(false);
     setCurrentRecord(null);
     setIsViewCVModalVisible(false);
+    setUrl(null);
   };
 
   const showViewUserModal = (record: IApplication) => {
@@ -34,8 +37,9 @@ const RecivedCvsPage = ({
     setIsViewModalVisible(true);
   };
 
-  const showViewCVModal = (record: any) => {
+  const showViewCVModal = (record: any, doc: any) => {
     setCurrentRecord(record);
+    setUrl(doc);
     setIsViewCVModalVisible(true);
   };
 
@@ -45,7 +49,7 @@ const RecivedCvsPage = ({
         <div className=" w-full p-4   rounded-tl-xl rounded-tr-xl">
           <div className=" flex items-center justify-between">
             <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold mb-5">
-              Recived CVs
+              Received CVs
             </h1>
             <SearchInput placeholder="Search ..." />
           </div>
@@ -69,6 +73,7 @@ const RecivedCvsPage = ({
           isViewCVModalVisible={isViewCVModalVisible}
           handleCancel={handleCancel}
           currentRecord={currentRecord}
+          url={url}
         />
       </div>
     </div>

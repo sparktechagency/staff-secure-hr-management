@@ -1,3 +1,4 @@
+"use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ReuseButton from "@/components/ui/Button/ReuseButton";
 import ReusableForm from "@/components/ui/Form/ReuseForm";

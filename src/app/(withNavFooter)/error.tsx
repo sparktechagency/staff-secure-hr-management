@@ -20,7 +20,7 @@ export default function Error({
     const body = encodeURIComponent(
       `Error: ${error.message}\nDigest: ${error.digest || "N/A"}`
     );
-    window.location.href = `mailto:support@example.com?subject=${subject}&body=${body}`;
+    window.location.href = `frankedwards@staffsecure.ai?subject=${subject}&body=${body}`;
   };
 
   return (

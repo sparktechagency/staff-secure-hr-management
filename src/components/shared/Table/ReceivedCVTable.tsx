@@ -5,13 +5,14 @@ import { GoEye } from "react-icons/go";
 import ReuseTable from "@/utils/ReuseTable";
 import { IApplication } from "@/types";
 import { formatDate } from "@/utils/dateFormet";
+import ReuseButton from "@/components/ui/Button/ReuseButton";
 
 // Define the type for the props
 interface ReceivedCVTableProps {
   data: IApplication[]; // Replace `unknown` with the actual type of your data array
   loading: boolean;
   showViewModal: (record: IApplication) => void; // Function to handle viewing a user
-  openViewCVModal: (record: any) => void;
+  openViewCVModal: (record: any, url: any) => void;
   page: number;
   total: number;
   limit: number;
@@ -77,11 +78,32 @@ const ReceivedCVTable: React.FC<ReceivedCVTableProps> = ({
         <Button
           type="primary"
           size="small"
-          onClick={() => openViewCVModal(record?.candidateId)}
+          onClick={() => openViewCVModal(record?.candidateId, record?.candidateId?.cv)}
           className="!bg-secondary-color hover:!bg-secondary-color"
         >
           View CV
         </Button>
+      ),
+    },
+    {
+      title: "Document And Certifications",
+      dataIndex: "candidateId",
+      key: "candidateId",
+      render: (_: any, record: any) => (
+        <div className="flex gap-2 flex-wrap justify-center items-center">
+          {record?.candidateId?.documentAndCertifications?.length > 0 ? record?.candidateId?.documentAndCertifications?.map(
+            (doc: string) => (
+              <ReuseButton
+                key={doc}
+                variant="outline"
+                onClick={() => openViewCVModal(record?.candidateId, doc)}
+                className="mt-3 !w-fit !py-2 !px-4"
+              >
+                View
+              </ReuseButton>
+            )
+          ) : <p className="text-center">N/A</p>}
+        </div>
       ),
     },
     {
@@ -100,8 +122,8 @@ const ReceivedCVTable: React.FC<ReceivedCVTableProps> = ({
             {status === "forwarded"
               ? "Pending"
               : status === "selected"
-              ? "Selected"
-              : status === "rejected" && "Rejected"}
+                ? "Selected"
+                : status === "rejected" && "Rejected"}
           </Tag>
         );
       },

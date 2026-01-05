@@ -33,7 +33,7 @@ export async function middleware(request: Request) {
     console.log("decodedData", decodedData);
 
     const privateRoutesCandidate = [
-      "/dashboard/candidate/job-board",
+      "/dashboard/candidate/current-vacancies",
       "/dashboard/candidate/live-chat",
       "/dashboard/candidate/my-profile",
       "/dashboard/candidate/settings",
@@ -49,7 +49,7 @@ export async function middleware(request: Request) {
 
     const privateRoutesEmployer = [
       "/dashboard/employer/overview",
-      "/dashboard/employer/job-requirement",
+      "/dashboard/employer/project-requirements",
       "/dashboard/employer/live-chat",
       "/dashboard/employer/my-subscription",
       "/dashboard/employer/settings",
@@ -80,13 +80,13 @@ export async function middleware(request: Request) {
 
 export const config = {
   matcher: [
-    "/dashboard/candidate/job-board",
+    "/dashboard/candidate/current-vacancies",
     "/dashboard/candidate/live-chat",
     "/dashboard/candidate/my-profile",
     "/dashboard/candidate/settings",
 
     "/dashboard/employer/overview",
-    "/dashboard/employer/job-requirement",
+    "/dashboard/employer/project-requirements",
     "/dashboard/employer/live-chat",
     "/dashboard/employer/my-subscription",
     "/dashboard/employer/settings",

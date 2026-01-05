@@ -6,18 +6,25 @@ import ReuseInput from "../ui/Form/ReuseInput";
 import ReuseButton from "../ui/Button/ReuseButton";
 import tryCatchWrapper from "@/utils/tryCatchWrapper";
 import { sendMessage } from "@/services/ConversationService/ConversationServiceApi";
+import { Form } from "antd";
 
 const ContactUsForm = () => {
+  const [form] = Form.useForm();
   const handleFinish = async (values: any) => {
-    await tryCatchWrapper(
+    const res = await tryCatchWrapper(
       sendMessage,
       { body: values },
       "Sending message...",
       "Message sent successfully!"
     );
+
+    if (res?.success) {
+      form.resetFields();
+    }
   };
   return (
     <ReusableForm
+      form={form}
       handleFinish={handleFinish}
       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3"
     >

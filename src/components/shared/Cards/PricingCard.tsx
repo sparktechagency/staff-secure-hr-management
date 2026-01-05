@@ -5,6 +5,7 @@ import { IoMdClose } from "react-icons/io";
 import Image, { StaticImageData } from "next/image";
 import PricingCardButton from "./PricingCardButton";
 import { formatDate } from "@/utils/dateFormet";
+import ReuseButton from "@/components/ui/Button/ReuseButton";
 
 export interface IPricingPlan {
   name: string;
@@ -23,15 +24,21 @@ export interface IPricingPlan {
 interface PricingCardProps {
   plan: IPricingPlan;
   myPackage?: boolean;
+  autoRenewal?: boolean;
   expired?: string;
   purchased?: string;
+  openModal?: (plan: IPricingPlan) => void;
+  openCancelModal?: () => void;
 }
 
 export default function PricingCard({
   plan,
   myPackage = false,
-  expired = "",
+  autoRenewal = false,
+  // expired = "",
   purchased = "",
+  openModal = () => { },
+  openCancelModal = () => { },
 }: PricingCardProps) {
   const {
     name,
@@ -77,9 +84,12 @@ export default function PricingCard({
           </h3>
           <div className="mt-4 flex items-baseline text-[#162456]">
             <span className="text-3xl sm:text-4xl lg:text-5xl font-black ">
-              £{price}
+              £{price}<span className="text-sm sm:text-base lg:text-lg">{" "}per month</span>
             </span>
           </div>
+          <p className="mt-3 text-xs sm:text-sm lg:text-base text-[#162456]">
+
+          </p>
           <p className="mt-3 text-base sm:text-lg lg:text-xl text-[#162456]">
             {description}
           </p>
@@ -91,10 +101,10 @@ export default function PricingCard({
             <span className="font-medium text-success">Purchased:</span>{" "}
             {formatDate(purchased)}
           </p>
-          <p className="text-xs sm:text-sm lg:text-base">
+          {/* <p className="text-xs sm:text-sm lg:text-base">
             <span className="font-medium text-error">Expired:</span>{" "}
             {formatDate(expired)}
-          </p>{" "}
+          </p>{" "} */}
         </div>
       )}
 
@@ -118,9 +128,9 @@ export default function PricingCard({
           </li>
         ))}
       </ul>
-      {/* CTA Button */}
+
       <div className="pb-10">
-        {myPackage ? <div></div> : <PricingCardButton plan={plan} />}
+        {myPackage ? <div>{autoRenewal ? <ReuseButton onClick={() => openCancelModal()} variant="secondary">Turn Off Auto Renew</ReuseButton> : <ReuseButton className="cursor-default!">Auto Renew Off</ReuseButton>}</div> : <PricingCardButton plan={plan} openModal={openModal} />}
       </div>
     </div>
   );

@@ -11,7 +11,6 @@ import { cn } from "@/lib/utils";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { Dropdown, MenuProps } from "antd";
 import { FaRegEye } from "react-icons/fa6";
-import { TbCurrencyPound } from "react-icons/tb";
 import { FiUsers } from "react-icons/fi";
 import { IoCalendarOutline } from "react-icons/io5";
 import { IJob } from "@/types/job.type";
@@ -37,16 +36,23 @@ export default function JobCard({
     title,
     description,
     salaryRange: { min, max },
-    location,
+    postalCode,
     experience,
     workType,
-    workersNeeded,
     status,
     lastApplyDate,
     jobReferralCode,
     jobType,
+    lengthOfWork,
+    paymentType,
     createdAt,
+    isApplied,
+    totalReceivedCv,
+    reviewedCv,
+    newCv
   } = data;
+
+  console.log(userData)
 
   const detailed = variant === "detailed";
 
@@ -123,63 +129,120 @@ export default function JobCard({
         </div>{" "}
         <div className="flex items-center gap-1">
           {" "}
+
+          <span className="rounded-full bg-secondary-color px-3 py-1 text-xs lg:text-sm font-bold text-primary-color">
+            {lengthOfWork && workType === "Temporary" ? workType + " - " + lengthOfWork : workType}
+          </span>
           <span className="rounded-full bg-secondary-color px-3 py-1 text-xs lg:text-sm font-bold text-primary-color">
             {jobType}
           </span>
-          <span className="rounded-full bg-secondary-color px-3 py-1 text-xs lg:text-sm font-bold text-primary-color">
-            {workType}
-          </span>
         </div>
         <p className={cn("text-xs sm:text-sm lg:text-base line-clamp-2 mt-3")}>
-          {description?.slice(0, 100) +
-            (description?.length > 100 ? "..." : "")}
+          {description?.slice(0, 50) +
+            (description?.length > 50 ? "..." : "")}
         </p>
         <div className="mt-4 space-y-2 text-sm">
+          {detailed && <div className="flex items-center gap-1 text-xs sm:text-sm lg:text-base font-medium">
+            <MdLocationOn className="w-5 h-5 text-base-color" />
+            Stree Address:  {data?.location}
+          </div>}
           <div className="flex items-center gap-1 text-xs sm:text-sm lg:text-base font-medium">
             <MdLocationOn className="w-5 h-5 text-base-color" />
-            {location}
+            County: {data?.county}
           </div>
           <div className="flex items-center gap-1 text-xs sm:text-sm lg:text-base font-medium">
-            <TbCurrencyPound className="w-6 h-6 text-base-color" />
-            {min} - {max}
+            <MdLocationOn className="w-5 h-5 text-base-color" />
+            Postal Code:  {postalCode?.slice(0, 3)}
           </div>
+          <div className="flex items-center gap-1 text-xs sm:text-sm lg:text-base font-medium">
+            {/* <TbCurrencyPound className="w-6 h-6 text-base-color" /> */}
+            {paymentType !== "Monthly" ? "Hourly rate: " : "Monthly pay: "}
+            £{min} - £{max}
+          </div>
+
+          <div className="flex items-center gap-1 text-xs sm:text-sm lg:text-base font-medium">
+            <FiUsers className="w-5 h-5 text-base-color" />
+            Vacancies : {1}
+          </div>
+
+          {/* <div className="flex items-center gap-1 text-xs sm:text-sm lg:text-base font-medium">
+            <TbCurrencyPound className="w-6 h-6 text-base-color" />
+            Annual Pay: {annualPay}
+          </div>
+
+          <div className="flex items-center gap-1 text-xs sm:text-sm lg:text-base font-medium">
+            <MdAccessTime className="w-5 h-5 text-base-color" />
+            Hourly Required: {hourlyRequired}
+          </div> */}
+
           {experience && (
             <div className="flex items-center gap-1 text-xs sm:text-sm lg:text-base font-medium">
               <MdAccessTime className="w-5 h-5 text-base-color" />
-              Experience: {experience}
+              Years of experience: {experience} year
             </div>
           )}
-          {workersNeeded && (
+
+          <div className="space-y-2">
+
             <div className="flex items-center gap-1 text-xs sm:text-sm lg:text-base font-medium">
-              <FiUsers className="w-5 h-5 text-base-color" />
-              Position : {workersNeeded}
+              <IoCalendarOutline className="w-5 h-5 text-base-color" />
+              Last Day to Apply for the position: {formatDate(lastApplyDate)}
             </div>
-          )}{" "}
+            {/* <div className="flex items-center gap-1 text-xs sm:text-sm lg:text-base font-medium">
+              <IoCalendarOutline className="w-5 h-5 text-base-color" />
+              Start Date: {formatDate(startDate)}
+            </div> */}
+          </div>
+          {/* <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="flex items-center gap-1 text-xs sm:text-sm lg:text-base font-medium">
+              <IoCalendarOutline className="w-5 h-5 text-base-color" />
+              Start Time: {startTime}
+            </div>
+            <div className="flex items-center gap-1 text-xs sm:text-sm lg:text-base font-medium">
+              <IoCalendarOutline className="w-5 h-5 text-base-color" />
+              Finish Time: {finishTime}
+            </div>
+          </div> */}
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center gap-1 text-xs sm:text-sm lg:text-base font-medium">
               <IoCalendarOutline className="w-5 h-5 text-base-color" />
               Posted: {formatDate(createdAt)}
             </div>
-            <div className="flex items-center gap-1 text-xs sm:text-sm lg:text-base font-medium">
-              <IoCalendarOutline className="w-5 h-5 text-base-color" />
-              Last Date: {formatDate(lastApplyDate)}
+            <div className="text-xs sm:text-sm lg:text-base font-medium text-base-color/70">
+              Ref: {jobReferralCode}
             </div>
           </div>
-          <div className="text-xs sm:text-sm lg:text-base font-medium mt-5 text-base-color/70">
-            Ref: {jobReferralCode}
-          </div>
+
+          <div className="h-0.5 w-[95%] mx-auto bg-[#E1E1E1] my-5"></div>
+          {detailed &&
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+              <div className="space-y-2 p-4 rounded-lg bg-[#F3F3F5] border border-[#E1E1E1]">
+                <h3 className="text-sm md:text-base lg:text-lg font-bold text-base-color">CVs received</h3>
+                <p className="text-base md:text-lg lg:text-xl font-bold text-base-color">{totalReceivedCv}</p>
+              </div>
+              <div className="space-y-2 p-4 rounded-lg bg-[#F3F3F5] border border-[#E1E1E1]">
+                <h3 className="text-sm md:text-base lg:text-lg font-bold text-base-color">CVs reviewed</h3>
+                <p className="text-base md:text-lg lg:text-xl font-bold text-base-color">{reviewedCv}</p>
+              </div>
+              <div className="space-y-2 p-4 rounded-lg bg-[#F3F3F5] border border-[#E1E1E1]">
+                <h3 className="text-sm md:text-base lg:text-lg font-bold text-error">New CVs</h3>
+                <p className="text-base md:text-lg lg:text-xl font-bold text-error">{newCv}</p>
+              </div>
+            </div>
+          }
+
         </div>
       </div>
       {!detailed &&
-        (userData?.candidateProfileId ? (
+        (userData?.isCvExist ? (
           <ReuseButton
             onClick={() => {
               viewApplyJob(data);
             }}
             variant="secondary"
-            className="w-full !rounded-lg"
+            className={`w-full !rounded-lg ${isApplied && "!bg-transparent !border-secondary-color !text-secondary-color"}`}
           >
-            Apply
+            {!isApplied ? "Apply" : "Already Applied"}
           </ReuseButton>
         ) : (
           <ReuseButton

@@ -47,7 +47,7 @@ const ReuseDatePicker = ({
     <div className={cn(wrapperClassName)}>
       {label && (
         <Typography.Title
-          level={5}
+          level={4}
           className={cn("!text-base-color !font-normal", labelClassName)}
         >
           {label}
@@ -64,7 +64,7 @@ const ReuseDatePicker = ({
           }}
           disabled={disabled}
           className={cn(
-            "!py-2.5 !px-3 !text-lg !bg-[#EFEFEF] border !border-[#EFEFEF]  !text-base-color rounded-lg w-full",
+            "!py-3 !px-3 !text-lg !bg-[#EFEFEF] border !border-[#EFEFEF]  !text-base-color rounded-lg w-full",
             className
           )}
           style={style}

@@ -80,9 +80,9 @@ export default function Footer() {
                       <li>
                         <Link href="/privacy-policy">Privacy Policy</Link>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link href="/data-protection">Cookie Policy</Link>
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                 </div>

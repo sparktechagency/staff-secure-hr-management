@@ -6,6 +6,7 @@ const PackageCardViewSection = ({
 }: {
   mySubscription: IMySubscription;
 }) => {
+  console.log(mySubscription)
   return (
     <div className="w-full bg-white rounded-xl border border-gray-200 p-5 shadow-sm mt-10">
       {/* Header */}
@@ -28,12 +29,6 @@ const PackageCardViewSection = ({
               {formatDate(mySubscription?.buyTime)}
             </span>
           </p>
-          <p className="text-sm text-gray-500 mt-1">
-            Expires :{" "}
-            <span className="font-medium text-gray-700">
-              {formatDate(mySubscription?.expireDate)}
-            </span>
-          </p>
         </div>
 
         {/* <button className="bg-blue-900 text-white text-sm px-4 py-1.5 rounded-md hover:bg-blue-800 transition">
@@ -47,12 +42,20 @@ const PackageCardViewSection = ({
           <p className="text-sm lg:text-base font-semibold text-gray-600">
             CVs Available
           </p>
-          <p className="text-sm lg:text-base font-semibold text-gray-600">
-            <span className=" font-semibold text-gray-900">
-              {mySubscription?.usedCV}
-            </span>{" "}
-            / {mySubscription?.limit} per requirement
-          </p>
+          {
+            mySubscription?.type === "Diamond" ? <p className="text-sm lg:text-base font-semibold text-gray-600">
+              <span className=" font-semibold text-gray-900">
+                {mySubscription?.usedCV}
+              </span>{" "}
+              / Unlimited requirement
+            </p> : <p className="text-sm lg:text-base font-semibold text-gray-600">
+              <span className=" font-semibold text-gray-900">
+                {mySubscription?.usedCV}
+              </span>{" "}
+              / {mySubscription?.limit} per requirement
+            </p>
+          }
+
         </div>
 
         {/* Progress Bar */}
@@ -60,9 +63,8 @@ const PackageCardViewSection = ({
           <div
             className="h-full bg-secondary-color rounded-full"
             style={{
-              width: `${
-                (mySubscription?.usedCV / mySubscription?.limit) * 100
-              }%`,
+              width: `${(mySubscription?.usedCV / mySubscription?.limit) * 100
+                }%`,
             }}
           />
         </div>

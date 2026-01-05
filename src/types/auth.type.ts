@@ -5,6 +5,7 @@ interface ISignInUser {
   companyName: string;
   email: string;
   candidateProfileId: string;
+  isCvExist: boolean;
   role: string;
   iat: number; // issued at (UNIX timestamp)
   exp: number; // expiration time (UNIX timestamp)

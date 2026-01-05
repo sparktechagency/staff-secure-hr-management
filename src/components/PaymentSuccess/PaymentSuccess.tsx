@@ -225,7 +225,7 @@ const PaymentSuccess = () => {
         <p>
           Need help? Contact{" "}
           <span className="font-semibold text-secondary-color">
-            contact@gmail.com
+            frankedwards@staffsecure.ai
           </span>
         </p>
       </motion.div>

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import SpinLoader from "@/components/ui/SpinLoader";
 import { Modal } from "antd";
 import { useEffect, useState } from "react";
 
@@ -6,19 +7,23 @@ interface ViewCVModalProps {
   isViewCVModalVisible: boolean;
   handleCancel: () => void;
   currentRecord: any | null;
+  url: any;
 }
 
 const ViewCVModal: React.FC<ViewCVModalProps> = ({
   isViewCVModalVisible,
   handleCancel,
   currentRecord,
+  url,
 }) => {
-  console.log(currentRecord);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (currentRecord?.cv) {
-      fetch(`/api/cv/${currentRecord.cv}`)
+    setLoading(true);
+    if (url) {
+      fetch(`/api/cv/${url}`)
         .then((res) => {
           if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
           return res.blob();
@@ -26,10 +31,12 @@ const ViewCVModal: React.FC<ViewCVModalProps> = ({
         .then((blob) => {
           const url = URL.createObjectURL(blob);
           setPdfUrl(url);
+          setLoading(false);
+          setError(null);
         })
-        .catch((err) => console.error("Failed to fetch PDF", err));
+        .catch((err) => { setLoading(false); console.error("Failed to fetch PDF", err); setError(err.message); });
     }
-  }, [currentRecord]);
+  }, [url]);
 
   return (
     <Modal
@@ -44,9 +51,9 @@ const ViewCVModal: React.FC<ViewCVModalProps> = ({
       footer={false}
     >
       <p className="text-xl font-semibold pt-10 pb-4 text-secondary-color">
-        {currentRecord?.name} CV
+        {currentRecord?.name}
       </p>
-      {pdfUrl && (
+      {loading ? <SpinLoader /> : pdfUrl && (
         <iframe
           src={pdfUrl}
           width="100%"
@@ -54,6 +61,7 @@ const ViewCVModal: React.FC<ViewCVModalProps> = ({
           allowFullScreen
         ></iframe>
       )}
+      {error && <p className="text-red-500">{error}</p>}
     </Modal>
   );
 };

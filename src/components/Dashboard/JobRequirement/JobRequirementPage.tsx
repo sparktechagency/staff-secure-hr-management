@@ -1,11 +1,9 @@
 "use client";
 import JobCard from "@/components/shared/Cards/JobCard";
-import AddNewJobModal from "@/components/shared/Modal/AddNewJobModal";
 import DeleteModal from "@/components/shared/Modal/DeleteModal";
 import EditJobModal from "@/components/shared/Modal/EditJobModal";
 import PaginationSection from "@/components/shared/Modal/PaginationSection";
 import ViewApplyJobModal from "@/components/shared/Modal/ViewApplyJobModal";
-import ReuseButton from "@/components/ui/Button/ReuseButton";
 import SearchInput from "@/components/ui/Form/ReuseSearchInput";
 import { deleteJobPost } from "@/services/JobBoardService/JobBoardServiceApi";
 import { IJob } from "@/types";
@@ -24,7 +22,6 @@ const JobRequirementPage = ({
   jobs: IJob[];
 }) => {
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [currentRecoard, setCurrentRecoard] = useState<IJob | null>(null);
@@ -34,7 +31,6 @@ const JobRequirementPage = ({
     setIsApplyModalOpen(true);
   };
 
-  const openAddModal = () => setIsAddModalOpen(true);
   const openEditModal = (job: IJob) => {
     setCurrentRecoard(job);
     setIsEditModalOpen(true);
@@ -46,7 +42,6 @@ const JobRequirementPage = ({
 
   const handleCancel = () => {
     setIsApplyModalOpen(false);
-    setIsAddModalOpen(false);
     setIsEditModalOpen(false);
     setIsDeleteModalOpen(false);
     setCurrentRecoard(null);
@@ -70,28 +65,24 @@ const JobRequirementPage = ({
   return (
     <div className="">
       <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-base-color mb-8">
-        Job Requirement
+        Current Project
       </h1>
       <div className="flex items-center justify-between gap-4">
-        <Suspense fallback={<div>Loading...</div>}>
-          {" "}
-          <SearchInput
-            placeholder="Search "
-            className="lg:!w-lg gap-0 "
-            label="Search"
-            isPage={false}
-            formClassName="lg:!w-lg !-mb-2 !h-fit"
-            inputClassName="lg:!w-lg !bg-[#EFEFEF] text-base-color !py-3 !px-2 w-full !mb-0"
-          />
-        </Suspense>
-
-        <ReuseButton
-          variant="secondary"
-          className="!w-fit"
-          onClick={openAddModal}
-        >
-          Add New Job Post
-        </ReuseButton>
+        {
+          jobs?.length > 0 ? (
+            <Suspense fallback={<div>Loading...</div>}>
+              {" "}
+              <SearchInput
+                placeholder="Search "
+                className="lg:!w-lg gap-0 "
+                label="Search"
+                isPage={false}
+                formClassName="lg:!w-lg !-mb-2 !h-fit"
+                inputClassName="lg:!w-lg !bg-[#EFEFEF] text-base-color !py-3 !px-2 w-full !mb-0"
+              />
+            </Suspense>
+          ) : <div></div>
+        }
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-10">
@@ -107,7 +98,7 @@ const JobRequirementPage = ({
         ))}
       </div>
       <div className="mt-10 flex justify-center items-center">
-        <PaginationSection page={page} totalData={totalData} limit={limit} />
+        {jobs?.length > 0 && <PaginationSection page={page} totalData={totalData} limit={limit} />}
       </div>
 
       <ViewApplyJobModal
@@ -115,13 +106,9 @@ const JobRequirementPage = ({
         handleCancel={handleCancel}
         currentRecord={currentRecoard as IJob}
         variant="detailed"
-        applyJob={() => {}}
+        applyJob={() => { }}
       />
 
-      <AddNewJobModal
-        isModalVisible={isAddModalOpen}
-        handleCancel={handleCancel}
-      />
       <EditJobModal
         isModalVisible={isEditModalOpen}
         handleCancel={handleCancel}

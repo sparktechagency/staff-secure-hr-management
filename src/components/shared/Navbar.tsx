@@ -87,7 +87,7 @@ const Navbar: React.FC = () => {
       baseItems.push({
         id: "6",
         name: "Dashboard",
-        route: "/dashboard/candidate/job-board",
+        route: "/dashboard/candidate/current-vacancies",
         key: "dashboard",
       });
     }
@@ -109,7 +109,7 @@ const Navbar: React.FC = () => {
   //     key: "1",
   //     label:
   //       userData?.role === "candidate" ? (
-  //         <Link href="/dashboard/candidate/job-board">Candidate Dashboard</Link>
+  //         <Link href="/dashboard/candidate/current-vacancies">Candidate Dashboard</Link>
   //       ) : userData?.role === "employer" ? (
   //         <Link href="/dashboard/employer/overview">Employer Dashboard</Link>
   //       ) : (
@@ -131,17 +131,14 @@ const Navbar: React.FC = () => {
       }}
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      className={`z-[99999999]  ${
-        path === "/" && !scrolled ? "!text-primary-color" : " !text-base-color"
-      } ${
-        scrolled && path === "/"
+      className={`z-[99999999]  ${path === "/" && !scrolled ? "!text-primary-color" : " !text-base-color"
+        } ${scrolled && path === "/"
           ? " !shadow-md duration-300  py-2"
           : " duration-300 py-2"
-      } ${
-        mobileMenuOpen || scrolled || path === "/dashboard"
+        } ${mobileMenuOpen || scrolled || path === "/dashboard"
           ? "bg-primary-color"
           : "bg-transparent"
-      }`}
+        }`}
     >
       <Container>
         <header className="text-base mx-auto  flex justify-between items-center z-[99999] ">
@@ -181,10 +178,9 @@ const Navbar: React.FC = () => {
                   <li
                     key={i}
                     className={`lg:mb-0 mb-5 cursor-pointer group relative hover:text-secondary-color transition-all font-bold duration-300 
-                      ${
-                        path?.includes(navItem.key)
-                          ? "!text-secondary-color border-b-2 border-secondary-color"
-                          : "border-b-2 border-transparent"
+                      ${path?.includes(navItem.key)
+                        ? "!text-secondary-color border-b-2 border-secondary-color"
+                        : "border-b-2 border-transparent"
                       }
                       `}
                   >
@@ -213,11 +209,10 @@ const Navbar: React.FC = () => {
                   <li
                     key={i}
                     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                    className={`lg:mb-0 mb-0 cursor-pointer  group relative  transition-all duration-300 ${
-                      path?.includes(navItem.key)
-                        ? "!text-secondary-color border-b-2 border-secondary-color"
-                        : "text-[#707070] border-b-2 border-transparent"
-                    }`}
+                    className={`lg:mb-0 mb-0 cursor-pointer  group relative  transition-all duration-300 ${path?.includes(navItem.key)
+                      ? "!text-secondary-color border-b-2 border-secondary-color"
+                      : "text-[#707070] border-b-2 border-transparent"
+                      }`}
                   >
                     <Link
                       href={navItem.route}
@@ -248,7 +243,7 @@ const Navbar: React.FC = () => {
                     </Link>
                     <Link
                       onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                      href="/sign-up"
+                      href="/join"
                       className=" px-2 py-1 rounded-full border-2 border-secondary-color bg-secondary-color text-primary-color"
                     >
                       Sign Up
@@ -275,15 +270,14 @@ const Navbar: React.FC = () => {
               <div className="w-full flex items-center gap-1">
                 <Link
                   href="/sign-in"
-                  className={`px-2 py-1 font-bold rounded-full border-2 ${
-                    path === "/" && !scrolled
-                      ? "text-primary-color border-primary-color"
-                      : "text-secondary-color border-secondary-color"
-                  }`}
+                  className={`px-2 py-1 font-bold rounded-full border-2 ${path === "/" && !scrolled
+                    ? "text-primary-color border-primary-color"
+                    : "text-secondary-color border-secondary-color"
+                    }`}
                 >
                   Sign In
                 </Link>
-                <Link href="/sign-up">
+                <Link href="/join">
                   <Button className="group flex items-center !py-4 !px-2 gap-1 border-2 !border-secondary-color !bg-secondary-color !text-primary-color rounded-full">
                     <p className="font-semibold">Sign Up</p>
                     <div className="bg-primary-color p-0.5 rounded-full">

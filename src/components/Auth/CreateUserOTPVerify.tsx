@@ -3,15 +3,20 @@ import { Form } from "antd";
 import { useState } from "react";
 import OTPInput from "react-otp-input";
 import Container from "../ui/Container";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import tryCatchWrapper from "@/utils/tryCatchWrapper";
 import { registerUserOtp, resendOtp } from "@/services/AuthService";
 import { IoMdMail } from "react-icons/io";
 import ReuseButton from "../ui/Button/ReuseButton";
+import Cookies from "js-cookie";
 
 const CreateUserOTPVerify = () => {
   const router = useRouter();
   const [otp, setOtp] = useState("");
+  const path = usePathname();
+
+  const currentPath: string = path?.split("/")?.[2];
+  console.log(currentPath);
 
   const handleOTPSubmit = async () => {
     const res = await tryCatchWrapper(
@@ -21,6 +26,9 @@ const CreateUserOTPVerify = () => {
       "Verified successfully!"
     );
     if (res?.success) {
+      if (currentPath === "employer") {
+        Cookies.set("staffSecureEmployerIsSubscribed", "false");
+      }
       router.push("/sign-in");
     }
   };

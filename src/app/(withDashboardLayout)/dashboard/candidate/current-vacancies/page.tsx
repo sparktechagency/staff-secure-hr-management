@@ -15,10 +15,11 @@ const page = async ({
 
   const searchText = params?.search || "";
   const locationText = params?.location || "";
-  console.log({ searchText, locationText });
+  const workType = params?.type || "";
+  console.log({ searchText, locationText, workType });
 
   const res = await fetchWithAuth(
-    `/job/all?page=${page}&limit=${limit}&searchTerm=${searchText}&location=${locationText}`,
+    `/job/all?page=${page}&limit=${limit}&searchTerm=${searchText}&county=${locationText}&workType=${workType}`,
     {
       next: {
         tags: [TagTypes.job],
@@ -31,7 +32,7 @@ const page = async ({
   const jobList = data?.data?.result || [];
   const totalJobs = data?.data?.meta?.total || 0;
 
-  console.log(jobList);
+  console.log(data);
 
   return (
     <div>

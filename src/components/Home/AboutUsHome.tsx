@@ -18,7 +18,7 @@ const cardsData = {
   ],
 
   buttonText: "Learn more",
-
+  url: "/who-we-help",
   image: AllImages?.trust,
 };
 

@@ -55,7 +55,7 @@ export const registerUserOtp = async (
       }
     );
     const result = await res.json();
-
+    console.log(result);
     if (result.success) {
       (await cookies()).delete("secureStaffSignUpToken");
     }
@@ -125,6 +125,8 @@ export const loginUser = async (
     });
 
     const result = await res.json();
+
+    console.log(result);
 
     if (result?.success) {
       const threeMonths = 1000 * 60 * 60 * 24 * 30 * 3; // 3 months in milliseconds

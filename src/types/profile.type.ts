@@ -4,6 +4,7 @@ interface IProfile {
   email: string;
   profileImage: string;
   role: "candidate" | "admin" | "recruiter";
+  mySubscriptionsId: string;
   companyName: string;
   phone: string;
   status: "active" | "inactive" | "blocked";
@@ -33,6 +34,9 @@ interface ICandidateProfile {
     name: string;
     email: string;
     location: string;
+    area: string;
+    postalCode: string;
+    county: string;
     designation: string;
     availability: string;
 
@@ -44,6 +48,7 @@ interface ICandidateProfile {
     bio: string;
 
     cv: string;
+    documentAndCertifications: string[];
 
     createdAt: string;
     updatedAt: string;

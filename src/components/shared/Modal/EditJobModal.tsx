@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useEffect } from "react";
-import { Form, Input, Modal } from "antd";
+import { Form, Input, Modal, Typography } from "antd";
 import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
 import ReusableForm from "@/components/ui/Form/ReuseForm";
 import ReuseInput from "@/components/ui/Form/ReuseInput";
@@ -12,6 +12,8 @@ import ReuseDatePicker from "@/components/ui/Form/ReuseDatePicker";
 import dayjs from "dayjs";
 import tryCatchWrapper from "@/utils/tryCatchWrapper";
 import { updateJobPost } from "@/services/JobBoardService/JobBoardServiceApi";
+import ReuseTimePicker from "@/components/ui/Form/ReuseTimePicker";
+import { BsCurrencyPound } from "react-icons/bs";
 
 const EditJobModal = ({
   isModalVisible,
@@ -22,54 +24,78 @@ const EditJobModal = ({
   currentRecord: IJob | null;
   handleCancel: () => void;
 }) => {
-  console.log(currentRecord);
   const [form] = Form.useForm();
+  const workType = Form.useWatch("workType", form);
+  const paymentType = Form.useWatch("paymentType", form);
 
   useEffect(() => {
     if (!currentRecord) return;
 
     form.setFieldsValue({
-      title: currentRecord.title,
-      location: currentRecord.location,
-      minSalaryRange: currentRecord.salaryRange?.min,
-      maxSalaryRange: currentRecord.salaryRange?.max,
-      experience: currentRecord.experience,
-      workType: currentRecord.workType,
-      jobType: currentRecord.jobType,
-      workersNeeded: currentRecord.workersNeeded,
-      description: currentRecord.description,
-      keyResponsibilities: currentRecord.keyResponsibilities,
-      requirements: currentRecord.requirements,
-      skillsRequired: currentRecord.skillsRequired,
-      benefits: currentRecord.benefits,
-      lastApplyDate: currentRecord.lastApplyDate
-        ? dayjs(currentRecord.lastApplyDate)
-        : null,
+      title: currentRecord?.title,
+      location: currentRecord?.location,
+      area: currentRecord?.area,
+      county: currentRecord?.county,
+      postalcode: currentRecord?.postalCode,
+      jobType: currentRecord?.jobType,
+      workType: currentRecord?.workType,
+      lengthOfWorkInNumber: currentRecord?.lengthOfWork?.split(" ")[0],
+      lengthOfWorkInWeek: currentRecord?.lengthOfWork?.split(" ")[1],
+      paymentType: currentRecord?.paymentType,
+      minSalaryRange: currentRecord?.salaryRange?.min,
+      maxSalaryRange: currentRecord?.salaryRange?.max,
+      overtimePayRate: currentRecord?.overtimePayRate,
+      hourlyRequired: currentRecord?.hourlyRequired,
+      startDate: dayjs(currentRecord?.startDate),
+      // startTime: dayjs(currentRecord?.startTime),
+      // finishTime: dayjs(currentRecord?.finishTime),
+      daysOfWork: currentRecord?.daysOfWork,
+      experience: currentRecord?.experience,
+      description: currentRecord?.description,
+      candidateDuties: currentRecord?.candidateDuties,
+      documentationCertificates: currentRecord?.documentationCertificates,
+      benefits: currentRecord?.benefits,
+      additionalInformation: currentRecord?.additionalInformation,
+      lastApplyDate: dayjs(currentRecord?.lastApplyDate),
     });
   }, [currentRecord, form]);
+
+  console.log(currentRecord)
   const handleSubmit = async (values: any) => {
     const payload = {
       title: values.title,
       location: values.location,
+      area: values.area,
+      county: values.county,
+      postalCode: values.postalcode,
+      jobType: values.jobType,
+      workType: values.workType,
+      ...(values.lengthOfWorkInWeek ? { lengthOfWork: values.lengthOfWorkInNumber + " " + values.lengthOfWorkInWeek } : { lengthOfWork: "" }),
+      paymentType: values.paymentType,
       salaryRange: {
         min: Number(values.minSalaryRange),
         max: Number(values.maxSalaryRange),
       },
+      overtimePayRate: Number(values.overtimePayRate),
+      hourlyRequired: Number(values.hourlyRequired),
+      startDate: dayjs(values.startDate).format("YYYY-MM-DD"),
+      startTime: values.startTime
+        ? dayjs(values.startTime).format("hh:mm:A")
+        : currentRecord?.startTime,
+      finishTime: values.finishTime
+        ? dayjs(values.finishTime).format("hh:mm:A")
+        : currentRecord?.finishTime,
+      daysOfWork: values.daysOfWork,
       experience: Number(values.experience),
-      workType: values.workType,
-      workersNeeded: Number(values.workersNeeded),
-      jobType: values.jobType,
       description: values.description,
-      keyResponsibilities: values.keyResponsibilities,
-      requirements: values.requirements,
-      skillsRequired: values.skillsRequired,
+      candidateDuties: values.candidateDuties,
+      documentationCertificates: values.documentationCertificates,
       benefits: values.benefits,
-
+      additionalInformation: values.additionalInformation,
       lastApplyDate: values.lastApplyDate
         ? dayjs(values.lastApplyDate).format("YYYY-MM-DD")
         : null,
     };
-
     console.log(payload);
 
     const res = await tryCatchWrapper(
@@ -111,140 +137,331 @@ const EditJobModal = ({
             {/* Job Title */}
             <ReuseInput
               name="title"
-              label="Job Title"
-              placeholder="Enter Job Title"
-              rules={[{ required: true, message: "Job title is required" }]}
-              Typolevel={5}
+              label="Candidate Required"
+              placeholder="Enter Candidate Required"
+              rules={[{ required: true, message: "Candidate Required is required" }]}
+              Typolevel={4}
               labelClassName="!font-medium text-sm"
               inputClassName="!py-3"
             />
 
-            {/* Location */}
-            <ReuseInput
-              name="location"
-              label="Location"
-              placeholder="Enter Location"
-              rules={[{ required: true, message: "Location is required" }]}
-              Typolevel={5}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-4">
+              {/* Location */}
+              <ReuseInput
+                name="location"
+                label="Street Address"
+                placeholder="Enter Street Address"
+                rules={[{ required: true, message: "Street Address is required" }]}
+                Typolevel={4}
+                labelClassName="!font-medium text-sm"
+                inputClassName="!py-3"
+              />
+              <ReuseInput
+                name="area"
+                label="Town"
+                placeholder="Enter Town"
+                rules={[{ required: true, message: "Town is required" }]}
+                Typolevel={4}
+                labelClassName="!font-medium text-sm"
+                inputClassName="!py-3"
+              />
+              <ReuseInput
+                name="county"
+                label="County"
+                placeholder="Enter County"
+                rules={[{ required: true, message: "County is required" }]}
+                Typolevel={4}
+                labelClassName="!font-medium text-sm"
+                inputClassName="!py-3"
+              />
+              <ReuseInput
+                name="postalcode"
+                label="Postal Code"
+                placeholder="Enter Postal Code"
+                rules={[{ required: true, message: "Postal Code is required" }]}
+                Typolevel={4}
+                labelClassName="!font-medium text-sm"
+                inputClassName="!py-3"
+              />
+
+            </div>
+
+
+            {/* Job type - Work arrangement */}
+            <ReuseSelect
+              name="jobType"
+              label="Work arrangement"
+              placeholder="Select Work arrangement"
+              options={[
+                {
+                  value: "Onsite",
+                  label: "Onsite",
+                },
+                {
+                  value: "Remote",
+                  label: "Remote",
+                },
+                {
+                  value: "Hybrid",
+                  label: "Hybrid",
+                },
+              ]}
+              Typolevel={4}
+              rules={[{ required: true }]}
               labelClassName="!font-medium text-sm"
-              inputClassName="!py-3"
+            />
+
+            {/* Type of Work / Employment Type */}
+            <ReuseSelect
+              name="workType"
+              label="Employment type"
+              placeholder="Select Employment type"
+              options={[
+                { value: "Full-Time", label: "Full Time" },
+                { value: "Part-Time", label: "Part Time" },
+                { value: "Temporary", label: "Temporary" },
+              ]}
+              Typolevel={4}
+              rules={[{ required: true }]}
+              labelClassName="!font-medium text-sm"
+            />
+            {/* Length of Work */}
+            {workType === "Temporary" && <Typography.Title level={4} className="!font-medium text-sm">
+              Length of Project
+            </Typography.Title>}
+            {/* Length of Work */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-4">
+              {workType === "Temporary" && <ReuseInput
+                name="lengthOfWorkInNumber"
+                type="number"
+                placeholder="ex: 1,2,3,4,5"
+                rules={[{ required: true, message: "Length of work (in number) is required" }]}
+                Typolevel={4}
+                labelClassName="!font-medium text-sm"
+                inputClassName="!py-3"
+              />}
+
+              {workType === "Temporary" && <ReuseSelect
+                name="lengthOfWorkInWeek"
+                rules={[{ required: true }]}
+                placeholder="Select Length of Project"
+                options={[
+                  { value: "Day", label: "Days" },
+                  { value: "Weeks", label: "Weeks" },
+                  { value: "Months", label: "Months" },
+                ]}
+                Typolevel={4}
+                labelClassName="!font-medium text-sm"
+              />}
+            </div>
+
+
+
+            {/* Payment type */}
+            <ReuseSelect
+              name="paymentType"
+              label="Payment Period"
+              placeholder="Select Payment Period"
+              options={[
+                {
+                  value: "Weekly",
+                  label: "Weekly",
+                },
+                {
+                  value: "Fortnightly",
+                  label: "Fortnightly",
+                },
+                {
+                  value: "Monthly",
+                  label: "Monthly  ",
+                },
+              ]}
+              Typolevel={4}
+              rules={[{ required: true }]}
+              labelClassName="!font-medium text-sm"
             />
 
             {/* Salary Range */}
-            <ReuseInput
-              name="minSalaryRange"
-              type="number"
-              label="Min Salary Range"
-              placeholder="Enter Min Salary Range"
-              Typolevel={5}
-              labelClassName="!font-medium text-sm"
-              inputClassName="!py-3"
-            />
+            <Typography.Title level={4} className="!font-medium text-sm">
+              {paymentType !== "Monthly" ? "Hourly Pay rate (£)" : "Monthly rate (£)"}
+            </Typography.Title>
+            <div className="flex gap-4 !w-full ">
+              <ReuseInput
+                name="minSalaryRange"
+                type="number"
+                placeholder={`Min. Range`}
+                Typolevel={4}
+                labelClassName="!font-medium text-sm"
+                inputClassName="!py-3 "
+                wrapperClassName="!w-full"
+                rules={[{ required: true }]}
+                prefix={<BsCurrencyPound className="text-xl !text-base-color" />}
+              />
+
+              <ReuseInput
+                name="maxSalaryRange"
+                type="number"
+                placeholder={`Max. Range`}
+                Typolevel={4}
+                labelClassName="!font-medium text-sm"
+                inputClassName="!py-3 " wrapperClassName="!w-full"
+                rules={[{ required: true }]}
+                prefix={<BsCurrencyPound className="text-xl !text-base-color" />}
+
+              />
+            </div>
 
             <ReuseInput
-              name="maxSalaryRange"
+              name="overtimePayRate"
+              label="Overtime Pay Rate (£)"
               type="number"
-              label="Max Salary Range"
-              placeholder="Enter Max Salary Range"
-              Typolevel={5}
+              placeholder="Enter Overtime Pay Rate"
+              Typolevel={4}
               labelClassName="!font-medium text-sm"
-              inputClassName="!py-3"
+              inputClassName="!py-3 " wrapperClassName="!w-full !-mt-5"
+              rules={[{ required: true }]}
+              prefix={<BsCurrencyPound className="text-xl !text-base-color" />}
             />
+            {/* <ReuseInput
+                        name="annualPay"
+                        label="Annual Pay Rate (£)"
+                        type="number"
+                        placeholder="Enter Annual pay"
+                        Typolevel={4}
+                        labelClassName="!font-medium text-sm"
+                        inputClassName="!py-3 " wrapperClassName="!w-full "
+                        prefix={<BsCurrencyPound className="text-xl !text-base-color" />}
+                    /> */}
+            <ReuseInput
+              name="hourlyRequired"
+              label="Hours required (per week)"
+              type="number"
+              placeholder="Enter Hours"
+              Typolevel={4}
+              labelClassName="!font-medium text-sm"
+              rules={[{ required: true }]}
+              inputClassName="!py-3 " wrapperClassName="!w-full"
+            />
+
+            <ReuseDatePicker
+              name="startDate"
+              label="Start date"
+              placeholder="Select Start date"
+              rules={[{ required: true }]}
+              labelClassName="!font-medium text-sm"
+            />
+
+            <ReuseTimePicker
+              name="startTime"
+              label="Start time"
+              placeholder="Select Start time"
+              labelClassName="!font-medium text-sm"
+            />
+
+            <ReuseTimePicker
+              name="finishTime"
+              label="Finish time"
+              placeholder="Select Finish time"
+              labelClassName="!font-medium text-sm"
+            />
+
+
+            {/* Days of work */}
+            <ReuseSelect
+              name="daysOfWork"
+              mode="multiple"
+              label="Days of work"
+              placeholder="Select Days of work"
+              options={[
+                {
+                  value: "Sunday",
+                  label: "Sunday",
+                },
+                {
+                  value: "Monday",
+                  label: "Monday",
+                },
+                {
+                  value: "Tuesday",
+                  label: "Tuesday",
+                },
+                {
+                  value: "Wednesday",
+                  label: "Wednesday",
+                },
+                {
+                  value: "Thursday",
+                  label: "Thursday",
+                },
+                {
+                  value: "Friday",
+                  label: "Friday",
+                },
+                {
+                  value: "Saturday",
+                  label: "Saturday",
+                }
+              ]}
+              Typolevel={4}
+              rules={[{ required: true }]}
+              labelClassName="!font-medium text-sm"
+              selectClassName="!min-h-9 !h-fit"
+            />
+
+            {/* Workers Needed */}
+            {/* <ReuseInput
+                        name="workersNeeded"
+                        label="How many Candidate required"
+                        placeholder="Enter How many Candidate required"
+                        type="number"
+                        Typolevel={4}
+                        labelClassName="!font-medium text-sm"
+                        inputClassName="!py-3"
+                    /> */}
 
             {/* Experience */}
             <ReuseInput
               name="experience"
-              label="Experience"
-              placeholder="Enter Experience"
-              Typolevel={5}
-              labelClassName="!font-medium text-sm"
-              inputClassName="!py-3"
-            />
-
-            {/* Length of Work */}
-            <ReuseSelect
-              name="workType"
-              label="Length of Work"
-              placeholder="Select Length of Work"
-              options={[
-                { value: "Full Time", label: "Full Time" },
-                { value: "Part Time", label: "Part Time" },
-                { value: "Contract", label: "Contract" },
-              ]}
-              Typolevel={5}
-              labelClassName="!font-medium text-sm"
-            />
-            {/* Job type */}
-            <ReuseSelect
-              name="jobType"
-              label="Job Type"
-              placeholder="Select Job Type"
-              options={[
-                {
-                  value: "onsite",
-                  label: "Onsite",
-                },
-                {
-                  value: "remote",
-                  label: "Remote",
-                },
-                {
-                  value: "hybrid",
-                  label: "Hybrid",
-                },
-              ]}
-              Typolevel={5}
-              labelClassName="!font-medium text-sm"
-            />
-
-            {/* Workers Needed */}
-            <ReuseInput
-              name="workersNeeded"
-              label="Workers Needed"
-              placeholder="Enter workers needed"
+              label="Years of experience"
               type="number"
-              Typolevel={5}
+              placeholder="Enter Experience"
+              Typolevel={4}
+              rules={[{ required: true }]}
               labelClassName="!font-medium text-sm"
               inputClassName="!py-3"
+              wrapperClassName=""
             />
 
-            {/* Job Description */}
+            {/* Project requirements */}
             <ReuseInput
               inputType="textarea"
               name="description"
-              label="Job Description"
-              placeholder="Enter Job Description"
+              label="Project Description"
+              placeholder="Enter Project Description"
               type="number"
-              Typolevel={5}
+              Typolevel={4}
+              rules={[{ required: true }]}
               labelClassName="!font-medium text-sm"
               inputClassName="!py-3"
             />
-
-            {/* Key Responsibilities - Dynamic */}
             <Form.Item
-              label={
-                <span className="font-medium text-secondary-color text-sm">
-                  Key Responsibilities
-                </span>
-              }
+              label={<span className="font-medium text-base-color text-xl">Candidate Required Duties</span>}
             >
-              <Form.List name="keyResponsibilities" initialValue={[""]}>
+              <Form.List
+                name="candidateDuties"
+                initialValue={[""]}  // Ensuring it starts as an array of strings
+              >
                 {(fields, { add, remove }) => (
                   <>
                     {fields.map(({ key, name }, index) => (
                       <div key={key} className="flex items-center gap-3 mb-4">
                         <Form.Item
-                          name={name}
+                          name={[name]}  // Avoid nesting and just refer directly to the string value
                           className="flex-1 !mb-0"
-                          rules={[
-                            {
-                              required: true,
-                              message: "Responsibility is required",
-                            },
-                          ]}
+                          rules={[{ required: true, message: "Duty is required" }]}
                         >
                           <Input
-                            placeholder={`Responsibility ${index + 1}`}
+                            placeholder={`Candidate Required Duties ${index + 1}`}
                             className="!py-1.5 !px-3 !text-base !bg-[#F3F3F5] border !border-[#F3F3F5] outline-none !ring-0 !text-base-color rounded-lg"
                             size="large"
                           />
@@ -259,41 +476,34 @@ const EditJobModal = ({
                     ))}
                     <ReuseButton
                       className="!py-0.5 !text-sm !border-dashed"
-                      onClick={() => add("")}
+                      onClick={() => add("")} // Adding an empty string to the array
                       icon={<PlusOutlined />}
                     >
-                      Add Responsibility
+                      Add More
                     </ReuseButton>
                   </>
                 )}
               </Form.List>
             </Form.Item>
 
-            {/* Requirements - Dynamic */}
             <Form.Item
-              label={
-                <span className="font-medium text-secondary-color text-sm">
-                  Requirements
-                </span>
-              }
+              label={<span className="font-medium text-base-color text-xl">Documentation and Certificates</span>}
             >
-              <Form.List name="requirements" initialValue={[""]}>
+              <Form.List
+                name="documentationCertificates"
+                initialValue={[""]}  // Ensuring it starts as an array of strings
+              >
                 {(fields, { add, remove }) => (
                   <>
                     {fields.map(({ key, name }, index) => (
                       <div key={key} className="flex items-center gap-3 mb-4">
                         <Form.Item
-                          name={name}
+                          name={[name]}  // Avoid nesting and just refer directly to the string value
                           className="flex-1 !mb-0"
-                          rules={[
-                            {
-                              required: true,
-                              message: "Requirement is required",
-                            },
-                          ]}
+                          rules={[{ required: true, message: "Document/Certificate is required" }]}
                         >
                           <Input
-                            placeholder={`Requirement ${index + 1}`}
+                            placeholder={`Documentation and Certificates ${index + 1}`}
                             className="!py-1.5 !px-3 !text-base !bg-[#F3F3F5] border !border-[#F3F3F5] outline-none !ring-0 !text-base-color rounded-lg"
                             size="large"
                           />
@@ -308,58 +518,10 @@ const EditJobModal = ({
                     ))}
                     <ReuseButton
                       className="!py-0.5 !text-sm !border-dashed"
-                      onClick={() => add("")}
+                      onClick={() => add("")} // Adding an empty string to the array
                       icon={<PlusOutlined />}
                     >
-                      Add Requirement
-                    </ReuseButton>
-                  </>
-                )}
-              </Form.List>
-            </Form.Item>
-            {/* Skill Requirements - Dynamic */}
-            <Form.Item
-              label={
-                <span className="font-medium text-secondary-color text-sm">
-                  Skill Requirements
-                </span>
-              }
-            >
-              <Form.List name="skillsRequired" initialValue={[""]}>
-                {(fields, { add, remove }) => (
-                  <>
-                    {fields.map(({ key, name }, index) => (
-                      <div key={key} className="flex items-center gap-3 mb-4">
-                        <Form.Item
-                          name={name}
-                          className="flex-1 !mb-0"
-                          rules={[
-                            {
-                              required: true,
-                              message: "Skill is required",
-                            },
-                          ]}
-                        >
-                          <Input
-                            placeholder={`Skill ${index + 1}`}
-                            className="!py-1.5 !px-3 !text-base !bg-[#F3F3F5] border !border-[#F3F3F5] outline-none !ring-0 !text-base-color rounded-lg"
-                            size="large"
-                          />
-                        </Form.Item>
-                        {fields.length > 1 && (
-                          <MinusCircleOutlined
-                            className="!text-red-500 text-base hover:!text-red-700"
-                            onClick={() => remove(name)}
-                          />
-                        )}
-                      </div>
-                    ))}
-                    <ReuseButton
-                      className="!py-0.5 !text-sm !border-dashed"
-                      onClick={() => add("")}
-                      icon={<PlusOutlined />}
-                    >
-                      Add Skill
+                      Add More
                     </ReuseButton>
                   </>
                 )}
@@ -369,8 +531,8 @@ const EditJobModal = ({
             {/* Benefits - Dynamic */}
             <Form.Item
               label={
-                <span className="font-medium text-secondary-color text-sm">
-                  Benefits
+                <span className="font-medium text-base-color  text-xl">
+                  Employee  Benefits
                 </span>
               }
             >
@@ -412,10 +574,22 @@ const EditJobModal = ({
               </Form.List>
             </Form.Item>
 
+            <ReuseInput
+              inputType="textarea"
+              name="additionalInformation"
+              label="Additional information"
+              placeholder="Enter Additional information"
+              Typolevel={4}
+              labelClassName="!font-medium text-sm"
+              rules={[{ required: true }]}
+              inputClassName="!py-3"
+            />
+
             <ReuseDatePicker
               name="lastApplyDate"
-              label="Last Apply Date"
-              placeholder="Select Last Apply Date"
+              label="Closing Date of Project"
+              placeholder="Select Closing Date of Project"
+              rules={[{ required: true }]}
               labelClassName="!font-medium text-sm"
             />
 
@@ -426,7 +600,7 @@ const EditJobModal = ({
                 variant="secondary"
                 className="px-12 py-3 text-lg font-medium"
               >
-                Post Job
+                Update this Project
               </ReuseButton>
             </div>
           </div>

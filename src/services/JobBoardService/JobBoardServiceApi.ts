@@ -35,6 +35,7 @@ export const updateJobPost = async (req: { body: any; params: any }) => {
     });
     const result = await res.json();
     revalidateTag(TagTypes.job);
+    console.log(result);
 
     return result;
   } catch (error: any) {
@@ -53,7 +54,6 @@ export const updateStatusJobPost = async (req: { body: any; params: any }) => {
     });
     const result = await res.json();
     revalidateTag(TagTypes.job);
-
     return result;
   } catch (error: any) {
     return Error(error);

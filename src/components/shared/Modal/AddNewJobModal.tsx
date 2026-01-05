@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React from "react";
-import { Form, Input, Modal } from "antd";
+import { Form, Input, Modal, Typography } from "antd";
 import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
 import ReusableForm from "@/components/ui/Form/ReuseForm";
 import ReuseInput from "@/components/ui/Form/ReuseInput";
@@ -11,6 +11,7 @@ import ReuseDatePicker from "@/components/ui/Form/ReuseDatePicker";
 import dayjs from "dayjs";
 import tryCatchWrapper from "@/utils/tryCatchWrapper";
 import { addJobPost } from "@/services/JobBoardService/JobBoardServiceApi";
+import ReuseTimePicker from "@/components/ui/Form/ReuseTimePicker";
 
 const AddNewJobModal = ({
   isModalVisible,
@@ -20,18 +21,28 @@ const AddNewJobModal = ({
   handleCancel: () => void;
 }) => {
   const [form] = Form.useForm();
+  const workType = Form.useWatch("workType", form);
+  const paymentType = Form.useWatch("paymentType", form);
 
   const handleSubmit = async (values: any) => {
     const payload = {
       title: values.title,
       location: values.location,
+      workType: values.workType,
+      ...(values.lengthOfWork ? { lengthOfWork: values.lengthOfWork } : { lengthOfWork: "" }),
+      paymentType: values.paymentType,
       salaryRange: {
         min: Number(values.minSalaryRange),
         max: Number(values.maxSalaryRange),
       },
-      experience: Number(values.experience),
-      workType: values.workType,
+      annualPay: Number(values.annualPay),
+      hourlyRequired: Number(values.hourlyRequired),
+      startDate: dayjs(values.startDate).format("YYYY-MM-DD"),
+      startTime: dayjs(values.startTime).format("hh:mm:A"),
+      finishTime: dayjs(values.finishTime).format("hh:mm:A"),
+      daysOfWork: values.daysOfWork,
       workersNeeded: Number(values.workersNeeded),
+      experience: Number(values.experience),
       jobType: values.jobType,
       description: values.description,
       keyResponsibilities: values.keyResponsibilities,
@@ -49,8 +60,8 @@ const AddNewJobModal = ({
     const res = await tryCatchWrapper(
       addJobPost,
       { body: payload },
-      "Posting New Job...",
-      "Job posted successfully!",
+      "Creating new project ...",
+      "Project created successfully!",
       "Something went wrong! Please try again."
     );
 
@@ -77,7 +88,7 @@ const AddNewJobModal = ({
     >
       <div className="p-6">
         <h2 className="text-2xl lg:text-3xl font-bold text-secondary-color mb-8">
-          Add New Job Post
+          Add New Project
         </h2>
 
         <ReusableForm form={form} handleFinish={handleSubmit}>
@@ -103,57 +114,50 @@ const AddNewJobModal = ({
               labelClassName="!font-medium text-sm"
               inputClassName="!py-3"
             />
-
-            {/* Salary Range */}
-            <ReuseInput
-              name="minSalaryRange"
-              type="number"
-              label="Min Salary Range"
-              placeholder="Enter Min Salary Range"
-              Typolevel={5}
-              labelClassName="!font-medium text-sm"
-              inputClassName="!py-3"
-            />
-
-            <ReuseInput
-              name="maxSalaryRange"
-              type="number"
-              label="Max Salary Range"
-              placeholder="Enter Max Salary Range"
-              Typolevel={5}
-              labelClassName="!font-medium text-sm"
-              inputClassName="!py-3"
-            />
-
-            {/* Experience */}
-            <ReuseInput
-              name="experience"
-              label="Experience"
-              type="number"
-              placeholder="Enter Experience"
-              Typolevel={5}
-              labelClassName="!font-medium text-sm"
-              inputClassName="!py-3"
-            />
-
-            {/* Length of Work */}
+            {/* Type of Work / Employment Type */}
             <ReuseSelect
               name="workType"
-              label="Work Type"
-              placeholder="Select Work Type"
+              label="Employment type"
+              placeholder="Select Employment type"
               options={[
                 { value: "Full-Time", label: "Full Time" },
-                { value: "Part-Time", label: "Part Time" },
-                { value: "Contract", label: "Contract" },
+                { value: "Temporary", label: "Temporary" },
               ]}
               Typolevel={5}
               labelClassName="!font-medium text-sm"
             />
+            {/* Length of Work */}
+            {workType === "Temporary" && <ReuseSelect
+              name="lengthOfWork"
+              label="Length of work"
+              placeholder="Select Length of work"
+              options={[
+                { value: "1 Month", label: "1 Month" },
+                { value: "2 Month", label: "2 Month" },
+                { value: "3 Month", label: "3 Month" },
+                { value: "4 Month", label: "4 Month" },
+                { value: "5 Month", label: "5 Month" },
+                { value: "6 Month", label: "6 Month" },
+                { value: "7 Month", label: "7 Month" },
+                { value: "8 Month", label: "8 Month" },
+                { value: "9 Month", label: "9 Month" },
+                { value: "10 Month", label: "10 Month" },
+                { value: "11 Month", label: "11 Month" },
+                { value: "1 Year", label: "1 Year" },
+                { value: "1 Year 3 Month", label: "1 Year 3 Month" },
+                { value: "1 Year 6 Month", label: "1 Year 6 Month" },
+                { value: "1 Year 9 Month", label: "1 Year 9 Month" },
+                { value: "2 Year", label: "2 Year" },
+              ]}
+              Typolevel={5}
+              labelClassName="!font-medium text-sm"
+            />}
+
             {/* Job type */}
             <ReuseSelect
               name="jobType"
-              label="Job Type"
-              placeholder="Select Job Type"
+              label="Location Type"
+              placeholder="Select Location Type"
               options={[
                 {
                   value: "Onsite",
@@ -172,23 +176,161 @@ const AddNewJobModal = ({
               labelClassName="!font-medium text-sm"
             />
 
+            {/* Payment type */}
+            <ReuseSelect
+              name="paymentType"
+              label="Payment Type"
+              placeholder="Select Payment Type"
+              options={[
+                {
+                  value: "Hourly",
+                  label: "Hourly",
+                },
+                {
+                  value: "Monthly",
+                  label: "Monthly  ",
+                },
+              ]}
+              Typolevel={5}
+              labelClassName="!font-medium text-sm"
+            />
+
+            {/* Salary Range */}
+            <Typography.Title level={5} className="!font-medium text-sm">
+              {paymentType === "Hourly" ? "Hourly rate (£)" : "Monthly rate (£)"}
+            </Typography.Title>
+            <div className="flex gap-4 !w-full ">
+              <ReuseInput
+                name="minSalaryRange"
+                type="number"
+                placeholder={`Min. Range`}
+                Typolevel={5}
+                labelClassName="!font-medium text-sm"
+                inputClassName="!py-3 "
+                wrapperClassName="!w-full"
+              />
+
+              <ReuseInput
+                name="maxSalaryRange"
+                type="number"
+                placeholder={`Max. Range`}
+                Typolevel={5}
+                labelClassName="!font-medium text-sm"
+                inputClassName="!py-3 " wrapperClassName="!w-full"
+              />
+            </div>
+
+            <ReuseInput
+              name="annualPay"
+              label="Annual pay (£)"
+              type="number"
+              placeholder="Enter Annual pay"
+              Typolevel={5}
+              labelClassName="!font-medium text-sm"
+              inputClassName="!py-3 " wrapperClassName="!w-full !-mt-5"
+            />
+            <ReuseInput
+              name="hourlyRequired"
+              label="Hours required"
+              type="number"
+              placeholder="Enter Hours"
+              Typolevel={5}
+              labelClassName="!font-medium text-sm"
+              inputClassName="!py-3 " wrapperClassName="!w-full !-mt-5"
+            />
+
+            <ReuseDatePicker
+              name="startDate"
+              label="Start date"
+              placeholder="Select Start date"
+              labelClassName="!font-medium text-sm"
+            />
+
+            <ReuseTimePicker
+              name="startTime"
+              label="Start time"
+              placeholder="Select Start time"
+              labelClassName="!font-medium text-sm"
+            />
+
+            <ReuseTimePicker
+              name="finishTime"
+              label="Finish time"
+              placeholder="Select Finish time"
+              labelClassName="!font-medium text-sm"
+            />
+
+
+            {/* Days of work */}
+            <ReuseSelect
+              name="daysOfWork"
+              mode="multiple"
+              label="Days of work"
+              placeholder="Select Days of work"
+              options={[
+                {
+                  value: "Sunday",
+                  label: "Sunday",
+                },
+                {
+                  value: "Monday",
+                  label: "Monday",
+                },
+                {
+                  value: "Tuesday",
+                  label: "Tuesday",
+                },
+                {
+                  value: "Wednesday",
+                  label: "Wednesday",
+                },
+                {
+                  value: "Thursday",
+                  label: "Thursday",
+                },
+                {
+                  value: "Friday",
+                  label: "Friday",
+                },
+                {
+                  value: "Saturday",
+                  label: "Saturday",
+                }
+              ]}
+              Typolevel={5}
+              labelClassName="!font-medium text-sm"
+              selectClassName="!min-h-14 !h-fit"
+            />
+
             {/* Workers Needed */}
             <ReuseInput
               name="workersNeeded"
-              label="Workers Needed"
-              placeholder="Enter workers needed"
+              label="Candidate required"
+              placeholder="Enter Candidate required"
               type="number"
               Typolevel={5}
               labelClassName="!font-medium text-sm"
               inputClassName="!py-3"
             />
 
-            {/* Job Description */}
+            {/* Experience */}
+            <ReuseInput
+              name="experience"
+              label="Experience"
+              type="number"
+              placeholder="Enter Experience"
+              Typolevel={5}
+              labelClassName="!font-medium text-sm"
+              inputClassName="!py-3"
+              wrapperClassName=""
+            />
+
+            {/* Project requirements */}
             <ReuseInput
               inputType="textarea"
               name="description"
-              label="Job Description"
-              placeholder="Enter Job Description"
+              label="Project requirements"
+              placeholder="Enter Project requirements"
               type="number"
               Typolevel={5}
               labelClassName="!font-medium text-sm"
@@ -402,7 +544,7 @@ const AddNewJobModal = ({
                 variant="secondary"
                 className="px-12 py-3 text-lg font-medium"
               >
-                Post Job
+                Post Project
               </ReuseButton>
             </div>
           </div>

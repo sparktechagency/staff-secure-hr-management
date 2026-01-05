@@ -23,3 +23,16 @@ export const purchasePackage = async (req: { body: any; params: any }) => {
     return Error(error);
   }
 };
+
+export const turnOffAutoRenew = async () => {
+  try {
+    const res = await fetchWithAuth(`/payment/cancel-auto-renewal`, {
+      method: "POST",
+    });
+    const result = await res.json();
+    revalidateTag(TagTypes.package);
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};

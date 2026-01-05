@@ -3,7 +3,7 @@ import ReuseButton from "../ui/Button/ReuseButton";
 export default function Banner() {
   return (
     <div className="relative">
-      <section className="relative w-full min-h-screen overflow-hidden text-white  border-none">
+      <section className="relative w-full min-h-screen py-20 overflow-hidden text-white  border-none">
         {/* Background Video */}
         <video
           autoPlay
@@ -22,7 +22,7 @@ export default function Banner() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/90  border-none"></div>
 
         {/* Content wrapper */}
-        <div className="relative z-10 min-h-screen w-[90%] max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center lg:justify-end  border-none">
+        <div className="relative z-10 h-full min-h-[92vh] w-[90%] max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center lg:justify-end  border-none">
           <div className="flex flex-col lg:flex-row items-center lg:items-end justify-center lg:justify-between gap-8 py-12 lg:pb-16">
             {/* Text Content */}
             <div className="flex-1 text-center lg:text-left space-y-4">

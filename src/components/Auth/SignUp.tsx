@@ -5,17 +5,20 @@ import Image from "next/image";
 import { Form, FormInstance } from "antd";
 import Link from "next/link";
 import { AllImages } from "../../../public/assets/AllImages";
-import { IoMdMail } from "react-icons/io";
-import { RiLockPasswordFill } from "react-icons/ri";
 import ReuseInput from "../ui/Form/ReuseInput";
 import ReuseButton from "../ui/Button/ReuseButton";
-import { LuBriefcaseBusiness, LuUser } from "react-icons/lu";
 import tryCatchWrapper from "@/utils/tryCatchWrapper";
 import { registerUser } from "@/services/AuthService";
+import Cookies from "js-cookie";
 
 interface SignUpValues {
   name: string;
   companyName?: string;
+  location?: string;
+  area?: string;
+  postalCode?: string;
+  county?: string;
+  designation?: string;
   email: string;
   phone: string;
   password: string;
@@ -30,7 +33,6 @@ const inputStructure = [
     label: "Full Name",
     placeholder: "Enter your full name",
     labelClassName: "!font-semibold",
-    prefix: <LuUser className="mr-1 !text-secondary-color" />,
     rules: [{ required: true, message: "Full name is required" }],
   },
   {
@@ -40,7 +42,6 @@ const inputStructure = [
     label: "Company Name",
     placeholder: "Enter your Company Name",
     labelClassName: "!font-semibold",
-    prefix: <LuBriefcaseBusiness className="mr-1 !text-secondary-color" />,
     rules: [{ required: true, message: "Company Name is required" }],
   },
   {
@@ -50,7 +51,6 @@ const inputStructure = [
     label: "Email",
     placeholder: "Enter Email Name",
     labelClassName: "!font-semibold",
-    prefix: <IoMdMail className="mr-1 !text-secondary-color" />,
     rules: [{ required: true, message: "Email is required" }],
   },
   {
@@ -60,8 +60,57 @@ const inputStructure = [
     label: "Telephone Number",
     placeholder: "Enter Telephone Number",
     labelClassName: "!font-semibold",
-    prefix: <IoMdMail className="mr-1 !text-secondary-color" />,
     rules: [{ required: true, message: "Telephone Number is required" }],
+  },
+  {
+    name: "designation",
+    type: "text",
+    inputType: "normal",
+    label: "Occupation",
+    placeholder: "Enter Occupation",
+    labelClassName: "!font-semibold",
+    rules: [{ required: true, message: "Occupation is required" }],
+    showForCandidate: true,
+  },
+  {
+    name: "location",
+    type: "text",
+    inputType: "normal",
+    label: "Location",
+    placeholder: "Enter Location",
+    labelClassName: "!font-semibold",
+    rules: [{ required: true, message: "Location is required" }],
+    showForCandidate: true,
+  },
+  {
+    name: "area",
+    type: "text",
+    inputType: "normal",
+    label: "Town",
+    placeholder: "Enter Town",
+    labelClassName: "!font-semibold",
+    rules: [{ required: true, message: "Town is required" }],
+    showForCandidate: true,
+  },
+  {
+    name: "county",
+    type: "text",
+    inputType: "normal",
+    label: "County",
+    placeholder: "Enter County",
+    labelClassName: "!font-semibold",
+    rules: [{ required: true, message: "County is required" }],
+    showForCandidate: true,
+  },
+  {
+    name: "postalCode",
+    type: "text",
+    inputType: "normal",
+    label: "Postal Code",
+    placeholder: "Enter Postal Code",
+    labelClassName: "!font-semibold",
+    rules: [{ required: true, message: "Postal Code is required" }],
+    showForCandidate: true,
   },
   {
     name: "password",
@@ -69,7 +118,6 @@ const inputStructure = [
     inputType: "password",
     label: "Password",
     placeholder: "Enter your password",
-    prefix: <RiLockPasswordFill className="mr-1 !text-secondary-color" />,
     labelClassName: "!font-semibold",
     rules: [{ required: true, message: "Password is required" }],
   },
@@ -79,7 +127,6 @@ const inputStructure = [
     inputType: "password",
     label: "Confirm Password",
     placeholder: "Confirm your password",
-    prefix: <RiLockPasswordFill className="mr-1 !text-secondary-color" />,
     labelClassName: "!font-semibold",
     rules: [
       { required: true, message: "Confirm Password is required" },
@@ -119,6 +166,11 @@ const SignUp = () => {
     const dataForCandidate = {
       name: values?.name,
       email: values?.email,
+      location: values?.location,
+      area: values?.area,
+      postalCode: values?.postalCode,
+      county: values?.county,
+      designation: values?.designation,
       role: currentPath,
       phone: values?.phone,
       password: values?.confirmPassword,
@@ -133,7 +185,11 @@ const SignUp = () => {
       "OTP sent To your email!"
     );
     if (res?.success) {
+      if (currentPath === "employer") {
+        Cookies.set("staffSecureEmployerIsSubscribedEmail", values?.email);
+      }
       form.resetFields();
+
       router.push(`/join/${currentPath}/otp-verify`);
     }
   };
@@ -172,17 +228,24 @@ const SignUp = () => {
               onFinish={onFinish}
             >
               <div
-                className={`grid grid-cols-1 gap-5 ${
-                  currentPath === "candidate"
-                    ? "lg:grid-cols-1"
-                    : "lg:grid-cols-2"
-                }`}
+                className={`grid grid-cols-1 gap-5 ${currentPath === "candidate"
+                  ? "lg:grid-cols-2"
+                  : "lg:grid-cols-2"
+                  }`}
               >
                 {inputStructure
                   .filter((input) => {
+                    // Hide companyName for candidate
                     if (
                       currentPath === "candidate" &&
                       input.name === "companyName"
+                    ) {
+                      return false;
+                    }
+                    // Hide location and designation for employer
+                    if (
+                      currentPath === "employer" &&
+                      input.showForCandidate
                     ) {
                       return false;
                     }
@@ -195,7 +258,7 @@ const SignUp = () => {
                       Typolevel={5}
                       inputType={input.inputType}
                       type={input.type}
-                      prefix={input.prefix}
+                      // prefix={input.prefix}
                       label={input.label}
                       placeholder={input.placeholder}
                       labelClassName={input.labelClassName}

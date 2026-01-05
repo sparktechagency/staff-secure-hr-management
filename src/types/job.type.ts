@@ -8,7 +8,7 @@ interface SalaryRange {
 type JobStatus = "New" | "CVs Sent" | "Closed";
 
 // Job Type (Full-Time, Part-Time, Contract)
-type workTypeType = "Full-Time" | "Part-Time" | "Contract";
+type workTypeType = "Full-Time" | "Part-Time" | "Temporary";
 
 // Location Type (Onsite, Remote, Hybrid)
 type JobType = "Onsite" | "Remote" | "Hybrid";
@@ -19,27 +19,40 @@ export interface IJob {
 
   title: string;
   location: string;
-  salaryRange: SalaryRange;
-  experience: number;
-  workType: workTypeType;
-  jobType: JobType;
-  workersNeeded: number;
-
+  county: string;
+  area: string;
+  postalCode: string;
+  jobType: JobType; // Adjusted based on your data
+  workType: workTypeType; // Adjusted based on your data
+  lengthOfWork: string; // Changed to string to reflect the example ('6 Month')
+  paymentType: "Hourly" | "Monthly" | "Weekly"; // Added 'Weekly' based on your data
+  salaryRange: SalaryRange; // { min: number, max: number }
+  overtimePayRate?: number; // Optional field based on your data
+  annualPay: number;
+  hourlyRequired: number;
+  startDate: Date;
+  startTime: string;
+  finishTime: string;
+  daysOfWork: string[]; // Array of weekdays
+  experience: number; // Number of years
   description: string;
-  keyResponsibilities: string[];
-  requirements: string[];
-  benefits: string[];
-  skillsRequired: string[];
+  candidateDuties: string[]; // List of duties
+  documentationCertificates: string[]; // List of documents or certificates
+  benefits: string[]; // List of benefits
+  additionalInformation?: string; // Optional additional info field
 
   lastApplyDate: Date;
-  status: JobStatus;
-
+  status: JobStatus; // Adjusted status types based on the example
   isDeleted: boolean;
-  jobReferralCode: string; // Unique
+  jobReferralCode: string; // Unique identifier for the job
 
   createdAt: string;
   updatedAt: string;
   __v: number;
+  isApplied: boolean;
+  totalReceivedCv: number;
+  reviewedCv: number;
+  newCv: number;
 }
 
 export interface IApplication {

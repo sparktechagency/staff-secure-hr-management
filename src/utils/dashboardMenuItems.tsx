@@ -15,13 +15,13 @@ export const useCandidatePaths = () => {
 
   return [
     {
-      key: "job-board",
+      key: "current-vacancies",
       label: (
         <Link
           onClick={handleToggleCollapse}
-          href="/dashboard/candidate/job-board"
+          href="/dashboard/candidate/current-vacancies"
         >
-          Job Board
+          Current Vacancies
         </Link>
       ),
       icon: (
@@ -31,7 +31,7 @@ export const useCandidatePaths = () => {
           width={20}
           className="mr-2"
           style={{
-            filter: pathname.includes("/job-board")
+            filter: pathname.includes("/current-vacancies")
               ? "invert(1) sepia(1) saturate(0) brightness(200%) contrast(100%)"
               : undefined,
           }}
@@ -144,13 +144,13 @@ export const useEmployerPaths = () => {
       ),
     },
     {
-      key: "job-requirement",
+      key: "create-project",
       label: (
         <Link
           onClick={handleToggleCollapse}
-          href="/dashboard/employer/job-requirement"
+          href="/dashboard/employer/create-project"
         >
-          Job Requirement
+          Create Project
         </Link>
       ),
       icon: (
@@ -160,7 +160,31 @@ export const useEmployerPaths = () => {
           width={20}
           className="mr-2"
           style={{
-            filter: pathname.includes("/job-requirement")
+            filter: pathname.includes("/create-project")
+              ? "invert(1) sepia(1) saturate(0) brightness(200%) contrast(100%)"
+              : undefined,
+          }}
+        />
+      ),
+    },
+    {
+      key: "project-requirements",
+      label: (
+        <Link
+          onClick={handleToggleCollapse}
+          href="/dashboard/employer/project-requirements"
+        >
+          Current Project
+        </Link>
+      ),
+      icon: (
+        <Image
+          src={overview}
+          alt="icon"
+          width={20}
+          className="mr-2"
+          style={{
+            filter: pathname.includes("/project-requirements")
               ? "invert(1) sepia(1) saturate(0) brightness(200%) contrast(100%)"
               : undefined,
           }}

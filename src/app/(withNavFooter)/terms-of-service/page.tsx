@@ -1,17 +1,12 @@
-import Container from "@/components/ui/Container";
-import { fetchWithAuth } from "@/lib/fetchWraper";
-import React from "react";
+import TermsOfService from '@/components/TermsOfService/TermsOfServicePage';
+import React from 'react';
 
-const TermsOfService = async () => {
-  const res = await fetchWithAuth(`/settings/termsAndConditions`, {});
-  const data = await res.json();
+const page = () => {
   return (
-    <Container>
-      <div className=" py-10 text-gray-800 min-h-[100vh] mt-20">
-        <div dangerouslySetInnerHTML={{ __html: data?.data?.content }}></div>
-      </div>
-    </Container>
+    <div className='my-20'>
+      <TermsOfService />
+    </div>
   );
 };
 
-export default TermsOfService;
+export default page;
