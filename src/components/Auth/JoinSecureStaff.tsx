@@ -35,7 +35,7 @@ const JoinSecureStaff = () => {
           alt="logo"
         />
         <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-secondary-color mt-7 mb-2">
-          Join Staff Secure LTD{" "}
+          Join Staff Secure Ltd{" "}
         </h2>
         <p className="text-base sm:text-lg lg:text-xl text-base-color">
           Choose how you want to use our platform
@@ -47,11 +47,10 @@ const JoinSecureStaff = () => {
               <div
                 key={id}
                 onClick={() => setUserType(id)}
-                className={`${
-                  userType === id
+                className={`${userType === id
                     ? "border-2 border-secondary-color"
                     : "border-2 border-[#E1E1E1]"
-                } w-72 p-5 bg-primary-color  rounded-2xl cursor-pointer flex flex-col justify-center items-center text-center gap-3`}
+                  } w-72 p-5 bg-primary-color  rounded-2xl cursor-pointer flex flex-col justify-center items-center text-center gap-3`}
               >
                 <div className="w-fit p-2 bg-secondary-color rounded-full">
                   {icon}
@@ -66,9 +65,8 @@ const JoinSecureStaff = () => {
             ))}
           </div>
           <div
-            className={`${
-              !userType ? "hidden" : "flex"
-            }  justify-end items-end w-full mt-5`}
+            className={`${!userType ? "hidden" : "flex"
+              }  justify-end items-end w-full mt-5`}
           >
             <ReuseButton
               variant="secondary"

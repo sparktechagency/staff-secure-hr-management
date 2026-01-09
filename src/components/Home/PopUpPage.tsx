@@ -10,7 +10,6 @@ const PopUpPage = () => {
     const [showPopup, setShowPopup] = React.useState(false);
     const subscribedEmail = Cookie.get("staffSecureEmployerIsSubscribedEmail");
     const isSubscribed = Cookie.get("staffSecureEmployerIsSubscribed");
-    console.log({ isSubscribed, subscribedEmail })
 
     React.useEffect(() => {
         if (isSubscribed === "false" && userData?.role === "employer" && subscribedEmail === userData?.email) {

@@ -59,7 +59,7 @@ const WhatMakesUsDifferent = () => {
       <Container>
         <SectionHeader
           title="What Makes Us Different"
-          description="The Staff Secure LTD advantage"
+          description="The Staff Secure Ltd advantage"
         />
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
           {cardData.map((card) => (

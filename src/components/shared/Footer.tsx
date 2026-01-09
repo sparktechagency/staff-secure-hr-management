@@ -93,7 +93,7 @@ export default function Footer() {
             {/* Bottom Footer */}
             <div className="flex flex-col md:flex-row justify-between items-center mt-6 text-xs gap-4">
               <p className="text-xs sm:text-sm lg:text-base  text-primary-color ">
-                © {currentYear} Staff Secure LTD. All rights reserved.
+                © {currentYear} Staff Secure Ltd. All rights reserved.
               </p>
               <div className="flex gap-4 text-lg">
                 <Link

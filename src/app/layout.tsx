@@ -15,7 +15,7 @@ const interTight = Inter_Tight({
 });
 
 export const metadata: Metadata = {
-  title: "Staff Secure LTD",
+  title: "Staff Secure Ltd",
   description:
     " Utilising AI and human expertise, we simplify recruitment for sectors such as Construction, Healthcare, Hospitality, and more — helping you hire the best candidates with ease",
 };
