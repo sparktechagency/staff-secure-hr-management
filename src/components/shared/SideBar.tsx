@@ -32,8 +32,8 @@ const SideBar = () => {
     userData?.role === "candidate"
       ? candidatePath
       : userData?.role === "employer"
-      ? employerPath
-      : [];
+        ? employerPath
+        : [];
 
   return (
     <Sider
@@ -51,9 +51,8 @@ const SideBar = () => {
         overflowY: "auto",
         backgroundColor: "#ffffff",
       }}
-      className={` !fixed !z-[60] !top-12${
-        isCollapsed ? "!left-[-300px]" : "!left-0"
-      }`}
+      className={` !fixed !z-[60] !top-12${isCollapsed ? "!left-[-300px]" : "!left-0"
+        }`}
     >
       <div className="flex items-center justify-end my-5 px-4">
         <SidebarCollapsedIcon />

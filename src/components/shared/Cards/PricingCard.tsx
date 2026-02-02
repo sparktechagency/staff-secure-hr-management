@@ -130,7 +130,7 @@ export default function PricingCard({
           </li>
         ))}
       </ul>
-      {
+      {!user ? <ReuseButton url="/join" variant="secondary" className="mb-5! w-full! rounded-xl! px-8! py-6! font-semibold! text-white!">Subscribe →</ReuseButton> :
         user?.role === "employer" &&
         <div className="pb-10">
           {myPackage ? <div>{autoRenewal ? <ReuseButton onClick={() => openCancelModal()} variant="secondary">Turn Off Auto Renew</ReuseButton> : <ReuseButton className="cursor-default!">Auto Renew Off</ReuseButton>}</div> : <PricingCardButton plan={plan} openModal={openModal} />}
