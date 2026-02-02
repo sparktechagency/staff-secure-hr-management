@@ -6,6 +6,7 @@ import Image, { StaticImageData } from "next/image";
 import PricingCardButton from "./PricingCardButton";
 import { formatDate } from "@/utils/dateFormet";
 import ReuseButton from "@/components/ui/Button/ReuseButton";
+import { useGetUserData } from "@/context/useGetUserData";
 
 export interface IPricingPlan {
   name: string;
@@ -49,6 +50,7 @@ export default function PricingCard({
     icon,
     popular = false,
   } = plan;
+  const user = useGetUserData();
 
   return (
     <div
@@ -128,10 +130,13 @@ export default function PricingCard({
           </li>
         ))}
       </ul>
+      {
+        user?.role === "employer" &&
+        <div className="pb-10">
+          {myPackage ? <div>{autoRenewal ? <ReuseButton onClick={() => openCancelModal()} variant="secondary">Turn Off Auto Renew</ReuseButton> : <ReuseButton className="cursor-default!">Auto Renew Off</ReuseButton>}</div> : <PricingCardButton plan={plan} openModal={openModal} />}
+        </div>
+      }
 
-      <div className="pb-10">
-        {myPackage ? <div>{autoRenewal ? <ReuseButton onClick={() => openCancelModal()} variant="secondary">Turn Off Auto Renew</ReuseButton> : <ReuseButton className="cursor-default!">Auto Renew Off</ReuseButton>}</div> : <PricingCardButton plan={plan} openModal={openModal} />}
-      </div>
     </div>
   );
 }
