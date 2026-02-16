@@ -11,7 +11,6 @@ export default function ContactInfoSection() {
       icon: <MdEmail className="w-6 h-6" />,
       label: "Email",
       value: "frankedwards@staffsecure.ai",
-      href: "mailto:frankedwards@staffsecure.ai",
     },
     {
       icon: <MdLocationOn className="w-6 h-6" />,
