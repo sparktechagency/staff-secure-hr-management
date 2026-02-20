@@ -65,7 +65,9 @@ const SignIn = () => {
       "Signing in...",
       "Signed in successfully!"
     );
-    if (res?.success) {
+    if (res?.data?.user?.role === "candidate") {
+      router.push("/dashboard/candidate/current-vacancies")
+    } else {
       router.push("/");
     }
   };
