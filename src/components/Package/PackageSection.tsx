@@ -122,7 +122,7 @@ const PackageSection = () => {
 
     if (res?.success) {
       handleAggreedModalClose();
-      router.push(res?.data?.checkoutUrl);
+      router.push(res?.data?.url);
     }
   };
 

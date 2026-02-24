@@ -7,7 +7,7 @@ import { revalidateTag } from "next/cache";
 export const purchasePackage = async (req: { body: any; params: any }) => {
   try {
     console.log(req?.body);
-    const res = await fetchWithAuth(`/payment/create-session`, {
+    const res = await fetchWithAuth(`/payment/create-checkout-session`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
