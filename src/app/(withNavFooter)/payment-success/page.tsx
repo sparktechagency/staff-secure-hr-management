@@ -1,10 +1,19 @@
 import PaymentSuccess from "@/components/PaymentSuccess/PaymentSuccess";
 import React from "react";
 
-const page = () => {
+const page = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) => {
+  const params = await searchParams;
+
+  const encodedToken = params?.staff || "";
+
+  const token = decodeURIComponent(encodedToken as string);
   return (
     <div>
-      <PaymentSuccess />
+      <PaymentSuccess token={token} />
     </div>
   );
 };

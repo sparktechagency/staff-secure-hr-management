@@ -4,6 +4,7 @@ interface ISignInUser {
   sureName: string;
   companyName: string;
   email: string;
+  hasActiveSubscription: boolean;
   candidateProfileId: string;
   isCvExist: boolean;
   role: string;

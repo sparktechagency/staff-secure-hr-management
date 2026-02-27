@@ -65,11 +65,14 @@ const SignIn = () => {
       "Signing in...",
       "Signed in successfully!"
     );
+    console.log(res)
     if (res?.success) {
       if (res?.data?.user?.role === "candidate") {
         router.push("/dashboard/candidate/current-vacancies")
+      } else if (res?.data?.user?.role === "employer" && res?.data?.user?.hasActiveSubscription) {
+        router.push("/dashboard/employer/overview")
       } else {
-        router.push("/");
+        router.push("/packages");
       }
     }
   };

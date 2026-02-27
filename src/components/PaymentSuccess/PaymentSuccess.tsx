@@ -1,11 +1,22 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
-const PaymentSuccess = () => {
+const PaymentSuccess = ({ token }: { token: string }) => {
   const router = useRouter();
+
+  useEffect(() => {
+    const threeMonths = 1000 * 60 * 60 * 24 * 30 * 3;
+    console.log("Received token:", token);
+
+    Cookies.set("secureStaffMainAccessToken", token, {
+      path: "/",
+      expires: new Date(Date.now() + threeMonths),
+    });
+  }, [token]);
 
   const generateConfetti = () => {
     const confettiCount = 100;
@@ -23,7 +34,7 @@ const PaymentSuccess = () => {
   };
 
   const handleTrackOrder = () => {
-    router.push("/dashboard/employer/my-subscription");
+    router.push("/dashboard/employer/overview");
   };
 
   const buttonVariants = {

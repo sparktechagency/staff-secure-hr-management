@@ -15,7 +15,7 @@ import { ISignInUser } from "@/types";
 import { useGetUserData } from "@/context/useGetUserData";
 import { logout } from "@/services/AuthService";
 
-const Navbar: React.FC = () => {
+const Navbar = () => {
   const path = usePathname();
   const router = useRouter();
 
@@ -92,7 +92,7 @@ const Navbar: React.FC = () => {
       });
     }
 
-    if (userData?.role === "employer") {
+    if (userData?.role === "employer" && userData.hasActiveSubscription) {
       baseItems.push({
         id: "6",
         name: "Dashboard",
@@ -102,7 +102,7 @@ const Navbar: React.FC = () => {
     }
 
     return baseItems;
-  }, [userData?.role]);
+  }, [userData?.role, userData?.hasActiveSubscription]);
 
   // const items: MenuProps["items"] = [
   //   {

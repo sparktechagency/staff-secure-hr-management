@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import SectionHeader from "../shared/SectionHeader";
-import { FaRegCircleCheck } from "react-icons/fa6";
+// import { FaRegCircleCheck } from "react-icons/fa6";
 import PricingCard, { IPricingPlan } from "../shared/Cards/PricingCard";
 import { AllImages } from "../../../public/assets/AllImages";
 import { useRouter } from "next/navigation";
@@ -132,10 +132,10 @@ const PackageSection = () => {
         title="Choose Your Package"
         description="Flexible subscription plans designed for businesses of all sizes. All packages include our 3-day free trial."
       />
-      <div className="mt-10 flex items-center gap-2 bg-secondary-color text-primary-color py-2 px-4 rounded-full w-fit mx-auto">
+      {/* <div className="mt-10 flex items-center gap-2 bg-secondary-color text-primary-color py-2 px-4 rounded-full w-fit mx-auto">
         <FaRegCircleCheck className="size-5" />
         <span>3 days trial, Cancel anytime within 3 days</span>
-      </div>
+      </div> */}
 
       <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3 mt-20 items-center">
         {pricingPlans.map((plan, i) => (

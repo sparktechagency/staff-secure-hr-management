@@ -48,6 +48,8 @@ export default function Banner() {
               <div className="aspect-video w-full">
                 <video
                   controls
+                  controlsList="nodownload noremoteplayback"
+                  disablePictureInPicture
                   className="lg:w-[500px] h-auto object-cover rounded border border-primary-color/30"
                 >
                   <source
